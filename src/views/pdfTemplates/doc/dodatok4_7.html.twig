@@ -1,0 +1,294 @@
+<style>
+	.table {
+			margin:0px;
+			padding:0px;
+			width:100%;
+			height:auto;
+			border-top:1px solid #000000;
+			border-left:1px solid #000000;
+		}
+			.table table{
+				border-collapse: collapse;
+				border-spacing: 0;
+				width:100%;
+				height:auto;
+				margin:0px;
+				padding:0px;
+			}
+				.table th,
+				.table td {
+					vertical-align:middle;
+					background-color:#ffffff;
+					border:1px solid #000000;
+					border-width:0px 1px 1px 0px;
+					text-align:left;
+					padding:4px;
+					font-size:12pt;
+					font-family:Times New Roman;
+				}
+				.table th {
+					font-weight:bold;
+				}
+				.table td {
+					font-weight:normal;
+				}
+				
+				.table tr:last-child td{
+					border-width:0px 1px 0px 0px;
+				}
+				.table tr td:last-child{
+					border-width:0px 0px 1px 0px;
+				}
+				.table tr:last-child td:last-child{
+					border-width:0px 0px 0px 0px;
+				}
+</style>
+<div class="autopagination page17">
+	<p class="title">2. МЕТА ТА ЗАВДАННЯ НАВЧАЛЬНОЇДИСЦИПЛІНИ</p>
+
+	<p class="subtitle">2.1. Мета викладання дисципліни</p>
+	<div class="purpose">
+		<p></p>
+	</div>
+
+	<p class="subtitle">2.2. Завдання вивчення дисципліни</p>
+	<div class="task">
+		<p></p>
+	</div>
+
+	<p class="subtitle">2.3. У результаті вивчення навчальної дисципліни студент повинен </p>
+	<div class="know_can">
+		<p><b>знати</b>: .</p>
+		<p><b>вміти</b>: .</p>
+	</div>
+
+	<p class="subtitle">2.4. Міждисциплінарні зв'язки.</p>
+	<div class="relations">
+		<p>
+			Перелік дисциплін із зазначенням розділів (тем), засвоєння
+			яких студентам необхідно для вивчення даної дисципліни
+		</p>
+	</div>
+
+
+	<p class="title">3. ПРОГРАМА НАВЧАЛЬНОЇ ДИСЦИПЛІНИ</p>
+
+	{% set j=1 %}
+	{% for module, data in nmkd.moduleData %}
+		<p class="module">Змістовий модуль {{j}}</p>
+		{% for themeName in data %}
+		<div class="themes-questions">
+		{% set i = 1 %}
+			{% for id, name in nmkd.themes %}
+				{% if themeName == name %}
+				<div class="theme">Тема {{i}}. {{name}}</div>
+				{% endif %}
+			{% set i=i+1 %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+		{% set j=j+1 %}
+	{% endfor %}
+
+
+	<p class="title">4. СТРУКТУРА НАВЧАЛЬНОЇ ДИСЦИПЛІНИ</p>
+
+	<div class="table">
+		<table>
+			<tr>
+				<td rowspan="4">Назви змістових модулів і тем</td>
+				<td colspan="12">Кількість годин</td>
+			</tr>
+			<tr>
+				<td colspan="6">денна форма</td>
+				<td colspan="6">заочна форма</td>
+			</tr>
+			<tr>
+				<td rowspan="2">усього</td>
+				<td colspan="5">у тому числі</td>
+				<td rowspan="2">усього</td>
+				<td colspan="5">у тому числі</td>
+			</tr>
+			<tr>
+				<td>л</td>
+				<td>п</td>
+				<td>лаб.</td>
+				<td>інд.</td>
+				<td>с. р.</td>
+				<td>л</td>
+				<td>п</td>
+				<td>лаб.</td>
+				<td>інд.</td>
+				<td>с. р.</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+				<td>3</td>
+				<td>4</td>
+				<td>5</td>
+				<td>6</td>
+				<td>7</td>
+				<td>8</td>
+				<td>9</td>
+				<td>10</td>
+				<td>11</td>
+				<td>12</td>
+				<td>13</td>
+			</tr>
+			<tr>
+				<td colspan="13">
+					<b>Модуль 1</b>
+				</td>
+			</tr>
+			
+
+			{% set j=1 %}
+			{% for module, data in nmkd.moduleData %}
+			<tr>
+				<td colspan="13">Змістовий модуль {{j}}. {{module}}</td>
+			</tr>
+			
+				{% for themeName in data %}
+			<tr>
+				{% set i = 1 %}
+					{% for id, name in nmkd.themes %}
+						{% if themeName == name %}
+				<td>Тема {{i}}. {{name}}</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+						{% endif %}
+						{% set i=i+1 %}
+					{% endfor %}
+			</tr>
+				{% endfor %}
+			
+			
+			<tr>
+				<td>Разом за змістовим модулем {{j}}</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			{% set j=j+1 %}
+			{% endfor %}
+			
+			<tr>
+				<td><b>Усього годин</b></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td colspan="13"><b>Модуль 2</b></td>
+			</tr>
+			<tr>
+				<td>ІНДЗ</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><b>Усього годин</b></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+
+
+	
+
+
+
+
+	{% for type, data in nmkd.type_questions %}
+
+		{% if type=='lection' %}
+			<p style="text-align:center"><b>5. ТЕМАТИКА І ЗМІСТ ЛЕКЦІЙ</b></p>
+			{% set j=1 %}
+			{% for module, mData in nmkd.moduleData %}
+				<p style="text-align:center">ЗМІСТОВИЙ МОДУЛЬ {{j}} {{module}}</p>
+				{% for themeName in mData %}
+					{% set i=1 %}
+					{% for id, name in nmkd.themes %}
+						{% if themeName == name %}
+							<p style="text-align:center"><b>Лекція {{i}}</b></p>
+							<p style="text-align:center"><b>Вступ</b></p>
+							<p style="text-align:center">(0,5 год.)</p>
+							<p><b>Тема {{i}}. </b>{{name}}</p>
+							<p>(1,5 год.)</p>
+							<p style="text-align:center"><b><i>Логіка викладу:</i></b></p>
+							{% for theme_key, theme_id in nmkd.questions %}
+								{% set k=1 %}
+								{% for q_name in theme_id %}
+									{% if theme_key==id %}
+										<p>{{k}}. {{q_name}}</p>
+									{% endif %}
+								{% set k=k+1 %}
+								{% endfor %}
+							{% endfor %}
+							<p>
+								<b>Рекомендована література:</b>
+								зазначити помер джерела за списком рекомендованої
+								літератури, за потреби – сторінки: 27, 38-47; 20,117-120.
+							</p>
+						{% endif %}
+						{% set i=i+1 %}
+					{% endfor %}
+				{% endfor %}
+				{% set j=j+1 %}
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+	
+	
+</div>

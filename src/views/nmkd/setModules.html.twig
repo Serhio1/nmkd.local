@@ -1,0 +1,157 @@
+{% extends 'nmkd/baseNmkd.html.twig' %}
+
+{% block hintText %}
+	<p class="bg-info">Натисніть на питання, щоб помітити його як змістовий модуль.</p>
+{% endblock hintText %}
+
+{% block errors %}
+	{% for error in errors %}
+		<div class="alert alert-danger">
+			{{error}}
+		</div>
+	{% endfor %}
+{% endblock errors %}
+
+{% block mainForm %}
+
+<style>
+.search-hide {
+	display: none;
+}
+</style>
+
+<form id="set-modules-form" method="POST" action="themes-modules">
+	<div id="tableDiv_Arrays" class="tableDiv">
+
+	<table class="table set-modules-table-top" style="table-layout:fixed">
+        <thead>
+            <tr>
+				<th>Змістові модулі
+					&nbsp;<input type="text" placeholder="Пошук" style="height:20px; font-weight:normal;" class="form-control search-input" id="search-field"/>
+				</th>
+            </tr>
+        </thead>
+	</table>
+	<div id="set-types-table-wrapper" style="overflow-y:auto; max-height:450px;">
+		<table class="set-modules-table table table-bordered" id="hidechecked">
+			<thead>
+				<tr>
+					<th><span class="sorticon">&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for key,question in questions %}
+				<tr>
+					<td class="check_theme">
+						<input class="hide" type="checkbox" name="{{ key }}">{{ question }}
+						<input class="hide" type="checkbox" name="module">
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	</div>
+</form>
+
+
+
+
+<script src="/src/views/js/jquery-1.9.1.js"></script>
+<script src="/src/views/js/jquery.tablesorter.min.js"></script>
+
+<script>
+$(function(){
+	$('#hidechecked').tablesorter();
+});
+</script>
+
+
+<script>
+var $myInput = $('#search-field');
+var text = $myInput.val();
+var timeout;
+
+$myInput.keyup(function(e){
+	var value = $(this).val();
+	var url;
+	if (value != text) {
+
+		text = value;
+		if(timeout) { clearTimeout(timeout); }
+		timeout = setTimeout(function() {
+
+			$('#hidechecked td').addClass('search-hide');
+			$('#hidechecked td:contains("'+text+'")').removeClass('search-hide');
+			if (text==='') {
+				$('#hidechecked td').removeClass('search-hide');
+			}
+
+    },500);
+  }
+});
+</script>
+
+
+
+<script type="text/javascript">
+
+//highlighting of clicked elements
+$("#hidechecked").on("click","td.check_theme",function(){
+
+	  var bgColor = '#DFF0D8';
+	
+      var checker = $(this).find('input');
+      if (checker.is(':checked')) {
+		  checker.prop('checked', '');
+		  $(this).parent().css('background-color','');
+	  } else {
+		  checker.prop('checked', 'true');
+		  $(this).parent().css('background-color',bgColor);
+	  }
+});
+
+//disable selection in table
+jQuery.fn.extend({ 
+    disableSelection : function() { 
+            this.each(function() { 
+                    this.onselectstart = function() { return false; }; // IE, Chrome, Safari
+                    this.unselectable = "on"; // IE, Opera
+                    jQuery(this).css('-moz-user-select', 'none'); // FF
+            }); 
+    },
+    enableSelection : function() { 
+            this.each(function() { 
+                    this.onselectstart = function() {}; 
+                    this.unselectable = "off"; 
+                    jQuery(this).css('-moz-user-select', 'auto'); 
+            }); 
+    } 
+});
+
+
+$(document).ready(function(){
+    $('.set-modules-table *').disableSelection(); 
+}); 
+
+</script>
+
+{% endblock mainForm %}
+
+
+{% block prevBtn %}
+<button type="button" class="btn btn-default" onclick="document.location.href = '/set-themes';">
+	<span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+</button>
+{% endblock prevBtn %}
+
+
+
+{% block nextBtn %}
+	<div class="nmkd-next-btn">
+		<button type="button" class="btn btn-success" onclick="$('#set-modules-form').submit()">
+			<span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+		</button>
+	</div>
+{% endblock nextBtn %}

@@ -1,0 +1,86 @@
+<style>
+	.page4 {
+		font-family: "Times New Roman", sans-serif; 
+		font-size: 12pt; 
+		so-language: uk-UA;
+		height: 100%;
+		width: 100%;
+	}
+		.page4 .purpose {
+			padding-top: 45px;
+			margin-left: -10px;
+		}
+		.page4 .module p,
+		.page4 .purpose p.header {
+			text-align: center;
+			font-weight: bold;
+			text-indent: 0px;
+			line-height: 1;
+		}
+
+		.page4 .purpose p,
+		.page4 .themes-questions p {
+			text-indent: 35px;
+			line-height: 1.5;
+			padding: 0;
+			margin: 0;
+			text-align: justify;
+		}
+		.page4 .themes-questions p.theme {
+			font-weight: bold;
+		}
+
+		
+</style>
+
+<div class="autopagination page4">
+	<div class="purpose">
+		<p class="header">МЕТА</p>
+		<p>Метою і завданням навчальної дисципліни "Алгоритмізація і програмування" є:
+			ознайомлення та оволодіння сучасними методами та теоретичними положеннями,
+			притаманними інформатиці та програмній інженерії, та їх застосування при
+			побудові алгоритмів та програм для сучасних комп’ютерів. </p>
+		<p>Після вивчення дисципліни "Алгоритмізація і програмування" студент повинен знати:
+			основні поняття інформатики - виконавець, алгоритм, програма; синтаксис,
+			семантику та властивості структур керування (ланцюг, розгалуження, цикли);
+			формальні методи побудови алгоритмів та програм за допомогою рекурентних співвідношень;
+			основні властивості програм; синтаксичні конструкції операторів мови програмування Сі.</p>
+		<p>Для успішного використання знань з дисципліни студент повинен вміти:
+			будувати лінійні, розгалужені та циклічні алгоритми та програми,
+			створювати та використовувати складні структури які оперують даними
+			числових та бульового типів мовою програмування Сі.</p>
+	</div>
+	
+	{% set j=1 %}
+	{% for module, data in nmkd.moduleData %}
+		<div class="module">
+			<p>ЗМІСТОВИЙ МОДУЛЬ {{j}}</p>
+			<p>{{module}}</p>
+		</div>
+		{% for themeName in data %}
+		<div class="themes-questions">
+		{% set i = 1 %}
+			{% for id, name in nmkd.themes %}
+				{% if themeName == name %}
+				<p class="theme">Тема {{i}}. {{name}}</p>
+				<p class="theme_questions">
+
+					{% for theme_key, theme_id in nmkd.questions %}
+						{% for q_name in theme_id %}
+							{% if theme_key==id %}
+								{{q_name}}&nbsp;
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+			
+				</p>
+				{% endif %}
+		
+			{% set i=i+1 %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+		{% set j=j+1 %}
+	{% endfor %}
+
+</div>

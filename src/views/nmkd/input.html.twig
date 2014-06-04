@@ -1,0 +1,74 @@
+{% extends 'nmkd/baseNmkd.html.twig' %}
+
+
+
+{% block hintText %}
+	<p class="bg-info">Введіть або скопіюйте список питань в поле. Кожне питання має починатись з нового рядка.</p>
+{% endblock hintText %}
+
+{% block errors %}
+	{% for error in errors %}
+		<div class="alert alert-danger">
+			{{error}}
+		</div>
+	{% endfor %}
+{% endblock errors %}
+
+{% block mainForm %}
+<form id="input_form" method="POST" action="set-themes">
+	<ul class = "unmarked">
+		<li class="input-menu"><span class="glyphicon glyphicon-remove" onclick="$('#q_input').html('');"></span></li>
+		<li><textarea name="questions" class="form-control" id="q_input"></textarea></li>
+	</ul>
+</form>
+{% endblock mainForm %}
+
+{% block uploadFileBtn %}
+<form enctype="multipart/form-data" action="/questions-upload" method="post" style="display:inline-block">
+	<div class="btn btn-default" id="upload" style="width:185px; padding:6px 10px; ">
+		<span class="glyphicon glyphicon-open" onclick="$('#upload-choose').click();"></span> <span onclick="$('#upload-choose').click();">Завантажити з файлу</span>
+		<input name="file" type="file" multiple id="upload-choose" style="display:none; padding:0; margin:0; width: auto; -moz-opacity: 0; filter: alpha(opacity=0); opacity: 0;"/>
+    </div>
+
+</form>
+
+
+<script>
+
+$('body').on('change', '#upload-choose', function(e){
+        e.preventDefault();
+        var formData = new FormData($(this).parents('form')[0]);
+        $.ajax({
+            url: '/questions-upload',
+            type: 'POST',
+            xhr: function() {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            success: function (data) {
+				if ($("#q_input").html() === '') {
+					$("#q_input").append(data);
+				} else {
+					$("#q_input").append('\n');
+					$("#q_input").append(data);
+				}
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+        fileClone = $("#upload-choose").wrap("<div>").parent().html();
+		form = $("#upload-choose").parent();
+		$('#upload-choose').remove();
+		$(form).append(fileClone);
+		
+        return false;
+});
+
+</script>
+
+{% endblock uploadFileBtn %}
+
+

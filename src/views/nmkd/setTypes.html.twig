@@ -1,0 +1,259 @@
+{% extends 'nmkd/baseNmkd.html.twig' %}
+
+{% block hintText %}
+	<p class="bg-info">Оберіть типи питань.</p>
+{% endblock hintText %}
+
+{% block errors %}
+	{% for error in errors %}
+	<p class="alert alert-danger">{{error}}</p>
+	{% endfor %}
+{% endblock errors %}
+
+{% block mainForm %}
+<div>
+<form id="set-types-form" method="POST" action="questions-themes/lection">
+	<table class="table set-types-table-top" style="table-layout:fixed">
+        <thead>
+            <tr>
+                <th style="width:25px;"> </th>
+				<th style="width:500px;">Питання
+					&nbsp;<input type="text" placeholder="Пошук" style="height:20px; font-weight:normal;" class="form-control search-input" id="search-field"/>
+				</th>
+				<th><input type="checkbox" class="select-col" id="lect">&nbsp;Лекційне</th>
+				<th><input type="checkbox" class="select-col" id="pract">&nbsp;Практичне</th>
+				<th><input type="checkbox" class="select-col" id="sem">&nbsp;Семінарське</th>
+				<th><input type="checkbox" class="select-col" id="lab">&nbsp;Лабораторне</th>
+				<th><input type="checkbox" class="select-col" id="ind">&nbsp;Індивідуальне</th>
+				<th><input type="checkbox" class="select-col" id="self">&nbsp;Самостійне</th>
+            </tr>
+        </thead>
+  </table>
+  <div id="set-types-table-wrapper" style="overflow-y:auto; max-height:450px;">
+    <table class="set-types-table table table-condensed table-bordered" id="hidechecked" style="table-layout:fixed;">
+		<thead>
+			<tr>
+				<th style="width:25px;"></th>
+				<th style="width:500px;"><span class="sorticon">&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</thead>
+        <tbody>
+            {% for key,question in questions %}
+			<tr>
+				<td style="width:25px;"><input type="checkbox" class="select-row"></td>
+				<td style="width:500px;">{{ question }}</td>
+				<td class="check_type lect">
+					<input class="hide select" type="checkbox" name="lection{{ key }}">
+					<input class="hide select" type="checkbox" name="type">
+				</td>
+				<td class="check_type pract">
+					<input class="hide select" type="checkbox" name="practical{{ key }}">
+					<input class="hide select" type="checkbox" name="type">
+				</td>
+				<td class="check_type sem">
+					<input class="hide select" type="checkbox" name="seminary{{ key }}">
+					<input class="hide select" type="checkbox" name="type">
+				</td>
+				<td class="check_type lab">
+					<input class="hide select" type="checkbox" name="laboratory{{ key }}">
+					<input class="hide select" type="checkbox" name="type">
+				</td>
+				<td class="check_type ind">
+					<input class="hide select" type="checkbox" name="individual{{ key }}">
+					<input class="hide select" type="checkbox" name="type">
+				</td>
+				<td class="check_type self">
+					<input class="hide select" type="checkbox" name="self{{ key }}">
+					<input class="hide select" type="checkbox" name="type">
+				</td>
+			</tr>
+			{% endfor %}
+        </tbody>
+    </table>
+ </div>
+
+	
+	
+</form>
+</div>
+<div class="offset"></div>
+
+
+
+<!------------------------------Scripts--------------------------------->
+<script src="/src/views/js/jquery-1.9.1.js"></script>
+<script src="/src/views/js/jquery.tablesorter.min.js"></script>
+
+<script>
+$(function(){
+	$('#hidechecked').tablesorter();
+});
+</script>
+
+<script>
+//searching
+var $myInput = $('#search-field');
+var text = $myInput.val();
+var timeout;
+
+$myInput.keyup(function(e){
+	var value = $(this).val();
+	var url;
+	if (value != text) {
+
+		text = value;
+		if(timeout) { clearTimeout(timeout); }
+		timeout = setTimeout(function() {
+
+			$('.set-types-table td').parent().addClass('search-hide');
+			$('.set-types-table td:contains("'+text+'")').parent().removeClass('search-hide');
+			if (text==='') {
+				$('.set-types-table td').parent().removeClass('search-hide');
+			}
+
+			$('.select-col','.set-types-table-top').prop('checked','');
+
+    },500);
+  }
+});
+</script>
+
+
+<script>
+// select col
+$('.set-types-table-top').on('click', '.select-col', function(){
+	col = $(this).attr('id');
+	checkers = $('td.'+col+' .select','.set-types-table');
+	var bgColor = '#DFF0D8';
+	var imageUrl = 'src/views/img/green-tick.png';
+	
+	if ($(this).prop('checked')==true) {
+		$(checkers).each(function(i, elem){
+			if ($(elem).parent().parent().hasClass('search-hide')===false) {
+				$(elem).prop('checked','true');
+				row = $(elem).parent().parent();
+				
+				$('td.'+col,row).css('background-color',bgColor);
+				$('td.'+col,row).css('background-image', 'url('+imageUrl+')');
+				$('td.'+col,row).css('background-repeat', 'no-repeat');
+				$('td.'+col,row).css('background-position', 'center center');
+			}
+		})
+	} else {
+		$(checkers).each(function(i, elem){
+			if ($(elem).parent().parent().hasClass('search-hide')===false) {
+				$(elem).prop('checked','true');
+				row = $(elem).parent().parent();
+				$('td.'+col,row).css('background-color','');
+				$('td.'+col,row).css('background-image', '');
+				$('td.'+col,row).css('background-repeat', '');
+				$('td.'+col,row).css('background-position', '');
+			}
+		})
+		
+	}
+	
+});
+</script>
+
+<script>
+// select row
+$('.set-types-table').on('click', '.select-row', function(){
+	row = $(this).parent().parent();
+	var bgColor = '#DFF0D8';
+	var imageUrl = 'src/views/img/green-tick.png';
+	  
+	if ($(this).prop('checked')==true) {
+		$('.select',row).prop('checked','true');
+		$('td.check_type',row).css('background-color',bgColor);
+		$('td.check_type',row).css('background-image', 'url('+imageUrl+')');
+		$('td.check_type',row).css('background-repeat', 'no-repeat');
+		$('td.check_type',row).css('background-position', 'center center');
+	} else {
+		$('.select',row).prop('checked','');
+		$('td.check_type',row).css('background-color','');
+		$('td.check_type',row).css('background-image', '');
+		$('td.check_type',row).css('background-repeat', '');
+		$('td.check_type',row).css('background-position', '');
+	}
+	
+});
+</script>
+
+<script>
+//highlighting of clicked elements
+$("#hidechecked").on("click","td.check_type",function(){
+
+	  var bgColor = '#DFF0D8';
+	  var imageUrl = 'src/views/img/green-tick.png';
+
+
+	
+      var checker = $(this).find('input');
+      if (checker.is(':checked')) {
+		  checker.prop('checked', '');
+		  $(this).css('background-color','');
+		  $(this).css('background-image', '');
+		  $(this).css('background-repeat', '');
+		  $(this).css('background-position', '');
+	  } else {
+		  checker.prop('checked', 'true');
+		  $(this).css('background-color',bgColor);
+		  $(this).css('background-image', 'url('+imageUrl+')');
+		  $(this).css('background-repeat', 'no-repeat');
+		  $(this).css('background-position', 'center center');
+	  }
+});
+
+$("#hidechecked").css('height', $('#set-types-table-wrapper').height());
+
+
+//disable selection in table
+jQuery.fn.extend({ 
+    disableSelection : function() { 
+            this.each(function() { 
+                    this.onselectstart = function() { return false; }; // IE, Chrome, Safari
+                    this.unselectable = "on"; // IE, Opera
+                    jQuery(this).css('-moz-user-select', 'none'); // FF
+            }); 
+    },
+    enableSelection : function() { 
+            this.each(function() { 
+                    this.onselectstart = function() {}; 
+                    this.unselectable = "off"; 
+                    jQuery(this).css('-moz-user-select', 'auto'); 
+            }); 
+    } 
+});
+
+
+$(document).ready(function(){
+    $('#hidechecked *').disableSelection(); 
+}); 
+
+</script>
+<!------------------------------/Scripts--------------------------------->
+
+{% endblock mainForm %}
+
+
+{% block prevBtn %}
+	<button type="button" class="btn btn-default" onclick="document.location.href = '/set-themes';">
+		<span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+	</button>
+{% endblock prevBtn %}
+
+{% block nextBtn %}
+	<div class="nmkd-next-btn">
+		<button type="button" class="btn btn-success" onclick="$('#set-types-form').submit()">
+			<span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+		</button>
+	</div>
+{% endblock nextBtn %}
+

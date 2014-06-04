@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+<a href="input">Start</a><br>
+<a href="/nmkd/edit">Edit</a><br>
+<a href="/nmkd/download-pdf">Download</a><br>
+
+<br>
+
+{% for sessionItem in sessionList %}
+	<a href="restore-session/{{sessionItem.id_disc}}">Відновити сессію НМКД "{{sessionItem.name}}"</a><br>
+{% endfor %}
+
+
+{% endblock main %}

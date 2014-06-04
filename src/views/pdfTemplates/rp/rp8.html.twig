@@ -1,0 +1,30 @@
+<style>
+
+</style>
+<div class="autopagination page8">
+	<p class="title">9. Індивідуальні завдання</p>
+	<p>
+		Робота виконується у вигляді реферату згідно з варіантом.
+		Варіант обирається за першою літерою прізвища студента.
+	</p>
+	{% for type, data in nmkd.type_questions %}
+		{% if type=='individual' %}
+			{% set indIsset = true %}
+			type - {{type}}
+			{% for row in data %}
+
+				theme - {{row.theme}}
+				semester - {{ row.semester }}
+
+				{% for question in row.questions %}
+					{{question}}
+					{{row.hours}}
+				{% endfor %}
+			{% endfor %}
+		{% endif %}		
+	{% endfor %}
+	
+	{% if indIsset != true %}
+		<p>Індивідуальні завдання не передбачені навчальним планом</p>
+	{% endif %}
+</div>

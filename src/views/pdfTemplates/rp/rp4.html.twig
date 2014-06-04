@@ -1,0 +1,37 @@
+<style>
+
+</style>
+<div class="autopagination page4">
+	<p class="title">3. Програма навчальної дисципліни</p>
+	{% set j=1 %}
+	{% for module, data in nmkd.moduleData %}
+		<div class="module">
+			<p>ЗМІСТОВИЙ МОДУЛЬ {{j}}</p>
+			<p>{{module}}</p>
+		</div>
+		{% for themeName in data %}
+		<div class="themes-questions">
+		{% set i = 1 %}
+			{% for id, name in nmkd.themes %}
+				{% if themeName == name %}
+				<div class="theme">Тема {{i}}. {{name}}</div>
+				<div class="theme_questions">
+
+					{% for theme_key, theme_id in nmkd.questions %}
+						{% for q_name in theme_id %}
+							{% if theme_key==id %}
+								{{q_name}}&nbsp;
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+			
+				</div>
+				{% endif %}
+		
+			{% set i=i+1 %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+		{% set j=j+1 %}
+	{% endfor %}
+</div>

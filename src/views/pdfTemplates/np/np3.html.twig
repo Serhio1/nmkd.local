@@ -1,0 +1,193 @@
+<style>
+	.page3 {
+		font-family: "Times New Roman", sans-serif; 
+		font-size: 12pt; 
+		so-language: uk-UA;
+		height: 100%;
+		width: 100%;
+	}
+	
+		.header1 {
+			margin: 0 auto 15px -35px;
+			padding-top: 10px;
+		}
+			.header1 p {
+				font-weight: bold;
+				text-align: center;
+				letter-spacing: 0.03mm;
+			}
+		
+		.header2 {
+			margin: 0 auto -8px -35;
+			padding: 0;
+		}
+			.header2 p {
+				text-align: center;
+				line-height: 2;
+				margin: 0 auto;
+				padding: 0;
+				font-weight: bold;
+				letter-spacing: 0.18mm;
+			}
+	
+		.table {
+			margin:0 17px auto -14px;
+			padding:0px;
+			height:auto;
+			border-top:1px solid #000000;
+			border-left:1px solid #000000;
+		}
+			.table table{
+				border-collapse: collapse;
+				border-spacing: 0;
+				width:100%;
+				height:auto;
+				margin:0px;
+				padding:0px;
+			}
+				.table th,
+				.table td {
+					vertical-align:middle;
+					background-color:#ffffff;
+					border:1px solid #000000;
+					border-width:0px 1px 1px 0px;
+					text-align:left;
+					padding:4px;
+					font-size:12pt;
+					font-family:Times New Roman;
+				}
+				.table th {
+					font-weight:bold;
+				}
+				.table td {
+					font-weight:normal;
+				}
+				
+				.table tr:last-child td{
+					border-width:0px 1px 0px 0px;
+				}
+				.table tr td:last-child{
+					border-width:0px 0px 1px 0px;
+				}
+				.table tr:last-child td:last-child{
+					border-width:0px 0px 0px 0px;
+				}
+
+</style>
+
+<div class="page page3">
+	<div class="header1">
+		<p>СТРУКТУРА ПРОГРАМИ НАВЧАЛЬНОЇ ДИСЦИПЛІНИ</p>
+	</div>
+
+	<div class="header2">
+		<p style="text-transform: uppercase;">„{{nmkd.disc_name}}”</p>
+		<p>ОПИС ПРЕДМЕТА НАВЧАЛЬНОЇ ДИСЦИПЛІНИ</p>
+	</div>
+
+	<div class="table">
+		
+            <table>
+				<thead>
+                    <tr>
+                        <th>Курс: Підготовка (бакалаврів, магістрів, підвищення кваліфікації)</th>
+                        <th>Напрям, спеціальність, освітньо-кваліфікаційний рівень</th>
+                        <th>Характеристика навчального курсу</th>
+                    </tr>
+                </thead>
+                </tbody>
+                    <tr>
+                        <td>
+                            Кількість кредитів ЕСТS: {{nmkd.ectsCredits}}
+                        </td>
+                        <td>
+                            Шифр та назва напряму: {{nmkd.id_direction}} {{nmkd.training_direction}}
+                        </td>
+                        <td>
+                            Нормативний
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Модулів: {{nmkd.modules}} індивідуальні навчально-дослідні завдання
+                        </td>
+                        <td>
+                            Шифр та назва спеціальності: {{nmkd.id_spec}} {{nmkd.specialization}}
+                        </td>
+                        <td>
+                            Рік підготовки: {{nmkd.trainingYears}}
+                            семестр: {{nmkd.semesters}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Змістових модулів: {{nmkd.contextModules}}
+                        </td>
+                        <td>
+                            Освітньо-кваліфікаційний рівень: {{nmkd.qualificationLevel}}
+                        </td>
+                        <td>
+                            Лекції (теоретична підготовка): {{nmkd.lectionHours}} годин
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Загальна кількість годин: {{nmkd.hours}}
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            Семінари (практичні): {{nmkd.seminaryHours}} годин
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Тижневих годин: {{nmkd.weekHours}}
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            Лабораторні заняття: {{nmkd.laboratoryHours}} годин
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            Самостійна робота: {{nmkd.selfHours}} годин
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            Індивідуальна робота (Індивідуальне завдання): {{nmkd.selfHours}} годин
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            Вид підсумкового контролю: ({{nmkd.controlTest}} – 1,2 семестр)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+	
+	</div>
+	
+</div>

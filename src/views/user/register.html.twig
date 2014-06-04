@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+<div class="register-form center-block">
+<form method="POST" action="/user/register" class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="inputLogin" class="col-sm-2 control-label">Логін</label>
+    <div class="col-sm-10">
+      <input type="text" name="login" class="form-control" id="inputLogin" placeholder="Логін">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="col-sm-2 control-label">Пароль</label>
+    <div class="col-sm-10">
+      <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Пароль">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="confirmPassword" class="col-sm-2 control-label">Підтвердження</label>
+    <div class="col-sm-10">
+      <input type="password" name="confirm_password" class="form-control" id="confirmPassword" placeholder="Введіть пароль ще раз">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Зареєструватись</button>
+      &nbsp; або &nbsp;<a href="/user/login">Увійти</a>
+    </div>
+  </div>
+</form>
+</div>
+
+
+{% endblock main %}
+ 

@@ -1,0 +1,112 @@
+<style>
+	.page5 .title p {
+		text-align: center;
+		font-weight: bold;
+		font-family: "Times New Roman", sans-serif; 
+		font-size: 12pt;
+		margin: 0;
+	}
+		.page5 .table {
+				margin:0px;
+				padding:0px;
+				width:100%;
+				height:auto;
+				border-top:1px solid #000000;
+				border-left:1px solid #000000;
+			}
+				.page5 .table table{
+					border-collapse: collapse;
+					border-spacing: 0;
+					width:100%;
+					height:auto;
+					margin:0px;
+					padding:0px;
+				}
+					.page5 .table th,
+					.page5 .table td {
+						vertical-align:middle;
+						background-color:#ffffff;
+						border:1px solid #000000;
+						border-width:0px 1px 1px 0px;
+						text-align:left;
+						padding:4px;
+						font-size:12pt;
+						font-family:Times New Roman;
+					}
+					.page5 .table th {
+						font-weight:bold;
+					}
+					.table td {
+						font-weight:normal;
+					}
+					
+					.page5 .table tr:last-child td{
+						border-width:0px 1px 0px 0px;
+					}
+					.page5 .table tr td:last-child{
+						border-width:0px 0px 1px 0px;
+					}
+					.page5 .table tr:last-child td:last-child{
+						border-width:0px 0px 0px 0px;
+					}
+</style>
+<div class="autopagination page5">
+	<div class="title">
+		<p>СТРУКТУРА ЗАЛІКОВОГО КРЕДИТУ НАВЧАЛЬНОЇ</p> 
+		<p>ДИСЦИПЛІНИ</p>
+	</div>
+
+		<div class="table">
+			<table>
+				<thead>
+					<tr>
+						<th rowspan="2">Тема</th>
+						<th colspan="5">Кількість годин, відведених на:</th>
+					</tr>
+                    <tr>
+                        <th>Лекції</th>
+                        <th>Практично-семінарські заняття</th>
+                        <th>Лабораторні заняття</th>
+                        <th>Самостійну роботу</th>
+                        <th>Індивідуаль-ну роботу</th>
+                    </tr>
+        {% set j=1 %}
+        {% set i=1 %}
+		{% for module, data in nmkd.moduleData %}
+                    <tr>
+						<th colspan="6">Змістовий модуль{{j}}. {{module}}</th>
+                    </tr>
+                </thead>
+                {% for themeName in data %}
+                <tbody>
+					<tr>
+                        <td >
+                            Тема {{i}}. {{themeName}}
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            Індивідуальне навчально-дослідне завдання, РГР
+                        </td>
+                    </tr>
+                </tbody>
+                {% set i=i+1 %}
+			{% endfor %}
+			{% set j=j+1 %}
+        {% endfor %}
+            </table>
+		</div>
+    
+        
+	
+</div>

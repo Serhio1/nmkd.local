@@ -1,0 +1,104 @@
+<style>
+	.table {
+			margin:0px;
+			padding:0px;
+			width:100%;
+			height:auto;
+			border-top:1px solid #000000;
+			border-left:1px solid #000000;
+		}
+			.table table{
+				border-collapse: collapse;
+				border-spacing: 0;
+				width:100%;
+				height:auto;
+				margin:0px;
+				padding:0px;
+			}
+				.table th,
+				.table td {
+					vertical-align:middle;
+					background-color:#ffffff;
+					border:1px solid #000000;
+					border-width:0px 1px 1px 0px;
+					text-align:left;
+					padding:4px;
+					font-size:12pt;
+					font-family:Times New Roman;
+				}
+				.table th {
+					font-weight:bold;
+				}
+				.table td {
+					font-weight:normal;
+				}
+				
+				.table tr:last-child td{
+					border-width:0px 1px 0px 0px;
+				}
+				.table tr td:last-child{
+					border-width:0px 0px 1px 0px;
+				}
+				.table tr:last-child td:last-child{
+					border-width:0px 0px 0px 0px;
+				}
+</style>
+<div class="autopagination page5">
+	<div class="title">
+		4. Структура навчальної дисципліни
+	</div>
+
+	
+		
+		<div class="table">
+            <table>
+				<thead>
+					<tr>
+						<th rowspan="2">Тема</th>
+						<th colspan="5">Кількість годин, відведених на:</th>
+					</tr>
+                    <tr>
+                        <th>Лекції</th>
+                        <th>Практично-семінарські заняття</th>
+                        <th>Лабораторні заняття</th>
+                        <th>Самостійну роботу</th>
+                        <th>Індивідуаль-ну роботу</th>
+                    </tr>
+                    <tr>
+						<th colspan="6">Змістовий модуль 1. Синтаксис мови Сі</th>
+                    </tr>
+                </thead>
+                </tbody>
+					{% set i = 1 %}
+					{% for id, name in nmkd.themes %}
+                    <tr>
+                        <td >
+                            Тема {{i}}. {{name}}
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            0
+                        </td>
+                        <td >
+                            Індивідуальне навчально-дослідне завдання, РГР
+                        </td>
+                    </tr>
+                    {% set i=i+1 %}
+					{% endfor %}
+                </tbody>
+            </table>
+		</div> <!--class=table-->
+		<br>
+        <br>
+        <br>
+        
+	
+</div>

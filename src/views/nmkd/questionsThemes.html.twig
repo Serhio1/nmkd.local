@@ -1,0 +1,205 @@
+{% extends 'nmkd/baseNmkd.html.twig' %}
+
+
+{% block hintText %}
+	<p class="bg-info">Перетягніть питання у відповідні теми.</p>
+{% endblock hintText %}
+
+{% block mainForm %}
+
+<script src="/src/views/js/jquery-1.9.1.js"></script>
+<script src="/src/views/js/jquery-sortable.js"></script>
+
+
+ 
+
+
+
+<table id="questions_to_themes" class="table">
+	<thead>
+		<tr>
+			<th>{{ currentType }}</th>
+			<th>Теми</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 50%">
+				<!--<div class="switch-container">
+					<div class="switch active" data-toggle="switch">
+						<span class="switch-track"></span>
+						<span class="switch-thumb" data-on="ON" data-off="OFF"></span>
+					</div>
+				</div>-->
+				<ol id="sortable1" class="nested_with_switch vertical unmarked">
+					{% for key,question in questions %}
+					<li id="{{ key }}" class="ui-state-default question">{{ question }}</li>
+					{% endfor %}
+				</ol>
+			</td>
+		
+			<td style="width: 50%">
+				<!--<div class="switch-container">
+					<div class="switch active" data-toggle="switch">
+						<span class="switch-track"></span>
+						<span class="switch-thumb" data-on="ON" data-off="OFF"></span>
+					</div>
+				</div>-->
+				<ol id="sortable2" class="nested_with_switch unmarked">
+					{% for key,theme in themes %}
+					<li id="{{ key }}" class="ui-state-highlight theme">{{ theme }}
+						<ol class="questions-container">
+						</ol>
+					</li>
+					{% endfor %}
+				</ol>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<form id="questions-to-themes-form" method="POST" action="{{nextType}}">
+	<input type="text" name="themes_questions" id="form_data" style="display:none;">
+</form>
+
+
+
+
+
+
+<script>
+    (function($){
+        $('body').on('click','.nmkd-next-btn',function(){
+            var data = {};
+
+
+			
+            /*if($('#sortable1').children().length){
+                alert('вы должны определить все вопросы');
+                $('form[name="form"]').submit(function(){
+                    return false;
+                });
+            }*/
+
+            /*
+            $("#sortable2 li").each(function (i) {
+                if($(this).hasClass('question')){
+                    theme = $(this).prevAll( '.theme:first' );
+                    data[$(this).attr('id')] = theme.attr('id');
+                }
+            });
+            $('#form_data').val(serialize(data));
+*/
+
+			$("#sortable2 li ol li").each(function (i) {
+				theme = $(this).parent().parent();
+				data[$(this).attr('id')] = theme.attr('id');
+			});
+
+			$('#form_data').val(serialize(data));
+			$('#questions-to-themes-form').submit();
+			
+            function serialize(obj) {
+                var str = '';
+                for (i in obj){
+                    if(typeof(obj[i])==="object"){
+                        str += i+':{'+serialize(obj[i])+'},';
+                    } else {
+                        str += (i + ':' + obj[i] + ',');
+                    }
+                }
+
+                return str;
+            }
+        })
+    }(jQuery))
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+var oldContainer
+$("ol.nested_with_switch").sortable({
+  group: 'nested',
+  afterMove: function (placeholder, container) {
+    if(oldContainer != container){
+      if(oldContainer)
+        oldContainer.el.removeClass("active")
+      container.el.addClass("active")
+      
+      oldContainer = container
+    }
+  },
+  onDrop: function (item, container, _super) {
+    container.el.removeClass("active")
+    _super(item)
+  }
+})
+</script>
+
+
+
+<!--
+<table id="questions_to_themes" class="table table-bordered">
+	<thead>
+		<tr>
+			<td>Питання</td>
+			<td>Теми</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<ul id="sortContainer" class="hidden">
+				<li>
+					<td style="width: 50%">
+						<ul id="sortable1" class="connectedSortable unmarked">
+							{% for key,question in questions %}
+							<li id="{{ key }}" class="ui-state-default question">{{ question }}</li>
+							{% endfor %}
+						</ul>
+					</td>
+
+					<td style="width: 50%">
+						<ul id="sortable2" class="connectedSortable unmarked">
+							{% for key,theme in themes %}
+							<li id="{{ key }}" class="ui-state-highlight theme">{{ theme }}</li>
+							{% endfor %}
+						</ul>
+					</td>
+				</li>
+			</ul>
+		</tr>
+	</tbody>
+</table>
+-->
+
+
+
+
+{% endblock mainForm %}
+
+{% block prevBtn %}
+	<button type="button" class="btn btn-default" onclick="document.location.href = '/set-types';">
+		<span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+	</button>
+{% endblock prevBtn %}
+
+{% block nextBtn %}
+	<div class="nmkd-next-btn">
+		<button type="button" class="btn btn-success">
+			<span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+		</button>
+	</div>
+{% endblock nextBtn %}

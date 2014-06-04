@@ -1,0 +1,95 @@
+<style>
+	table.row {
+					width: 100%;
+					margin-bottom: 0.15in;
+				}
+
+					table.row tr td.underline {
+						border-bottom: 1px solid #000;
+						text-align: center;
+						font-size: 12pt;
+						text-align: center;
+						padding-bottom: 0;
+					}
+
+					table.row tr td.text {
+						width: auto;
+						white-space: nowrap;
+						font-size: 12pt;
+						letter-spacing: 0.001in;
+						padding-bottom: -2px;
+					}
+
+				.hint {
+					margin-top: -0.4in;
+					padding-top: 0;
+					font-size: 7pt;
+					text-align: center;
+				}
+</style>
+<div class="autopagination page10">
+	<p class="inf-amount">2. Інформаційний обсяг навчальної дисципліни</p>
+	{% set j=1 %}
+	{% for module, data in nmkd.moduleData %}
+		{% for themeName in data %}
+		<div class="module">
+			<p>Змістовий модуль {{j}}</p>
+		</div>
+		<div class="themes-questions">
+		{% set i = 1 %}
+			{% for id, name in nmkd.themes %}
+				{% if themeName == name %}
+				<div class="theme">Тема {{j}}.{{i}}. {{name}}</div>
+				<div class="theme_questions">
+
+					{% for theme_key, theme_id in nmkd.questions %}
+						{% for q_name in theme_id %}
+							{% if theme_key==id %}
+								{{q_name}}&nbsp;
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+			
+				</div>
+				{% endif %}
+		
+			{% set i=i+1 %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+		{% set j=j+1 %}
+	{% endfor %}
+
+	<div class="literature">
+		<p class="recomended">3. Рекомендована література</p>
+		<p class="base">Базова</p>
+		<div class="baselit">
+			<p>1. ...</p>
+		</div>
+
+		<p class="additional">Допоміжна</p>
+		<div class="addlit">
+			<p>1. ...</p>
+		</div>
+	</div>
+
+	<div class="form">
+		<p>4. Форма підсумкового контролю успішності навчання</p>
+		<table class="row">
+			<tr>
+				<td class="underline"></td>
+			</tr>
+		</table>
+
+		<p>5. Засоби діагностики успішності навчання </p>
+		<table class="row">
+			<tr>
+				<td class="underline"></td>
+			</tr>
+		</table>
+	</div>
+	
+	
+</div>
+
+ 
