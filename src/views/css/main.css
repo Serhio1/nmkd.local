@@ -1,75 +1,79 @@
 html,body {
-	height:100%;
+    height:100%;
 }
 
 .offset {
-	height:40px
+    height:40px
 }
 
 ul.unmarked {
-	margin-left: 0;
-	padding-left: 0;
+    margin-left: 0;
+    padding-left: 0;
 }
-	ul.unmarked li {
-		list-style-type: none;
-	}
+    ul.unmarked li {
+        list-style-type: none;
+    }
 
 li.unmarked {
-	list-style-type: none;
+    list-style-type: none;
 }
 
 #q_input {
-	width: 100%;
-	min-height: 400px;
-	height: auto;
+    width: 100%;
+    min-height: 400px;
+    height: auto;
 }
 
+.set-modules-table-top tr th,
 .set-themes-table-top tr th {
-	text-align: center
+    text-align: center
 }
+
 
 .set_themes_table {
-	width: 100%;
+    width: 100%;
 }
-	.set_themes_table tr td {
-		cursor: default;
-	}
-	
-	.set_themes_table thead tr td {
-		text-align: center;
-	}
-		
-	.set_themes_table tr td.check_theme {
-		cursor: pointer;
-	}
+    .set_themes_table tr td {
+        cursor: default;
+    }
+    
+    .set_themes_table thead tr td {
+        text-align: center;
+    }
 
-	.set_themes_table tr th {
-		cursor: pointer;
-		background-color: #F0F0F0;
-	}
+    .set-modules-table tr td.check_theme,
+    .set_themes_table tr td.check_theme {
+        cursor: pointer;
+    }
 
-	.set_themes_table tbody tr:hover,
-	.set-types-table tr:hover {
-		background-color: #F0F0F0;
-	}
+    .set_themes_table tr th {
+        cursor: pointer;
+        background-color: #F0F0F0;
+    }
 
-	.submit_btn {
-		margin: 5px auto;
-		width: 250px;
-	}
+    .set-modules-table tr:hover,
+    .set_themes_table tbody tr:hover,
+    .set-types-table tr:hover {
+        background-color: #F0F0F0;
+    }
+
+    .submit_btn {
+        margin: 5px auto;
+        width: 250px;
+    }
 
 .set-types-table-top thead th{
-	white-space: nowrap;
-	overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
 }
-	.set-types-table thead {
-		background-color: #F0F0F0;
-	}
+    .set-types-table thead {
+        background-color: #F0F0F0;
+    }
 
 
 .fixedColumn .fixedTable td {
-	padding: 8px;
-	border: 1px solid #fff;
+    padding: 8px;
+    border: 1px solid #fff;
 }
 
 .fixedTable tr td {
@@ -77,52 +81,52 @@ li.unmarked {
 }
 
 #questions_to_themes {
-	width: 100%;
+    width: 100%;
 }
 
-	#questions_to_themes thead tr th {
-		text-align: center;
-	}
+    #questions_to_themes thead tr th {
+        text-align: center;
+    }
 
-	#questions_to_themes tbody tr td:hover {
-		cursor: pointer;
-	}
+    #questions_to_themes tbody tr td:hover {
+        cursor: pointer;
+    }
 
-	#sortable1,
-	#sortable2 {
-		padding: 0;
-		margin-left: 0;
-	}
-	
+    #sortable1,
+    #sortable2 {
+        padding: 0;
+        margin-left: 0;
+    }
+    
 
-		#sortable1 li,
-		#sortable2 li {
-			padding: 8px;
-			margin: 1px;
-			list-style-type: none;
-		}
+        #sortable1 li,
+        #sortable2 li {
+            padding: 8px;
+            margin: 1px;
+            list-style-type: none;
+        }
 
-		#sortable1 li.question {
-			background-color: #D8D8D8;
-		}
+        #sortable1 li.question {
+            background-color: #D8D8D8;
+        }
 
-		#sortable2 li ol li.question {
-			margin-left: 35px;
-			
-			background-color: #DFF0D8;
-		}
+        #sortable2 li ol li.question {
+            margin-left: 35px;
+            
+            background-color: #DFF0D8;
+        }
 
-		#sortable2 li.theme {
-			background-color: #eaeaea;
-		}
+        #sortable2 li.theme {
+            background-color: #eaeaea;
+        }
 
-		#sortable2 ol.questions-container {
-			padding:2px;
-			background-color: #ddd;
-		}
+        #sortable2 ol.questions-container {
+            padding:2px;
+            background-color: #ddd;
+        }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 
@@ -157,20 +161,20 @@ background-color: #eee
 }
 
 .nmkd-hint {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
-	.nmkd-hint p {
-		padding: 10px;
-	}
+    .nmkd-hint p {
+        padding: 10px;
+    }
 
 .nmkd-controls {
-	border: 1px solid #bbb;
-	border-radius: 5px;
-	padding: 5px 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    padding: 5px 10px;
 }
-	.nmkd-next-btn {
-		float:right;
-	}
+    .nmkd-next-btn {
+        float:right;
+    }
 
 /*------------------------------------------------------*/
 body.dragging, body.dragging * {
@@ -194,48 +198,58 @@ ol.example li.placeholder:before {
 /*---------------------------------------------------------*/
 
 .register-form {
-	border: 1px solid #eee;
-	border-radius: 5px;
-	padding: 10px;
-	max-width: 750px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 750px;
 }
 
+#q_input {
+    max-width: 100%;
+}
+
+#input_form {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
 
 .input-menu span{
-	float: right;
-	margin: 3px 3px -20px 3px;
+    float: right;
+    margin: 1px 0px 3px 3px;
 }
 
 .search-input {
-	width: 200px;
-	display: inline-block;
+    width: 200px;
+    display: inline-block;
 }
 .search-hide {
-	display: none;
+    display: none;
 }
 
 
 #hidechecked th.headerSortUp,
 #hidechecked th.header,
 #hidechecked th.headerSortDown {
-	text-align: center;
-	font-weight: normal;
+    text-align: center;
+    font-weight: normal;
 }
-	#hidechecked th.header span {
-		background-image: url("http://www.npp-photon.ru/images/sort_icon.gif");
-		background-repeat: no-repeat;
-		background-position: center;
-	}
+    #hidechecked th.header span {
+        background-image: url("http://www.npp-photon.ru/images/sort_icon.gif");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
-	#hidechecked th.headerSortUp span {
-		background-image: url("http://www.nerjamarrentals.com/images/icon_up_sort_arrow.png");
-		background-repeat: no-repeat;
-		background-position: center;
-	}
+    #hidechecked th.headerSortUp span {
+        background-image: url("http://www.nerjamarrentals.com/images/icon_up_sort_arrow.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
-	#hidechecked th.headerSortDown span {
-		background-image: url("http://www.nerjamarrentals.com/images/icon_down_sort_arrow.png");
-		background-repeat: no-repeat;
-		background-position: center;
-	}
+    #hidechecked th.headerSortDown span {
+        background-image: url("http://www.nerjamarrentals.com/images/icon_down_sort_arrow.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 

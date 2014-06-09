@@ -1,82 +1,82 @@
 <style>
-	.table {
-			margin:0px;
-			padding:0px;
-			width:100%;
-			height:auto;
-			border-top:1px solid #000000;
-			border-left:1px solid #000000;
-		}
-			.table table{
-				border-collapse: collapse;
-				border-spacing: 0;
-				width:100%;
-				height:auto;
-				margin:0px;
-				padding:0px;
-			}
-				.table th,
-				.table td {
-					vertical-align:middle;
-					background-color:#ffffff;
-					border:1px solid #000000;
-					border-width:0px 1px 1px 0px;
-					text-align:left;
-					padding:4px;
-					font-size:12pt;
-					font-family:Times New Roman;
-				}
-				.table th {
-					font-weight:bold;
-				}
-				.table td {
-					font-weight:normal;
-				}
-				
-				.table tr:last-child td{
-					border-width:0px 1px 0px 0px;
-				}
-				.table tr td:last-child{
-					border-width:0px 0px 1px 0px;
-				}
-				.table tr:last-child td:last-child{
-					border-width:0px 0px 0px 0px;
-				}
+    .table {
+            margin:0px;
+            padding:0px;
+            width:100%;
+            height:auto;
+            border-top:1px solid #000000;
+            border-left:1px solid #000000;
+        }
+            .table table{
+                border-collapse: collapse;
+                border-spacing: 0;
+                width:100%;
+                height:auto;
+                margin:0px;
+                padding:0px;
+            }
+                .table th,
+                .table td {
+                    vertical-align:middle;
+                    background-color:#ffffff;
+                    border:1px solid #000000;
+                    border-width:0px 1px 1px 0px;
+                    text-align:left;
+                    padding:4px;
+                    font-size:12pt;
+                    font-family:Times New Roman;
+                }
+                .table th {
+                    font-weight:bold;
+                }
+                .table td {
+                    font-weight:normal;
+                }
+                
+                .table tr:last-child td{
+                    border-width:0px 1px 0px 0px;
+                }
+                .table tr td:last-child{
+                    border-width:0px 0px 1px 0px;
+                }
+                .table tr:last-child td:last-child{
+                    border-width:0px 0px 0px 0px;
+                }
 </style>
 <div class="autopagination page6">
-	<div class="title">4. Структура навчальної дисципліни</div>
+    <div class="title">4. Структура навчальної дисципліни</div>
 
-	{% for type, data in nmkd.type_questions %}
-		{{type}}
-						
-		{% for row in data %}
-		<div class="table">
-			<table>
-				<thead>
-					<tr>
-						<th>№ з/п</th>
-						<th>Назва теми {{row.theme}}</th>
-						<th>Кількість годин</th>
-					</tr>
-				</thead>
-				<tbody>
-					{# row.semester #}
-					{% set i = 1 %}
-					{% for question in row.questions %}
-					<tr>
-						<td>{{i}}</td>
-						<td>{{type}} заняття № {{question}}</td>
-						<td>(2 год.) {{row.hours}}</td>
-					</tr>
-					{% set i=i+1 %}
-					{% endfor %}
-				</tbody>	
-			</table>
-		</div> <!--class=table-->
-		
-		<br>
-		
-		{% endfor %}			
-	{% endfor %}
+    {% for type, data in nmkd.type_questions %}
+        {{type}}
+                        
+        {% for row in data %}
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№ з/п</th>
+                        <th>Назва теми {{row.theme}}</th>
+                        <th>Кількість годин</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# row.semester #}
+                    {% set i = 1 %}
+                    {% for question in row.questions %}
+                    <tr>
+                        <td>{{i}}</td>
+                        <td>{{type}} заняття № {{question}}</td>
+                        <td>(2 год.) {{row.hours}}</td>
+                    </tr>
+                    {% set i=i+1 %}
+                    {% endfor %}
+                </tbody>    
+            </table>
+        </div> <!--class=table-->
+        
+        <br>
+        
+        {% endfor %}            
+    {% endfor %}
 </div>
 

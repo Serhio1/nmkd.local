@@ -1,14 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-<a href="input">Start</a><br>
-<a href="/nmkd/edit">Edit</a><br>
-<a href="/nmkd/download-pdf">Download</a><br>
-
+<ul style="list-style-type: none">
+    <li><p><b>Алгоритмізація та програмування</b></p></li>
+    <li>
+        <ul>
+            <li><a href="/input">Сформувати НМКД</a></li>
+            <li><a href="/nmkd/edit">Переглянути НМКД</a></li>
+        </ul>
+    </li>
+</ul>
 <br>
+<br>
+<!--<a href="/nmkd/download-pdf">Download</a><br>-->
+
+
 
 {% for sessionItem in sessionList %}
-	<a href="restore-session/{{sessionItem.id_disc}}">Відновити сессію НМКД "{{sessionItem.name}}"</a><br>
+    <!--<a href="restore-session/{{sessionItem.id_disc}}">Відновити сессію НМКД "{{sessionItem.name}}"</a><br>-->
 {% endfor %}
 
 

@@ -1,92 +1,92 @@
 <style>
 
-	.page1 p {
-		font-family: "Times New Roman", sans-serif; 
-		font-size: 12pt;
-	}
-	
-		.page1 p.title {
-			text-align: center;
-		}
+    .page1 p {
+        font-family: "Times New Roman", sans-serif; 
+        font-size: 12pt;
+    }
+    
+        .page1 p.title {
+            text-align: center;
+        }
 
-		.page1 p.cityYear {
-			text-align: center;
-		}
+        .page1 p.cityYear {
+            text-align: center;
+        }
 
-	.page1 .disc_data tr td {
-		font-family: "Times New Roman", sans-serif; 
-		font-size: 12pt;
-	}
+    .page1 .disc_data tr td {
+        font-family: "Times New Roman", sans-serif; 
+        font-size: 12pt;
+    }
 
-	.page1 .sign {
-	
-	}
-		.page1 .sign span.underline {
-			border-bottom: 1px solid #000;
-		}
+    .page1 .sign {
+    
+    }
+        .page1 .sign span.underline {
+            border-bottom: 1px solid #000;
+        }
 
 </style>
 <div class="page page1">
-	<div class="emblem" style="display:block; margin: 0 auto; text-align:center;">
-		<img class="emblem" src="/src/views/pdfTemplates/rp/emblem.png" style="width:30px; height=40px;">
-	</div>
-	
-	<p class="title">МІНІСТЕРСТВО ОСВІТИ І НАУКИ, МОЛОДІ ТА СПОРТУ УКРАЇНИ</p>
-	<img class="header" src="/src/views/pdfTemplates/rp/header.png" style="width:700px; height:350px" >
-	<p class="title">ЕЛЕКТРОННИЙ НАВЧАЛЬНО-МЕТОДИЧНИЙ КОМПЛЕКС</p>
+    <div class="emblem" style="display:block; margin: 0 auto; text-align:center;">
+        <img class="emblem" src="/src/views/pdfTemplates/rp/emblem.png" style="width:30px; height=40px;">
+    </div>
+    
+    <p class="title">МІНІСТЕРСТВО ОСВІТИ І НАУКИ, МОЛОДІ ТА СПОРТУ УКРАЇНИ</p>
+    <img class="header" src="/src/views/pdfTemplates/rp/header.png" style="width:700px; height:350px" >
+    <p class="title">ЕЛЕКТРОННИЙ НАВЧАЛЬНО-МЕТОДИЧНИЙ КОМПЛЕКС</p>
 
 
 
-	<table class="disc_data">
-		<tr>
-			<td>з навчальної дисципліни</td>
-			<td>1.2.7. {{nmkd.disc_name}}</td>
-		</tr>
-		<tr>
-			<td>для студентів</td>
-		</tr>
-		<tr>
-			<td>Галузі знань</td>
-			<td>{{nmkd.id_direction}} {{nmkd.training_direction}}</td>
-		</tr>
-		<tr>
-			<td>Напряму підготовки</td>
-			<td>{{nmkd.id_spec}} {{nmkd.specialization}}</td>
-		</tr>
-		<tr>
-			<td>Форми навчання</td>
-			<td>???денної</td>
-		</tr>
-		<tr>
-			<td>Навчально-науковий інститут</td>
-			<td>фізики, математики та комп’ютерно-інформаційних систем</td>
-		</tr>
-		<tr>
-			<td>Кафедра</td>
-			<td>{{nmkd.cathedra}}</td>
-		</tr>
-		<tr>
-			<td>Укладач(і)</td>
-			<td>???В.Г. Гриценко, Л.І. Гладка</td>
-		</tr>
-		<tr>
-			<td>Рецензенти</td>
-			<td>???А.А.Засядько, З.М. Гадецька</td>
-		</tr>
-	</table>
+    <table class="disc_data">
+        <tr>
+            <td>з навчальної дисципліни</td>
+            <td>1.2.7. {{nmkd.disc_name}}</td>
+        </tr>
+        <tr>
+            <td>для студентів</td>
+        </tr>
+        <tr>
+            <td>Галузі знань</td>
+            <td>{{nmkd.id_direction}} {{nmkd.training_direction}}</td>
+        </tr>
+        <tr>
+            <td>Напряму підготовки</td>
+            <td>{{nmkd.id_spec}} {{nmkd.specialization}}</td>
+        </tr>
+        <tr>
+            <td>Форми навчання</td>
+            <td>денної</td>
+        </tr>
+        <tr>
+            <td>Навчально-науковий інститут</td>
+            <td>фізики, математики та комп’ютерно-інформаційних систем</td>
+        </tr>
+        <tr>
+            <td>Кафедра</td>
+            <td>{{nmkd.cathedra}}</td>
+        </tr>
+        <tr>
+            <td>Укладач(і)</td>
+            <td>В.Г. Гриценко, Л.І. Гладка</td>
+        </tr>
+        <tr>
+            <td>Рецензенти</td>
+            <td>А.А.Засядько, З.М. Гадецька</td>
+        </tr>
+    </table>
 
-	<p class="approved">
-		Затверджено на засіданні кафедри автоматизації
-		та комп’ютерно-інтегрованих технологій (<i>протокол №1 від 30.08.2012 року</i>)
-	</p>
+    <p class="approved">
+        Затверджено на засіданні кафедри автоматизації
+        та комп’ютерно-інтегрованих технологій (<i>протокол №1 від 30.08.2012 року</i>)
+    </p>
 
-	<p class="sign">
-		Завідувач кафедри АКІТ, доцент 
-		<span class="underline"><img src="/src/views/pdfTemplates/rp/sign.png" style="width:80px; height:30px;"></span> 
-		В.Г. Гриценко
-	</p>
+    <p class="sign">
+        Завідувач кафедри АКІТ, доцент 
+        <span class="underline"><img src="/src/views/pdfTemplates/rp/sign.png" style="width:80px; height:30px;"></span> 
+        В.Г. Гриценко
+    </p>
 
-	<p class="cityYear">Черкаси – 2012</p>
-	
-	
+    <p class="cityYear">Черкаси – 2012</p>
+    
+    
 </div>

@@ -2,14 +2,14 @@
 
 class UserModel extends Model
 {
-	public function register()
-	{
-		return true;
-	}
+    public function register()
+    {
+        return true;
+    }
 
-	public function login()
-	{
-		return true;
-	}
-	
+    public function login()
+    {
+        return true;
+    }
+    
 } 

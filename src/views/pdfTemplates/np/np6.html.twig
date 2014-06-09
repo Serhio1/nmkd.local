@@ -1,88 +1,88 @@
 <style>
-	.page6 .title {
-		text-align: center;
-		font-weight: bold;
-		font-family: "Times New Roman", sans-serif; 
-		font-size: 12pt;
-	}
-	.page6 .table {
-			margin:0px;
-			padding:0px;
-			width:100%;
-			height:auto;
-			border-top:1px solid #000000;
-			border-left:1px solid #000000;
-		}
-			.page6 .table table{
-				border-collapse: collapse;
-				border-spacing: 0;
-				width:100%;
-				height:auto;
-				margin:0px;
-				padding:0px;
-			}
-				.page6 .table th,
-				.page6 .table td {
-					vertical-align:middle;
-					background-color:#ffffff;
-					border:1px solid #000000;
-					border-width:0px 1px 1px 0px;
-					text-align:left;
-					padding:4px;
-					font-size:12pt;
-					font-family:Times New Roman;
-				}
-				.page6 .table th {
-					font-weight:bold;
-				}
-				.page6 .table td {
-					font-weight:normal;
-				}
-				
-				.page6 .table tr:last-child td{
-					border-width:0px 1px 0px 0px;
-				}
-				.page6 .table tr td:last-child{
-					border-width:0px 0px 1px 0px;
-				}
-				.page6 .table tr:last-child td:last-child{
-					border-width:0px 0px 0px 0px;
-				}
+    .page6 .title {
+        text-align: center;
+        font-weight: bold;
+        font-family: "Times New Roman", sans-serif; 
+        font-size: 12pt;
+    }
+    .page6 .table {
+            margin:0px;
+            padding:0px;
+            width:100%;
+            height:auto;
+            border-top:1px solid #000000;
+            border-left:1px solid #000000;
+        }
+            .page6 .table table{
+                border-collapse: collapse;
+                border-spacing: 0;
+                width:100%;
+                height:auto;
+                margin:0px;
+                padding:0px;
+            }
+                .page6 .table th,
+                .page6 .table td {
+                    vertical-align:middle;
+                    background-color:#ffffff;
+                    border:1px solid #000000;
+                    border-width:0px 1px 1px 0px;
+                    text-align:left;
+                    padding:4px;
+                    font-size:12pt;
+                    font-family:Times New Roman;
+                }
+                .page6 .table th {
+                    font-weight:bold;
+                }
+                .page6 .table td {
+                    font-weight:normal;
+                }
+                
+                .page6 .table tr:last-child td{
+                    border-width:0px 1px 0px 0px;
+                }
+                .page6 .table tr td:last-child{
+                    border-width:0px 0px 1px 0px;
+                }
+                .page6 .table tr:last-child td:last-child{
+                    border-width:0px 0px 0px 0px;
+                }
 </style>
 <div class="autopagination page6">
-	
+    
 
-	{% for type, data in nmkd.type_questions %}
-		
-		<div class="title">{{nmkd['tpl_'~type~'_themes']}}</div>
-						
-		{% for row in data %}
-		<div class="table">
-			<table>
-				<thead>
-					<tr>
-						<th>№ з/п</th>
-						<th>Назва теми {{row.theme}}</th>
-						<th>Кількість годин</th>
-					</tr>
-				</thead>
-				<tbody>
-					{# row.semester #}
-					{% set i = 1 %}
-					{% for question in row.questions %}
-					<tr>
-						<td>{{i}}</td>
-						<td>{{nmkd['tpl_'~type]}} заняття №{{i}} {{question}}</td>
-						<td>(2 год.) {{row.hours}}</td>
-					</tr>
-					{% set i=i+1 %}
-					{% endfor %}
-				</tbody>	
-			</table>
-		</div> <!--class=table-->
-		
-		<br>
-		
-		{% endfor %}			
-	{% endfor %}
+    {% for type, data in nmkd.type_questions %}
+        
+        <div class="title">{{nmkd['tpl_'~type~'_themes']}}</div>
+                        
+        {% for row in data %}
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№ з/п</th>
+                        <th>Назва теми {{row.theme}}</th>
+                        <th>Кількість годин</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# row.semester #}
+                    {% set i = 1 %}
+                    {% for question in row.questions %}
+                    <tr>
+                        <td>{{i}}</td>
+                        <td>{{nmkd['tpl_'~type]}} заняття №{{i}} {{question}}</td>
+                        <td>(2 год.) {{row.hours}}</td>
+                    </tr>
+                    {% set i=i+1 %}
+                    {% endfor %}
+                </tbody>    
+            </table>
+        </div> <!--class=table-->
+        
+        <br>
+        
+        {% endfor %}            
+    {% endfor %}
 </div>

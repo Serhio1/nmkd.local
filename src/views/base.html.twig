@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>НМКД</title>
-	<style>
-		{% include '/css/bootstrap.min.css' %}
-		{% include '/css/bootstrap-responsive.css' %}
-		{% include '/css/bootstrap-theme.min.css' %}
-		{% include '/css/bootstrap-theme.css.map' %}
-		{% include '/css/bootstrap.css.map' %}
-		{% include '/css/main.css' %}
-	</style>
-	<script src="/src/views/js/jquery-1.9.1.js"></script>
-	<script src="/src/views/js/bootstrap.min.js"></script>
-	<script src="/src/views/js/ajaxupload-v1.2.js"></script>
+    <meta charset="UTF-8">
+    <title>НМКД</title>
+    <style>
+        {% include '/css/bootstrap.min.css' %}
+        {% include '/css/bootstrap-responsive.css' %}
+        {% include '/css/bootstrap-theme.min.css' %}
+        {% include '/css/bootstrap-theme.css.map' %}
+        {% include '/css/bootstrap.css.map' %}
+        {% include '/css/main.css' %}
+    </style>
+    <script src="/src/views/js/jquery-1.9.1.js"></script>
+    <script src="/src/views/js/bootstrap.min.js"></script>
+    <script src="/src/views/js/ajaxupload-v1.2.js"></script>
 </head>
 <body>
 
@@ -49,31 +49,31 @@
 <div id="main" class="clear-top" style="overflow-x:hidden;">
 <div class="row"> 
 
-	<main class="container">
-	{% block main %}
-	{% endblock main %}
-	</main>
+    <main class="container">
+    {% block main %}
+    {% endblock main %}
+    </main>
 
-	<div style="width: 90%; padding: 20px; margin: 50px;">
-	{% block pdfRender %}
-	{% endblock pdfRender %}
-	</div>
+    <div style="width: 90%; padding: 20px; margin: 50px;">
+    {% block pdfRender %}
+    {% endblock pdfRender %}
+    </div>
 
 </div>
 </div>
 </div>
 <footer class="footer">
-	<div class="container">
-	{% block footer %}
-	
-	{% endblock footer %}
-	</div>
+    <div class="container">
+    {% block footer %}
+    
+    {% endblock footer %}
+    </div>
 </footer>
-	
-	
+    
+    
 
-	
-	
+    
+    
 
 </body>
 </html>

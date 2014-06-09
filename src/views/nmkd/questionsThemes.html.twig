@@ -2,7 +2,7 @@
 
 
 {% block hintText %}
-	<p class="bg-info">Перетягніть питання у відповідні теми.</p>
+    <p class="bg-info">Перетягніть питання у відповідні теми.</p>
 {% endblock hintText %}
 
 {% block mainForm %}
@@ -16,50 +16,50 @@
 
 
 <table id="questions_to_themes" class="table">
-	<thead>
-		<tr>
-			<th>{{ currentType }}</th>
-			<th>Теми</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="width: 50%">
-				<!--<div class="switch-container">
-					<div class="switch active" data-toggle="switch">
-						<span class="switch-track"></span>
-						<span class="switch-thumb" data-on="ON" data-off="OFF"></span>
-					</div>
-				</div>-->
-				<ol id="sortable1" class="nested_with_switch vertical unmarked">
-					{% for key,question in questions %}
-					<li id="{{ key }}" class="ui-state-default question">{{ question }}</li>
-					{% endfor %}
-				</ol>
-			</td>
-		
-			<td style="width: 50%">
-				<!--<div class="switch-container">
-					<div class="switch active" data-toggle="switch">
-						<span class="switch-track"></span>
-						<span class="switch-thumb" data-on="ON" data-off="OFF"></span>
-					</div>
-				</div>-->
-				<ol id="sortable2" class="nested_with_switch unmarked">
-					{% for key,theme in themes %}
-					<li id="{{ key }}" class="ui-state-highlight theme">{{ theme }}
-						<ol class="questions-container">
-						</ol>
-					</li>
-					{% endfor %}
-				</ol>
-			</td>
-		</tr>
-	</tbody>
+    <thead>
+        <tr>
+            <th>{{ currentType }}</th>
+            <th>Теми</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="width: 50%">
+                <!--<div class="switch-container">
+                    <div class="switch active" data-toggle="switch">
+                        <span class="switch-track"></span>
+                        <span class="switch-thumb" data-on="ON" data-off="OFF"></span>
+                    </div>
+                </div>-->
+                <ol id="sortable1" class="nested_with_switch vertical unmarked">
+                    {% for key,question in questions %}
+                    <li id="{{ key }}" class="ui-state-default question">{{ question }}</li>
+                    {% endfor %}
+                </ol>
+            </td>
+        
+            <td style="width: 50%">
+                <!--<div class="switch-container">
+                    <div class="switch active" data-toggle="switch">
+                        <span class="switch-track"></span>
+                        <span class="switch-thumb" data-on="ON" data-off="OFF"></span>
+                    </div>
+                </div>-->
+                <ol id="sortable2" class="nested_with_switch unmarked">
+                    {% for key,theme in themes %}
+                    <li id="{{ key }}" class="ui-state-highlight theme">{{ theme }}
+                        <ol class="questions-container">
+                        </ol>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <form id="questions-to-themes-form" method="POST" action="{{nextType}}">
-	<input type="text" name="themes_questions" id="form_data" style="display:none;">
+    <input type="text" name="themes_questions" id="form_data" style="display:none;">
 </form>
 
 
@@ -73,7 +73,7 @@
             var data = {};
 
 
-			
+            
             /*if($('#sortable1').children().length){
                 alert('вы должны определить все вопросы');
                 $('form[name="form"]').submit(function(){
@@ -91,14 +91,14 @@
             $('#form_data').val(serialize(data));
 */
 
-			$("#sortable2 li ol li").each(function (i) {
-				theme = $(this).parent().parent();
-				data[$(this).attr('id')] = theme.attr('id');
-			});
+            $("#sortable2 li ol li").each(function (i) {
+                theme = $(this).parent().parent();
+                data[$(this).attr('id')] = theme.attr('id');
+            });
 
-			$('#form_data').val(serialize(data));
-			$('#questions-to-themes-form').submit();
-			
+            $('#form_data').val(serialize(data));
+            $('#questions-to-themes-form').submit();
+            
             function serialize(obj) {
                 var str = '';
                 for (i in obj){
@@ -153,35 +153,35 @@ $("ol.nested_with_switch").sortable({
 
 <!--
 <table id="questions_to_themes" class="table table-bordered">
-	<thead>
-		<tr>
-			<td>Питання</td>
-			<td>Теми</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<ul id="sortContainer" class="hidden">
-				<li>
-					<td style="width: 50%">
-						<ul id="sortable1" class="connectedSortable unmarked">
-							{% for key,question in questions %}
-							<li id="{{ key }}" class="ui-state-default question">{{ question }}</li>
-							{% endfor %}
-						</ul>
-					</td>
+    <thead>
+        <tr>
+            <td>Питання</td>
+            <td>Теми</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <ul id="sortContainer" class="hidden">
+                <li>
+                    <td style="width: 50%">
+                        <ul id="sortable1" class="connectedSortable unmarked">
+                            {% for key,question in questions %}
+                            <li id="{{ key }}" class="ui-state-default question">{{ question }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
 
-					<td style="width: 50%">
-						<ul id="sortable2" class="connectedSortable unmarked">
-							{% for key,theme in themes %}
-							<li id="{{ key }}" class="ui-state-highlight theme">{{ theme }}</li>
-							{% endfor %}
-						</ul>
-					</td>
-				</li>
-			</ul>
-		</tr>
-	</tbody>
+                    <td style="width: 50%">
+                        <ul id="sortable2" class="connectedSortable unmarked">
+                            {% for key,theme in themes %}
+                            <li id="{{ key }}" class="ui-state-highlight theme">{{ theme }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </li>
+            </ul>
+        </tr>
+    </tbody>
 </table>
 -->
 
@@ -191,15 +191,15 @@ $("ol.nested_with_switch").sortable({
 {% endblock mainForm %}
 
 {% block prevBtn %}
-	<button type="button" class="btn btn-default" onclick="document.location.href = '/set-types';">
-		<span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
-	</button>
+    <button type="button" class="btn btn-default" onclick="document.location.href = '/set-types';">
+        <span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+    </button>
 {% endblock prevBtn %}
 
 {% block nextBtn %}
-	<div class="nmkd-next-btn">
-		<button type="button" class="btn btn-success">
-			<span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
-		</button>
-	</div>
+    <div class="nmkd-next-btn">
+        <button type="button" class="btn btn-success">
+            <span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+        </button>
+    </div>
 {% endblock nextBtn %}

@@ -29,16 +29,16 @@ class Controller
 
     protected function preRenderProcessing()
     {
-		$globalTemplateData = array();
-		//dynamic template data, wich uses in all templates (many templates)
-		//menu data, sidebar data, etc
+        $globalTemplateData = array();
+        //dynamic template data, wich uses in all templates (many templates)
+        //menu data, sidebar data, etc
 
-		return $globalTemplateData;
-	}
+        return $globalTemplateData;
+    }
 
-	protected function getFormData($form)
-	{
-		return Container::get('form_mngr')->getFormData($form);
-	}
+    protected function getFormData($form)
+    {
+        return Container::get('form_mngr')->getFormData($form);
+    }
     
 }

@@ -2,54 +2,54 @@
 
 {% block main %}
 
-	
-	{% block hint %}
-		<div class="nmkd-hint">
-		{% block hintText %}
-		{% endblock hintText %}
-		</div>
-	{% endblock hint %}
+    
+    {% block hint %}
+        <div class="nmkd-hint">
+        {% block hintText %}
+        {% endblock hintText %}
+        </div>
+    {% endblock hint %}
 
-	{% block errors %}
-	{% endblock errors %}
+    {% block errors %}
+    {% endblock errors %}
 
-	{% block mainForm %}
-	{% endblock mainForm %}
+    {% block mainForm %}
+    {% endblock mainForm %}
 
-	
-	
+    
+    
 
-	{% block controls %}
-	<div class="nmkd-controls">
-	
-		{% block prevBtn %}
-		<button type="button" class="btn btn-default" onclick="document.location.href = '/';">
-			<span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
-		</button>
-		{% endblock prevBtn %}
-	
-		{% block saveSessionBtn %}
-		<button type="button" class="btn btn-default" onclick="var url = document.location.href;
-														   url = url.replace('-','_');
-														   var str = '/save-session/'+url.split('/')[3];
-														   document.location.href = str;">
-			<span class="glyphicon glyphicon-floppy-disk"></span> Зберегти і вийти
-		</button>
-		{% endblock saveSessionBtn %}
+    {% block controls %}
+    <div class="nmkd-controls">
+    
+        {% block prevBtn %}
+        <button type="button" class="btn btn-default" onclick="document.location.href = '/';">
+            <span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+        </button>
+        {% endblock prevBtn %}
+    
+        {% block saveSessionBtn %}
+        <!--<button type="button" class="btn btn-default" onclick="var url = document.location.href;
+                                                           url = url.replace('-','_');
+                                                           var str = '/save-session/'+url.split('/')[3];
+                                                           document.location.href = str;">
+            <span class="glyphicon glyphicon-floppy-disk"></span> Зберегти і вийти
+        </button>-->
+        {% endblock saveSessionBtn %}
 
-		{% block uploadFileBtn %}
-		{% endblock uploadFileBtn %}
+        {% block uploadFileBtn %}
+        {% endblock uploadFileBtn %}
 
-		{% block nextBtn %}
-		<div class="nmkd-next-btn">
-			<button type="button" class="btn btn-success" onclick="$('#input_form').submit()">
-				<span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
-			</button>
-		</div>
-		{% endblock nextBtn %}
+        {% block nextBtn %}
+        <div class="nmkd-next-btn">
+            <button type="button" class="btn btn-success" onclick="$('#input_form').submit()">
+                <span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+            </button>
+        </div>
+        {% endblock nextBtn %}
 
-	</div>
-	{% endblock controls %}
+    </div>
+    {% endblock controls %}
 
 
 {% endblock main %}

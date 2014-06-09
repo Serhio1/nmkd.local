@@ -1,138 +1,146 @@
 <style>
-				table.row {
-					width: 100%;
-					margin-bottom: 0.15in;
-				}
+    .footer p,
+    .footer table tr td,
+    .developers p,
+    .redactors p,
+    .recomended p,
+    .header p {
+        font-size: 12pt;
+    }
+                table.row {
+                    width: 100%;
+                    margin-bottom: 0.15in;
+                }
 
-					table.row tr td.underline {
-						border-bottom: 1px solid #000;
-						text-align: center;
-						font-size: 12pt;
-						text-align: center;
-						padding-bottom: 0;
-					}
+                    table.row tr td.underline {
+                        border-bottom: 1px solid #000;
+                        text-align: center;
+                        font-size: 12pt;
+                        text-align: center;
+                        padding-bottom: 0;
+                    }
 
-					table.row tr td.text {
-						width: auto;
-						white-space: nowrap;
-						font-size: 12pt;
-						letter-spacing: 0.001in;
-						padding-bottom: -2px;
-					}
+                    table.row tr td.text {
+                        width: auto;
+                        white-space: nowrap;
+                        font-size: 12pt;
+                        letter-spacing: 0.001in;
+                        padding-bottom: -2px;
+                    }
 
-				.hint {
-					margin-top: -0.4in;
-					padding-top: 0;
-					font-size: 7pt;
-					text-align: center;
-				}
+                .hint {
+                    margin-top: -0.4in;
+                    padding-top: 0;
+                    font-size: 7pt;
+                    text-align: center;
+                }
 </style>
 <div class="page page8">
-	<div class="header">
-		<p>РОЗРОБЛЕНО ТА ВНЕСЕНО:</p>
-		<table class="row" style="margin: 0 40px">
-			<tr>
-				<td class="underline">Черкаським національним університет імені Богдана Хмельницького</td>
-			</tr>
-			<tr>
-				<td class="hint">(повне найменування вищого навчального закладу)</td>
-			</tr>
-		</table>
-	</div>
+    <div class="header">
+        <p>РОЗРОБЛЕНО ТА ВНЕСЕНО:</p>
+        <table class="row" style="margin: 0 40px">
+            <tr>
+                <td class="underline">Черкаським національним університет імені Богдана Хмельницького</td>
+            </tr>
+            <tr>
+                <td class="hint">(повне найменування вищого навчального закладу)</td>
+            </tr>
+        </table>
+    </div>
 
-	<div class="developers">
-		<p>РОЗРОБНИКИ ПРОГРАМИ:</p>
-		<table class="row" style="margin: 0 40px">
-			<tr>
-				<td class="underline">{{nmkd.developer}}</td>
-			</tr>
-			<tr>
-				<td class="hint">(ініціали, прізвище, науковий ступінь, учене звання, посада)</td>
-			</tr>
-		</table>
-		<table class="row" style="margin: 10px 40px">
-			<tr>
-				<td class="underline"></td>
-			</tr>
-		</table>
-		<table class="row" style="margin: 10px 40px">
-			<tr>
-				<td class="underline"></td>
-			</tr>
-		</table>
-	</div>
+    <div class="developers">
+        <p>РОЗРОБНИКИ ПРОГРАМИ:</p>
+        <table class="row" style="margin: 0 40px">
+            <tr>
+                <td class="underline">{{nmkd.developer}}</td>
+            </tr>
+            <tr>
+                <td class="hint">(ініціали, прізвище, науковий ступінь, учене звання, посада)</td>
+            </tr>
+        </table>
+        <table class="row" style="margin: 10px 40px">
+            <tr>
+                <td class="underline"></td>
+            </tr>
+        </table>
+        <table class="row" style="margin: 10px 40px">
+            <tr>
+                <td class="underline"></td>
+            </tr>
+        </table>
+    </div>
 
-	<div class="redactors">
-		<p>РЕЦЕНЗЕНТИ:</p>
-		<table class="row" style="margin: 0 40px">
-			<tr>
-				<td class="underline"></td>
-			</tr>
-			<tr>
-				<td class="hint">(ініціали, прізвище, науковий ступінь, учене звання, посада)</td>
-			</tr>
-		</table>
-		<table class="row" style="margin: 10px 40px">
-			<tr>
-				<td class="underline"></td>
-			</tr>
-		</table>
-		<table class="row" style="margin: 10px 40px">
-			<tr>
-				<td class="underline"></td>
-			</tr>
-		</table>
-	</div>
+    <div class="redactors">
+        <p>РЕЦЕНЗЕНТИ:</p>
+        <table class="row" style="margin: 0 40px">
+            <tr>
+                <td class="underline"></td>
+            </tr>
+            <tr>
+                <td class="hint">(ініціали, прізвище, науковий ступінь, учене звання, посада)</td>
+            </tr>
+        </table>
+        <table class="row" style="margin: 10px 40px">
+            <tr>
+                <td class="underline"></td>
+            </tr>
+        </table>
+        <table class="row" style="margin: 10px 40px">
+            <tr>
+                <td class="underline"></td>
+            </tr>
+        </table>
+    </div>
 
-	<div class="recomended">
-		<p>Обговорено та рекомендовано до затвердження Вченою радою інституту / факультету</p>
-		<table class="row" style="margin: 0 40px">
-			<tr>
-				<td class="underline"></td>
-			</tr>
-			<tr>
-				<td class="hint">(назва інституту / факультету)</td>
-			</tr>
-		</table>
-		<table class="row" style="margin: 0 40px">
-			<tr>
-				<td>"</td>
-				<td class="underline"></td>
-				<td>" </td>
-				<td class="underline"></td>
-				<td>20</td>
-				<td class="underline"></td>
-				<td>року, протокол №</td>
-				<td class="underline"></td>
-			</tr>
-		</table>
-	</div>
+    <div class="recomended">
+        <p>Обговорено та рекомендовано до затвердження Вченою радою інституту / факультету</p>
+        <table class="row" style="margin: 0 40px">
+            <tr>
+                <td class="underline"></td>
+            </tr>
+            <tr>
+                <td class="hint">(назва інституту / факультету)</td>
+            </tr>
+        </table>
+        <table class="row" style="margin: 0 40px">
+            <tr>
+                <td class="text">"</td>
+                <td class="underline"></td>
+                <td class="text">" </td>
+                <td class="underline"></td>
+                <td class="text">20</td>
+                <td class="underline"></td>
+                <td class="text">року, протокол №</td>
+                <td class="underline"></td>
+            </tr>
+        </table>
+    </div>
 
-	<div class="approved">
-		<p>Затверджено Вченою радою Черкаського національного університету імені Богдана Хмельницького</p>
-		<table class="row" style="margin: 0 40px">
-			<tr>
-				<td>"</td>
-				<td class="underline"></td>
-				<td>" </td>
-				<td class="underline"></td>
-				<td>20</td>
-				<td class="underline"></td>
-				<td>, протокол №</td>
-				<td class="underline"></td>
-			</tr>
-		</table>
-	</div>
+    <div class="approved">
+        <p>Затверджено Вченою радою Черкаського національного університету імені Богдана Хмельницького</p>
+        <table class="row" style="margin: 0 40px">
+            <tr>
+                <td class="text">"</td>
+                <td class="underline"></td>
+                <td class="text">" </td>
+                <td class="underline"></td>
+                <td class="text">20</td>
+                <td class="underline"></td>
+                <td class="text">, протокол №</td>
+                <td class="underline"></td>
+            </tr>
+        </table>
+    </div>
 
-	<div class="footer">
-		<p class="bbk">ББК</p>
-		<p class="udk">УДК</p>
-		<table>
-			<tr>
-				<td class="isbn">ISBN</td>
-				<td class="copyright">© ЧНУ, 20____.</td>
-			</tr>
-		</table>
-	</div>
-	
+    <div class="footer">
+        <p class="bbk">ББК</p>
+        <p class="udk">УДК</p>
+        <table>
+            <tr>
+                <td class="isbn">ISBN</td>
+                <td class="copyright">© ЧНУ, 20____.</td>
+            </tr>
+        </table>
+    </div>
+    
 </div>

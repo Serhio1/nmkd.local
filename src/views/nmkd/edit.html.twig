@@ -1,126 +1,140 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Edit Pdf</title>
-		<meta charset="utf-8">
-		<style>
-	.nmkd-edit {
-		/*height: 297mm;*/
-		height: auto;
-		width: 210mm;
-		page-break-before: auto;
-		border: 1px solid #eee;
-		box-shadow: 0 0 10px rgba(0,0,0,0.5);
-		margin: 30px 5px;
-		padding: 20mm 15mm 20mm 25mm;
-	}
+    <head>
+        <title>Edit Pdf</title>
+        <meta charset="utf-8">
+        <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .nmkd-edit {
+        height: auto;
+        width: 210mm;
+        page-break-before: auto;
+        border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        margin: 30px 5px;
+        padding: 20mm 15mm 20mm 25mm;
+    }
 
-	.nmkd-edit .autopagination,
-	.nmkd-edit .page {
-		width: 210mm;
-		page-break-before: auto;
-	}
-	
-	.nmkd-edit .page {
-		height: 297mm;
-	}
-	
-	.nmkd-edit .autopagination {
-		min-height: 297mm;
-	}
+    .nmkd-edit .autopagination,
+    .nmkd-edit .page {
+        width: 210mm;
+        page-break-before: auto;
+    }
+    
+    .nmkd-edit .page {
+        height: 297mm;
+    }
+    
+    .nmkd-edit .autopagination {
+        min-height: 297mm;
+    }
 
-	.hidden {
-		display: none;
-	}
-	
-	aside {
-		display:table-cell;
-		padding-left: 20px;
-		padding-top: 20px;
-	}
-		.main-menu {
-			list-style-type: none;
-			width: 100%;
-			
-		}
-			.main-menu li:first-child{
-				border: 1px solid #ccc;
-				background-color: #F5F5F5;
-				border-top-left-radius: 5px;
-				border-top-right-radius: 5px;
-			}
-			
-			.main-menu li{
-				border-bottom: 1px solid #ccc;
-				border-left: 1px solid #ccc;
-				border-right: 1px solid #ccc;
-				padding: 2px 5px;
-			}
-	main {
-		display:table-cell;
-	}
-		main .page-menu {
-			background-color: #EBF8FF;
-			padding: 5px;
-			width: 80%;
-			margin: 0 auto -30px auto;
-		}
-		
+    .hidden {
+        display: none;
+    }
+
+    header {
+        border: 1px solid #000;
+        padding: 0 5px;
+        margin: 0 0 20px 0;
+        border-left: none;
+        border-right: none;
+    }
+        nav.main-menu {
+            padding: 5px 5px 8px 8px;
+            border: 1px solid #000;
+        }
+    
+    aside {
+        display:table-cell;
+        padding-left: 20px;
+        padding-top: 30px;
+        position: fixed;
+    }
+        
+    main {
+        display:table-cell;
+    }
+        main .page-menu {
+            background-color: #EBF8FF;
+            padding: 5px;
+            width: 80%;
+            margin: 0 auto -30px auto;
+        }
+            main .page-menu .page-num {
+                float: right;
+                padding: 0 7px;
+                background-color: #fff;
+                border: 1px solid #def1fc;
+            }
+        
 </style>
-	</head>
-	<body>
-		<div style="display:table-cell;width:100%">
-			<div style="display:table-row">
-				<main>
-					{% set i=1 %}
-					{% for template in templates %}
-					<div class="page-menu">
-						<input type="checkbox" id="tpl_{{i}}" checked> Відмітити для друку
-					</div>
-					<div class="nmkd-edit" id="text_{{i}}" contenteditable="true">
-						{% include template %}
-					</div>
-					{% set i=i+1 %}
-					{% endfor %}
-				</main>
-				<aside>
-					<ul class="main-menu">
-						<li>Меню</li>
-						<li><a href="/">Головна</a></li>
-					</ul>
+    </head>
+    <body>
+        <header>
+            <nav class="main-menu" style="display:table-cell;">
+                <div style="display:table-row">
+                    <a class="nav-btn" href="/">Головна</a>
+                </div>
+            </nav>
+        </header>
+        <div style="display:table-cell;width:100%">
+            <div style="display:table-row">
+                <main>
+                    {% set i=1 %}
+                    {% for template in templates %}
+                    <div class="page-menu">
+                        <input type="checkbox" id="tpl_{{i}}" checked> Відмітити для друку
+                        <span class="page-num">{{i}}</span>
+                    </div>
+                    <div class="nmkd-edit" id="text_{{i}}" contenteditable="true">
+                        {% include template %}
+                    </div>
+                    {% set i=i+1 %}
+                    {% endfor %}
+                </main>
+                <aside>
+                    <select id="check-doc" onchange="checkDoc()">
+                        <option value="#">Оберіть документ</option>
+                        <option value="/nmkd/edit/np">Навчальна програма</option>
+                        <option value="/nmkd/edit/rp">Робочий план</option>
+                        <option value="/nmkd/edit/doc">Методичні рекомендації</option>
+                    </select>
+                    
 
-					<ul>
-						<li>Оберіть документ</li>
-						<li><a href="/nmkd/edit/np">Навчальна програма</a></li>
-						<li><a href="/nmkd/edit/rp">Робочий план</a></li>
-						<li><a href="/nmkd/edit/doc">Методичні рекомендації</a></li>
-					</ul>
+                    <form method="POST" action="/nmkd/download-pdffromstr">
+                        <textarea id="content" class="hidden" name="content"></textarea>
+                        <button id="download">Скачати Pdf</button>
+                    </form>
+                </aside>
+            </div>
+        </div>
 
-					
-
-					<form method="POST" action="/nmkd/download-pdffromstr">
-						<textarea id="content" class="hidden" name="content"></textarea>
-						<button id="download">Скачати Pdf</button>
-					</form>
-				</aside>
-			</div>
-		</div>
-
-		<script src="/src/views/js/jquery-1.9.1.js"></script>
-		<script>
-			$('body').on('click', '#download', function(){
-				$('#content').val('');
-				$('main .nmkd-edit').each(function(i, elem){
-					num = $(elem).attr('id').split('_')[1];
-					var content = $('#text_'+num).html();
-					if ($('#tpl_'+num).prop('checked')===true) {
-						if (!($('#content').val().indexOf(content)+1)) {
-							$('#content').val($('#content').val()+content);
-						}
-					}
-				});
-			});
-		</script>
-		
-	</body>
+        <script src="/src/views/js/jquery-1.9.1.js"></script>
+        <script>
+            function checkDoc() {
+                location.href = document.getElementById('check-doc')
+                                .options[document.getElementById('check-doc')
+                                .selectedIndex].value;
+            }
+        </script>
+        <script>
+            $('body').on('click', '#download', function(){
+                $('#content').val('');
+                $('main .nmkd-edit').each(function(i, elem){
+                    num = $(elem).attr('id').split('_')[1];
+                    var content = $('#text_'+num).html();
+                    if ($('#tpl_'+num).prop('checked')===true) {
+                        if (!($('#content').val().indexOf(content)+1)) {
+                            $('#content').val($('#content').val()+content);
+                        }
+                    }
+                });
+            });
+        </script>
+        
+    </body>
 </html>

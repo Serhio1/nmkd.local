@@ -41,26 +41,26 @@ class Model
 
     protected function getAllRecords($table)
     {
-		$table = str_replace(" ","",$table);
-		$query = self::$db->prepare("SELECT *
+        $table = str_replace(" ","",$table);
+        $query = self::$db->prepare("SELECT *
                                      FROM ".$table);
         self::$db->beginTransaction();
             $query->execute();
         self::$db->commit();
         
         return $query->fetchAll(PDO::FETCH_ASSOC);
-	}
+    }
 
-	protected function selectIn($table, $coloumn, $array)
-	{
-		$qMarks = str_repeat('?,', count($array)-1).'?';
-		
-		self::$db->beginTransaction();
-			$selectQuery = self::$db->prepare("SELECT * FROM $table WHERE $coloumn IN ($qMarks)");
-			$selectQuery->execute($array);
-		self::$db->commit();
+    protected function selectIn($table, $coloumn, $array)
+    {
+        $qMarks = str_repeat('?,', count($array)-1).'?';
+        
+        self::$db->beginTransaction();
+            $selectQuery = self::$db->prepare("SELECT * FROM $table WHERE $coloumn IN ($qMarks)");
+            $selectQuery->execute($array);
+        self::$db->commit();
 
-		return $selectQuery->fetchAll(PDO::FETCH_ASSOC);
-	}
+        return $selectQuery->fetchAll(PDO::FETCH_ASSOC);
+    }
     
 }

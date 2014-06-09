@@ -1,58 +1,58 @@
 {% extends 'nmkd/baseNmkd.html.twig' %}
 
 {% block hintText %}
-	<p class="bg-info">Натисніть на питання, щоб помітити його як тематичне.</p>
+    <p class="bg-info">Натисніть на питання, щоб помітити його як тематичне.</p>
 {% endblock hintText %}
 
 {% block errors %}
-	{% for error in errors %}
-		<div class="alert alert-danger">
-			{{error}}
-		</div>
-	{% endfor %}
+    {% for error in errors %}
+        <div class="alert alert-danger">
+            {{error}}
+        </div>
+    {% endfor %}
 {% endblock errors %}
 
 {% block mainForm %}
 
 <style>
 .search-hide {
-	display: none;
+    display: none;
 }
 </style>
 
 <form id="set_themes_form" method="POST" action="set-modules">
-	<div id="tableDiv_Arrays" class="tableDiv">
+    <div id="tableDiv_Arrays" class="tableDiv">
 
-	<table class="table set-themes-table-top" style="table-layout:fixed">
+    <table class="table set-themes-table-top" style="table-layout:fixed">
         <thead>
             <tr>
-				<th>Тематичні питання
-					&nbsp;<input type="text" placeholder="Пошук" style="height:20px; font-weight:normal;" class="form-control search-input" id="search-field"/>
-				</th>
+                <th>Тематичні питання
+                    &nbsp;<input type="text" placeholder="Пошук" style="height:20px; text-aligh: left center; font-weight:normal;" class="form-control search-input" id="search-field"/>
+                </th>
             </tr>
         </thead>
-	</table>
-	<div id="set-types-table-wrapper" style="overflow-y:auto; max-height:450px;">
-		<table class="set_themes_table table table-bordered" id="hidechecked">
-			<thead>
-				<tr>
-					<th><span class="sorticon">&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for key,question in questions %}
-				<tr>
-					<td class="check_theme">
-						<input class="hide" type="checkbox" name="{{ key }}">{{ question }}
-						<input class="hide" type="checkbox" name="themes">
-					</td>
-				</tr>
-			{% endfor %}
-			</tbody>
-		</table>
-	</div>
-	
-	</div>
+    </table>
+    <div id="set-types-table-wrapper" style="overflow-y:auto; max-height:450px;">
+        <table class="set_themes_table table table-bordered" id="hidechecked">
+            <thead>
+                <tr>
+                    <th><span class="sorticon">&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key,question in questions %}
+                <tr>
+                    <td class="check_theme">
+                        {{ question }}<input class="hide" type="checkbox" name="{{ key }}">
+                        <input class="hide" type="checkbox" name="themes">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    </div>
 </form>
 
 
@@ -63,7 +63,7 @@
 
 <script>
 $(function(){
-	$('#hidechecked').tablesorter();
+    $('#hidechecked').tablesorter();
 });
 </script>
 
@@ -74,19 +74,19 @@ var text = $myInput.val();
 var timeout;
 
 $myInput.keyup(function(e){
-	var value = $(this).val();
-	var url;
-	if (value != text) {
+    var value = $(this).val();
+    var url;
+    if (value != text) {
 
-		text = value;
-		if(timeout) { clearTimeout(timeout); }
-		timeout = setTimeout(function() {
+        text = value;
+        if(timeout) { clearTimeout(timeout); }
+        timeout = setTimeout(function() {
 
-			$('#hidechecked td').addClass('search-hide');
-			$('#hidechecked td:contains("'+text+'")').removeClass('search-hide');
-			if (text==='') {
-				$('#hidechecked td').removeClass('search-hide');
-			}
+            $('#hidechecked td').addClass('search-hide');
+            $('#hidechecked td:contains("'+text+'")').removeClass('search-hide');
+            if (text==='') {
+                $('#hidechecked td').removeClass('search-hide');
+            }
 
     },500);
   }
@@ -100,21 +100,21 @@ $myInput.keyup(function(e){
 //highlighting of clicked elements
 $("#hidechecked").on("click","td.check_theme",function(){
 
-	  var bgColor = '#DFF0D8';
-	  var imageUrl = 'src/views/img/green-tick.png';
-	
+      var bgColor = '#DFF0D8';
+      var imageUrl = 'src/views/img/green-tick.png';
+    
       var checker = $(this).find('input');
       if (checker.is(':checked')) {
-		  checker.prop('checked', '');
-		  $(this).parent().css('background-color','');
-		  $(this).parent().find('.num_theme').css('background-repeat', '');
-		  $(this).parent().find('.num_theme').css('background-position', '');
-	  } else {
-		  checker.prop('checked', 'true');
-		  $(this).parent().css('background-color',bgColor);
-		  $(this).parent().find('.num_theme').css('background-repeat', 'no-repeat');
-		  $(this).parent().find('.num_theme').css('background-position', 'right center');
-	  }
+          checker.prop('checked', '');
+          $(this).parent().css('background-color','');
+          $(this).parent().find('.num_theme').css('background-repeat', '');
+          $(this).parent().find('.num_theme').css('background-position', '');
+      } else {
+          checker.prop('checked', 'true');
+          $(this).parent().css('background-color',bgColor);
+          $(this).parent().find('.num_theme').css('background-repeat', 'no-repeat');
+          $(this).parent().find('.num_theme').css('background-position', 'right center');
+      }
 });
 
 //disable selection in table
@@ -147,16 +147,16 @@ $(document).ready(function(){
 
 {% block prevBtn %}
 <button type="button" class="btn btn-default" onclick="document.location.href = '/input';">
-	<span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+    <span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
 </button>
 {% endblock prevBtn %}
 
 
 
 {% block nextBtn %}
-	<div class="nmkd-next-btn">
-		<button type="button" class="btn btn-success" onclick="$('#set_themes_form').submit()">
-			<span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
-		</button>
-	</div>
+    <div class="nmkd-next-btn">
+        <button type="button" class="btn btn-success" onclick="$('#set_themes_form').submit()">
+            <span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+        </button>
+    </div>
 {% endblock nextBtn %}
