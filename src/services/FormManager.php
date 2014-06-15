@@ -33,7 +33,7 @@ class FormManager
         return false;
     }
 
-    private function validateForm($formAlias)
+    public function validateForm($formAlias)
     {       
         foreach ($this->formList[$formAlias] as $field => $rules) {
             foreach ($rules as $rule) {
@@ -49,6 +49,27 @@ class FormManager
         }
 
         return true;
+    }
+
+    public function getForm($formAlias)
+    {
+        foreach ($this->formList[$formAlias] as $field => $rules) {
+            if ($field == 'manual') {
+                foreach ($rules as $rule) {
+                    if (!$this->forms->$rule()) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+                
+            if (isset($_POST[$field])) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public function getFieldData($field)

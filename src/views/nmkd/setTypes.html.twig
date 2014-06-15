@@ -1,18 +1,9 @@
 {% extends 'nmkd/baseNmkd.html.twig' %}
 
-{% block hintText %}
-    <p class="bg-info">Оберіть типи питань.</p>
-{% endblock hintText %}
-
-{% block errors %}
-    {% for error in errors %}
-    <p class="alert alert-danger">{{error}}</p>
-    {% endfor %}
-{% endblock errors %}
 
 {% block mainForm %}
 <div>
-<form id="set-types-form" method="POST" action="questions-themes/lection">
+<form id="set-types-form" method="POST" action="">
     <table class="table set-types-table-top" style="table-layout:fixed">
         <thead>
             <tr>
@@ -20,12 +11,12 @@
                 <th style="width:500px;">Питання
                     &nbsp;<input type="text" placeholder="Пошук" style="height:20px; text-lign: ltft center; font-weight:normal;" class="form-control search-input" id="search-field"/>
                 </th>
-                <th><input type="checkbox" class="select-col" id="lect">&nbsp;Лекційне</th>
-                <th><input type="checkbox" class="select-col" id="pract">&nbsp;Практичне</th>
-                <th><input type="checkbox" class="select-col" id="sem">&nbsp;Семінарське</th>
-                <th><input type="checkbox" class="select-col" id="lab">&nbsp;Лабораторне</th>
-                <th><input type="checkbox" class="select-col" id="ind">&nbsp;Індивідуальне</th>
-                <th><input type="checkbox" class="select-col" id="self">&nbsp;Самостійне</th>
+                <th>&nbsp;Лекційне</th>
+                <th>&nbsp;Практичне</th>
+                <th>Семінарське</th>
+                <th>Лабораторне</th>
+                <th>Індивідуальне</th>
+                <th>&nbsp;Самостійне</th>
             </tr>
         </thead>
   </table>
@@ -34,46 +25,68 @@
         <thead>
             <tr>
                 <th style="width:25px;"></th>
-                <th style="width:500px;"><span class="sorticon">&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <th style="width:500px;"></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for key,question in questions %}
-            <tr>
-                <td style="width:25px;"><input type="checkbox" class="select-row"></td>
-                <td style="width:500px;">{{ question }}</td>
-                <td class="check_type lect">
-                    <input class="hide select" type="checkbox" name="lection{{ key }}">
-                    <input class="hide select" type="checkbox" name="type">
-                </td>
-                <td class="check_type pract">
-                    <input class="hide select" type="checkbox" name="practical{{ key }}">
-                    <input class="hide select" type="checkbox" name="type">
-                </td>
-                <td class="check_type sem">
-                    <input class="hide select" type="checkbox" name="seminary{{ key }}">
-                    <input class="hide select" type="checkbox" name="type">
-                </td>
-                <td class="check_type lab">
-                    <input class="hide select" type="checkbox" name="laboratory{{ key }}">
-                    <input class="hide select" type="checkbox" name="type">
-                </td>
-                <td class="check_type ind">
-                    <input class="hide select" type="checkbox" name="individual{{ key }}">
-                    <input class="hide select" type="checkbox" name="type">
-                </td>
-                <td class="check_type self">
-                    <input class="hide select" type="checkbox" name="self{{ key }}">
-                    <input class="hide select" type="checkbox" name="type">
-                </td>
-            </tr>
-            {% endfor %}
+			{% set m=0 %}
+			{% set t=0 %}
+
+			{% for hKey,type in hierarchy %}
+				{% for key,question in questions %}
+					{% if key==hKey %}
+						{% if type=='module' %}
+							{% set m=m+1 %}
+							<tr>
+								<td colspan="8" class="module">Змістовий модуль {{m}} {{question}}</td>
+							</tr>
+							{% set t=0 %}
+						{% endif %}
+						{% if type=='theme' %}
+							{% set t=t+1 %}
+							<tr>
+								<td colspan="2" class="theme">Тематичне запитання {{t}} {{question}}</td>
+								<td><input type="checkbox" class="select-col" id="lect{{m}}{{t}}"></td>
+								<td><input type="checkbox" class="select-col" id="pract{{m}}{{t}}"></td>
+								<td><input type="checkbox" class="select-col" id="sem{{m}}{{t}}"></td>
+								<td><input type="checkbox" class="select-col" id="lab{{m}}{{t}}"></td>
+								<td><input type="checkbox" class="select-col" id="ind{{m}}{{t}}"></td>
+								<td><input type="checkbox" class="select-col" id="self{{m}}{{t}}"></td>
+							</tr>
+						{% endif %}
+						{% if type=='question' %}
+							<tr>
+								<td style="width:25px;"><input type="checkbox" class="select-row"></td>
+								<td style="width:500px;">{{ question }}</td>
+								<td class="check_type lect{{m}}{{t}}">
+									<input class="hide select" type="checkbox" name="lection_{{ key }}">
+								</td>
+								<td class="check_type pract{{m}}{{t}}">
+									<input class="hide select" type="checkbox" name="practical_{{ key }}">
+								</td>
+								<td class="check_type sem{{m}}{{t}}">
+									<input class="hide select" type="checkbox" name="seminary_{{ key }}">
+								</td>
+								<td class="check_type lab{{m}}{{t}}">
+									<input class="hide select" type="checkbox" name="laboratory_{{ key }}">
+								</td>
+								<td class="check_type ind{{m}}{{t}}">
+									<input class="hide select" type="checkbox" name="individual_{{ key }}">
+								</td>
+								<td class="check_type self{{m}}{{t}}">
+									<input class="hide select" type="checkbox" name="self_{{ key }}">
+								</td>
+							</tr>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
         </tbody>
     </table>
  </div>
@@ -127,11 +140,11 @@ $myInput.keyup(function(e){
 
 <script>
 // select col
-$('.set-types-table-top').on('click', '.select-col', function(){
+$('.set-types-table').on('click', '.select-col', function(){
     col = $(this).attr('id');
     checkers = $('td.'+col+' .select','.set-types-table');
     var bgColor = '#DFF0D8';
-    var imageUrl = 'src/views/img/green-tick.png';
+    var imageUrl = '/src/views/img/green-tick.png';
     
     if ($(this).prop('checked')==true) {
         $(checkers).each(function(i, elem){
@@ -167,7 +180,7 @@ $('.set-types-table-top').on('click', '.select-col', function(){
 $('.set-types-table').on('click', '.select-row', function(){
     row = $(this).parent().parent();
     var bgColor = '#DFF0D8';
-    var imageUrl = 'src/views/img/green-tick.png';
+    var imageUrl = '/src/views/img/green-tick.png';
       
     if ($(this).prop('checked')==true) {
         $('.select',row).prop('checked','true');
@@ -189,12 +202,8 @@ $('.set-types-table').on('click', '.select-row', function(){
 <script>
 //highlighting of clicked elements
 $("#hidechecked").on("click","td.check_type",function(){
-
       var bgColor = '#DFF0D8';
-      var imageUrl = 'src/views/img/green-tick.png';
-
-
-    
+      var imageUrl = '/src/views/img/green-tick.png';
       var checker = $(this).find('input');
       if (checker.is(':checked')) {
           checker.prop('checked', '');
@@ -238,22 +247,16 @@ $(document).ready(function(){
 }); 
 
 </script>
+
+<script>
+$('body').on('click','#nextBtn',function(){
+	$('#set-types-form').submit();
+});
+$('body').on('click','#prevBtn',function(){
+	window.location.replace('/nmkd/set-hierarchy')
+});
+</script>
 <!------------------------------/Scripts--------------------------------->
 
 {% endblock mainForm %}
-
-
-{% block prevBtn %}
-    <button type="button" class="btn btn-default" onclick="document.location.href = '/set-themes';">
-        <span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
-    </button>
-{% endblock prevBtn %}
-
-{% block nextBtn %}
-    <div class="nmkd-next-btn">
-        <button type="button" class="btn btn-success" onclick="$('#set-types-form').submit()">
-            <span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
-        </button>
-    </div>
-{% endblock nextBtn %}
 

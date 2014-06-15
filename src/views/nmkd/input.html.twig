@@ -1,40 +1,62 @@
 {% extends 'nmkd/baseNmkd.html.twig' %}
 
-
-
-{% block hintText %}
-    <p class="bg-info">Введіть або скопіюйте список питань в поле. Кожне питання має починатись з нового рядка.</p>
-{% endblock hintText %}
-
-{% block errors %}
-    {% for error in errors %}
-        <div class="alert alert-danger">
-            {{error}}
-        </div>
-    {% endfor %}
-{% endblock errors %}
-
 {% block mainForm %}
-<form id="input_form" method="POST" action="set-themes">
+<form id="inputForm" method="POST" action="">
     <ul class = "unmarked">
         <li class="input-menu"><span class="glyphicon glyphicon-remove" onclick="$('#q_input').html('');"></span></li>
-        <li><textarea name="questions" class="form-control" id="q_input"></textarea></li>
+        <li><textarea name="questions" class="form-control" id="q_input">{% for question in questions %}{{question}}
+{% endfor %}</textarea></li>
     </ul>
 </form>
+
+<script>
+$('body').on('click','#nextBtn',function(){
+    str = $('#q_input').val();
+    $.post( window.location, { ajaxQuestions: str })
+    .done(function( data ) {
+        $('#inputForm').submit();
+    });
+});
+$('body').on('click','#prevBtn',function(){
+    window.location.replace('/')
+});
+</script>
+
+<script>
+function save() {
+    str = $('#q_input').val();
+    var success = false;
+    //alert(str);
+    $.post( window.location, { ajaxQuestions: str })
+    .done(function( data ) {
+        //alert( "Data Loaded: " + data );
+        $('body').append(data);
+        success = true;
+    });
+
+    return success;
+    
+};
+
+
+$(function(){
+    setInterval(function() { save() }, 10000);
+});
+</script>
 {% endblock mainForm %}
 
 {% block uploadFileBtn %}
-<form enctype="multipart/form-data" action="/questions-upload" method="post" style="display:inline-block">
+<form id="input-form" enctype="multipart/form-data" action="/questions-upload" method="post" style="display:inline-block">
     <div class="btn btn-default" id="upload" style="width:185px; padding:6px 10px; ">
         <span class="glyphicon glyphicon-open" onclick="$('#upload-choose').click();"></span> <span onclick="$('#upload-choose').click();">Завантажити з файлу</span>
         <input name="file" type="file" multiple id="upload-choose" style="display:none; padding:0; margin:0; width: auto; -moz-opacity: 0; filter: alpha(opacity=0); opacity: 0;"/>
     </div>
-
 </form>
 
 
-<script>
 
+
+<script>
 $('body').on('change', '#upload-choose', function(e){
         e.preventDefault();
         var formData = new FormData($(this).parents('form')[0]);
@@ -66,7 +88,6 @@ $('body').on('change', '#upload-choose', function(e){
         
         return false;
 });
-
 </script>
 
 {% endblock uploadFileBtn %}

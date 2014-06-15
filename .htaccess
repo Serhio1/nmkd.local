@@ -4,3 +4,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # если нет — отдаём всё index.php
 RewriteRule . index.php
+
+
+php_value session.cookie_lifetime 0
+php_value session.gc_maxlifetime 7200

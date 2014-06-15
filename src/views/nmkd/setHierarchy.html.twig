@@ -1,0 +1,477 @@
+{% extends 'nmkd/baseNmkd.html.twig' %}
+
+{% block mainForm %}
+  <script src="/src/views/js/jquery-1.9.1.js"></script>
+  <script src="/src/views/js/jquery-ui-1.10.4.js"></script>
+  <!--<script src="/src/views/js/jquery-sortable.js"></script>-->
+  <!--<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
+
+
+<form method="POST" action="" id="questions-hierarchy-form">
+	<input type="text" class="hide" id="questions-hierarchy" name="questions_hierarchy">
+  </form>
+  
+  <div class="tools">
+      <ul class="unmarked">
+        <li class="module marker"><img src="/src/views/img/marker_yellow.png" /></li>
+        <li class="theme marker"><img src="/src/views/img/marker_green_shut.png" /></li>
+        <li class="question marker"><img src="/src/views/img/marker_gray_shut.png" /></li>
+        <li class="search"><span class="glyphicon glyphicon-search"></span></li>
+      </ul>
+  </div>
+  <input id="hierarchySearch" placeholder="Пошук" class="form-control">
+  
+  <div class="wrapper">
+    <ul id="hierarchyList" class="column unmarked">
+
+	{% if hierarchy|length %}
+
+		{% for hKey,type in hierarchy %}
+			{% for key,question in questions %}
+				{% if key==hKey %}
+				<li class="portlet">
+					<div class="portlet-header"><span class="text-header">Запитання</span></div>
+					<div  id="{{ key }}" class="portlet-content {{type}}">{{ question }}</div>
+				</li>
+				{% endif %}
+			{% endfor %}
+		{% endfor %}
+
+	{% else %}
+		{% for key,question in questions %}
+		<li class="portlet">
+			<div class="portlet-header"><span class="text-header">Запитання</span></div>
+			<div  id="{{ key }}" class="portlet-content question">{{ question }}</div>
+		</li>
+		{% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  
+
+
+
+<script>
+$('.tools').on('click','li.search',function(){
+	if ($('#hierarchySearch').css('display')==='none') {
+		$('#hierarchySearch').css('top',$('.tools li.search').position().top+92);
+		$('#hierarchySearch').css('left',$('.tools').position().left-139);
+		$('#hierarchySearch').css('display','block');
+		$('#hierarchySearch').focus();
+	} else {
+		$('#hierarchySearch').css('display','none');
+	}
+	
+	//$('#hierarchySearch').toggle();
+	 /*   top: 90px;
+	left: 100%;*/
+});
+</script>
+
+
+<script>
+  $(function() {
+    $( ".column" ).sortable({
+      connectWith: ".column",
+      handle: ".portlet-header",
+      cancel: ".portlet-toggle",
+      placeholder: "portlet-placeholder ui-corner-all"
+    });
+ 
+    $( ".portlet" )
+      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+      .find( ".portlet-header" )
+        .addClass( "ui-widget-header ui-corner-all" )
+        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+ 
+    $( ".portlet-toggle" ).click(function() {
+      var icon = $( this );
+      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+      var portletContent = icon.closest( ".portlet" ).find( ".portlet-content" );
+      var portlet = icon.closest(".portlet");
+      var end;
+      var stop = false;
+      var start;
+      if ($(portletContent).hasClass('module')) {
+		  $('#hierarchyList li').each(function(i, elem){
+			if ($('.portlet-content', portlet).hasClass('module')) {
+				if ($('.portlet-content', portlet).attr('id') === $('.portlet-content', elem).attr('id')) {
+					start = i;
+				}
+				if (!stop) {
+					if (i>start) {
+						
+						if ($('.portlet-content', elem).hasClass('module')) {
+							end = i;
+							stop = true;
+						} else {
+							if (i === $('#hierarchyList li').length-1) {
+								end = i+1;
+							}
+						}
+					}
+				}
+			}
+		  });
+
+		  $('#hierarchyList li').each(function(i, elem){
+			if (i>start && i<end) {
+				if ($('.portlet-content', elem).hasClass('theme')) {
+					if ($('.ui-icon-minusthick',elem)) {
+						$('.ui-icon-minusthick',elem).click();
+						$(elem).slideToggle('fast');
+					}
+				}
+			}
+		  });
+	  }
+
+
+	  if ($(portletContent).hasClass('theme')) {
+		$('#hierarchyList li').each(function(i, elem){
+			if ($('.portlet-content', portlet).hasClass('theme')) {
+				if ($('.portlet-content', portlet).attr('id') === $('.portlet-content', elem).attr('id')) {
+					start = i;
+				}
+				if (!stop) {
+					if (i>start) {
+						
+						if ($('.portlet-content', elem).hasClass('theme')) {
+							end = i;
+							stop = true;
+						} else if ($('.portlet-content', elem).hasClass('module')) {
+							end = i;
+							stop = true;
+						} else {
+							if (i === $('#hierarchyList li').length-1) {
+								end = i+1;
+							}
+						}
+					}
+				}
+			}
+		  });
+
+		  $('#hierarchyList li').each(function(i, elem){
+			if (i>start && i<end) {
+				$(elem).slideToggle('fast');
+			}
+		  });
+	  }
+
+	  if ($(portletContent).hasClass('question')) {
+		$(portletContent).slideToggle('fast');
+	  }
+	  
+    });
+  });
+  </script>
+
+
+
+
+
+
+
+
+<script>
+    (function($){
+		var marker = 'module';
+        $('.tools').on('click','li.marker',function(){
+            marker = $(this).attr('class');
+            $('.tools li.module').html('<img src="/src/views/img/marker_yellow_shut.png" />');
+            $('.tools li.theme').html('<img src="/src/views/img/marker_green_shut.png" />');
+            $('.tools li.question').html('<img src="/src/views/img/marker_gray_shut.png" />');
+            if ($(this).hasClass('module')) {
+				$(this).html('<img src="/src/views/img/marker_yellow.png" />');
+			}
+            if ($(this).hasClass('theme')) {
+				$(this).html('<img src="/src/views/img/marker_green.png" />');
+			}
+			if ($(this).hasClass('question')) {
+				$(this).html('<img src="/src/views/img/marker_gray.png" />');
+			}
+        });
+        $('#hierarchyList').on('click','.portlet-content',function(){
+			if ($(this).hasClass(marker)) {
+				$(this).removeClass(marker);
+				$(this).addClass('question');
+			} else {
+				$(this).removeClass('module');
+				$(this).removeClass('theme');
+				$(this).removeClass('question');
+				$(this).addClass(marker);
+			}
+			var parent=$(this).parent();
+			if ($(this).hasClass('module')) {
+				parent.css('margin-left','0');
+				//$('.portlet-header', parent).css('background-color', '#FDE77F');
+				$('.portlet-header', parent).css('background-color', '#fff');
+				$('.portlet-header', parent).css('box-shadow', 'inset 250px 0 100px -10px rgba(253,225,106,.5)');
+			}
+			if ($(this).hasClass('theme')) {
+				parent.css('margin-left','30px');
+				//$('.portlet-header', parent).css('background-color', '#B3E07C');
+				$('.portlet-header', parent).css('background-color', '#fff');
+				$('.portlet-header', parent).css('box-shadow', 'inset 250px 0 100px -10px rgba(148,213,71,.5)');
+			}
+			if ($(this).hasClass('question')) {
+				parent.css('margin-left','60px');
+				$('.text-header', parent).html('Запитання ');
+				$('.portlet-header', parent).css('background-color', '#fff');
+				$('.portlet-header', parent).css('box-shadow', 'inset 250px 0 100px -10px rgba(183, 183, 183,.5)');
+			}
+
+			var timer = setInterval(function() { hierarchyCounter() }, 2500);
+
+			/*$(function(){
+				hierarchyCounter();
+			});
+			$('#hierarchyList').on('click',function(){
+				hierarchyCounter();
+			});*/
+
+
+			function hierarchyCounter() {
+				var modules=0;
+				var themes=0;
+				$('#hierarchyList li').each(function(i, elem){
+					if ($('.portlet-content', elem).hasClass('module')) {
+					modules++;
+					themes=0;
+						$('.text-header', elem).html('Змістовий модуль '+modules+'');
+					}
+					if ($('.portlet-content', elem).hasClass('theme')) {
+					themes++;
+						$('.text-header', elem).html('Тематичне запитання '+themes+'');
+					}
+				});
+			}
+		});
+    }(jQuery))
+</script>
+
+<script>
+//set init hierarchy structure
+$(function(){
+	var modules=0;
+	var themes=0;
+	$('#hierarchyList li .portlet-content').each(function(i, elem){
+		var parent=$(elem).parent();
+		if ($(elem).hasClass('module')) {
+			modules++;
+			themes=0;
+			parent.css('margin-left','0');
+			$('.text-header', parent).html('Змістовий модуль '+modules+'');
+			$('.portlet-header', parent).css('background-color', '#fff');
+			$('.portlet-header', parent).css('box-shadow', 'inset 250px 0 100px -10px rgba(253,225,106,.5)');
+		}
+		if ($(elem).hasClass('theme')) {
+			themes++;
+			parent.css('margin-left','30px');
+			$('.text-header', parent).html('Тематичне запитання '+themes+'');
+			$('.portlet-header', parent).css('background-color', '#fff');
+			$('.portlet-header', parent).css('box-shadow', 'inset 250px 0 100px -10px rgba(148,213,71,.5)');
+		}
+	})
+});
+</script>
+
+
+<script>
+//searching
+var $myInput = $('#hierarchySearch');
+var text = $myInput.val();
+var timeout;
+
+$myInput.keyup(function(e){
+    var value = $(this).val();
+    var url;
+    if (value != text) {
+
+        text = value;
+        if(timeout) { clearTimeout(timeout); }
+        timeout = setTimeout(function() {
+			$('#hierarchyList li').removeClass('search-shadow');
+			find = $('#hierarchyList li .portlet-content:contains("'+text+'")').parent();
+			find.addClass('search-shadow');
+			scrollToDiv($('#hierarchyList .search-shadow'),40);
+			
+
+            /*$('.set-types-table td').parent().addClass('search-hide');
+            $('.set-types-table td:contains("'+text+'")').parent().removeClass('search-hide');
+            if (text==='') {
+                $('.set-types-table td').parent().removeClass('search-hide');
+            }
+
+            $('.select-col','.set-types-table-top').prop('checked','');*/
+            
+
+    },500);
+  }
+});
+</script>
+
+<script>
+function scrollToDiv(element,navheight){
+    var offset = element.offset();
+    var offsetTop = offset.top;
+    var totalScroll = offsetTop-navheight;
+ 
+    $('body,html').animate({
+            scrollTop: totalScroll
+    }, 500);
+}
+</script>
+
+<script>
+        function getData()
+        {
+			var firstModule = true;
+			var firstTheme = true;
+			var firstQuestion = true;
+			var str = '';
+			var num = 0;
+			$('#hierarchyList li').each(function(i, elem){
+				if ($('.portlet-content', elem).hasClass('module')) {
+					firstTheme = true;
+					if (firstModule) {
+						str += '"'+$('.portlet-content', elem).attr('id')+'"'+':{';
+						firstModule = false;
+					} else {
+						str += '}},'+'"'+$('.portlet-content', elem).attr('id')+'"'+':{';
+					}
+				}
+				if ($('.portlet-content', elem).hasClass('theme')) {
+					firstQuestion = true;
+					num = 0;
+					if (firstTheme) {
+						str += '"'+$('.portlet-content', elem).attr('id')+'"'+':{';
+						firstTheme = false;
+					} else {
+						str += '},'+'"'+$('.portlet-content', elem).attr('id')+'"'+':{';
+					}
+				}
+				if ($('.portlet-content', elem).hasClass('question')) {
+					if (firstQuestion) {
+						str += '"'+num+'":'+$('.portlet-content', elem).attr('id');
+						firstQuestion = false;
+					} else {
+						str += ',"'+num+'":'+$('.portlet-content', elem).attr('id');
+					}
+					num++;
+				}
+			});
+			str += '}}';
+			str = '{'+str+'}';
+			$('#questions-hierarchy').val(str);
+			$('#questions-hierarchy-form').submit();
+		}
+</script>
+
+<script>
+$(document).ready(function(){
+    $('.container *').disableSelection(); 
+}); 
+</script>
+
+<script>
+var oldContainer
+$("ol.nested_with_switch").sortable({
+  group: 'nested',
+  afterMove: function (placeholder, container) {
+    if(oldContainer != container){
+      if(oldContainer)
+        oldContainer.el.removeClass("active")
+      container.el.addClass("active")
+      
+      oldContainer = container
+    }
+  },
+  onDrop: function (item, container, _super) {
+    container.el.removeClass("active")
+    _super(item)
+  }
+})
+</script>
+
+
+
+<script>
+function save(){
+	var str = '{';
+	$('#hierarchyList li .portlet-content').each(function(i, elem){
+		key = $(elem).attr('id');
+		if ($(elem).hasClass('module')) {
+			type = 'module';
+		}
+		if ($(elem).hasClass('theme')) {
+			type = 'theme';
+		}
+		if ($(elem).hasClass('question')) {
+			type = 'question';
+		}
+		str += '"'+key+'":'+'"'+type+'",';
+	});
+	str = str.slice(0,-1);
+
+	str+='}';
+	//alert(window.location);
+	$.post( window.location, { hierarchy: str })
+	.done(function( data ) {
+		//alert( "Data Loaded: " + data );
+	});
+};
+$(function(){
+	setInterval(function() { save() }, 10000);
+});
+
+function nextBtn() {
+		var str = '{';
+	$('#hierarchyList li .portlet-content').each(function(i, elem){
+		key = $(elem).attr('id');
+		if ($(elem).hasClass('module')) {
+			type = 'module';
+		}
+		if ($(elem).hasClass('theme')) {
+			type = 'theme';
+		}
+		if ($(elem).hasClass('question')) {
+			type = 'question';
+		}
+		str += '"'+key+'":'+'"'+type+'",';
+	});
+	str = str.slice(0,-1);
+
+	str+='}';
+	//alert(window.location);
+	$.post( window.location, { hierarchy: str })
+	.done(function( data ) {
+		$('#questions-hierarchy-form').submit();
+	});
+};
+
+function prevBtn() {
+	window.location = "/nmkd/input/{{discipline}}";
+}
+</script>
+{% endblock mainForm %}
+
+
+
+
+{% block prevBtn %}
+<button type="button" class="btn btn-default" onclick="prevBtn();">
+    <span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
+</button>
+{% endblock prevBtn %}
+
+
+
+{% block nextBtn %}
+    <div class="nmkd-next-btn">
+        <button type="button" class="btn btn-success" onclick="nextBtn();">
+            <span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
+        </button>
+    </div>
+{% endblock nextBtn %}

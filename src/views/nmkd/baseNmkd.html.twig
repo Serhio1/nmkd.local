@@ -4,17 +4,30 @@
 
     
     {% block hint %}
-        <div class="nmkd-hint">
+    {% for hint in hints %}
+    <div class="alert alert-info">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
         {% block hintText %}
+			{{hint}}
         {% endblock hintText %}
-        </div>
+    </div>
+    {% endfor %}
     {% endblock hint %}
 
     {% block errors %}
+    {% for error in errors %}
+        <div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+        
+    {% endfor %}
     {% endblock errors %}
 
     {% block mainForm %}
     {% endblock mainForm %}
+
+
 
     
     
@@ -23,7 +36,7 @@
     <div class="nmkd-controls">
     
         {% block prevBtn %}
-        <button type="button" class="btn btn-default" onclick="document.location.href = '/';">
+        <button type="button" id="prevBtn" class="btn btn-default">
             <span class="glyphicon glyphicon-circle-arrow-left"></span> Повернутись
         </button>
         {% endblock prevBtn %}
@@ -42,7 +55,7 @@
 
         {% block nextBtn %}
         <div class="nmkd-next-btn">
-            <button type="button" class="btn btn-success" onclick="$('#input_form').submit()">
+            <button type="button" id="nextBtn" class="btn btn-success">
                 <span class="glyphicon glyphicon-circle-arrow-right"></span> Далі
             </button>
         </div>

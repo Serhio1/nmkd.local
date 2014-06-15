@@ -2,34 +2,184 @@
 
 class NmkdController extends Controller
 {
-    public function indexAction()
+    public function inputAction($params)
     {
 //-------------------------------------------------------
         //unset($_SESSION);
         $model = $this->getModel('nmkd');
         $model->clearDb();
 //-------------------------------------------------------
-        Container::get('static_storage')->unsetAll();
+        //Container::get('static_storage')->unsetAll();
+        $this->storage()->set('discipline',$params[0]);
+        $questions = '';
+        $this->hints[] = $this->params()->getHint('q_input');
         
-        $errors = array();
-        if (isset($_POST['redirectData']['errors'])) {
-            $errors = $_POST['redirectData']['errors'];
+        if ($this->storage()->isSetted('questions')) {
+            $questions = $this->storage()->get('questions');
+        }
+        if ($this->storage()->isSetted('hierarchy')) {
+            $this->hints[] = $this->params()->getHint('modify_q_input');
+        }
+        if (isset($_POST['isAjax']) && isset($_POST['ajaxQuestions'])) {
+            if ($this->storage()->isSetted('hierarchy')) {
+                    $hierarchy = $this->storage()->get('hierarchy');
+                    $questionStr = $_POST['ajaxQuestions'];
+                    $questionArr = explode('<br />', nl2br($questionStr));
+                    $questionArr = array_map('trim',$questionArr);
+                    $questionArr = array_filter($questionArr);
+                    
+                    foreach ($questions as $key=>$question) {
+                        if (!isset($questionArr[$key])) {
+                            unset($hierarchy[$key]);
+                        }
+                        if (!isset($hierarchy[$key]) && isset($questionArr[$key])) {
+                            $hierarchy[$key] = 'question';
+                        }
+                    }
+                    //ksort($hierarchy);
+            }
+            
+            //$questionArr = array_values($questionArr);
+            //$hierarchy = array_values($hierarchy);
+
+            print_r($questionArr);
+            echo '<hr>';
+            print_r($hierarchy);
+            echo '<hr>';
+            echo '<hr>';
+
+            $this->storage()->set('questions', $questionArr);
+            $this->storage()->set('hierarchy', $hierarchy);
+        
+            return;
+        }
+        if ($this->getForm('nmkdInputForm')) {
+            if ($this->getFormData('nmkdInputForm')) {
+                //$questionStr = $this->getFormData('nmkdInputForm')['questions'];
+                //$this->saveQuestions($questionStr);
+                
+                $this->redirect('nmkd/set-hierarchy');
+            } else {
+                $this->errors = $this->outErrors();
+            }
         }
 
         return $this->render('nmkd/input.html.twig', array(
-            'errors' => $errors,
+            'questions' => $questions,
+            'hints' => $this->hints,
         ));
     }
 
-    
+    private function saveQuestions($questionStr)
+    {
+        $questionArr = explode('<br />', nl2br($questionStr));
+        $questionArr = array_map('trim',$questionArr);
+        $questionArr = array_values(array_filter($questionArr));
+
+        $this->storage()->set('questions', $questionArr);
+    }
+
+    public function setHierarchyAction()
+    {
+        $questions = $this->storage()->get('questions');
+        $hierarchy = array();
+        $this->hints[] = $this->params()->getHint('hierarchy');
+        
+// auto update hierarchy
+        if (isset($_POST['isAjax']) && isset($_POST['hierarchy'])) {
+            $this->storage()->set('hierarchy', (array)json_decode($_POST['hierarchy']));
+            return;
+        }
+// redirect, when nextBtn pressed
+        if ($this->getForm('questionsHierarchyForm')) {
+            $this->redirect('nmkd/set-types');
+            return;
+        }
+
+        if ($this->storage()->isSetted('hierarchy')) {
+            $hierarchy = $this->storage()->get('hierarchy');
+        }
+
+        return $this->render('nmkd/setHierarchy.html.twig', array(
+            'questions' => $questions,
+            'hierarchy' => $hierarchy,
+            'hints'=>$this->hints,
+            'discipline' => $this->storage()->get('discipline'),
+        ));
+    }
+
+    public function setTypesAction()
+    {
+        $questions = $this->storage()->get('questions');
+        $hierarchy = $this->storage()->get('hierarchy');
+        $this->hints[] = $this->params()->getHint('types');
+
+        if ($this->getForm('typesForm')) {
+            $types = $this->params()->types;
+            $typesQuestions = array();
+            foreach ($types as $type) {
+                foreach ($_POST as $field=>$val) {
+                    if (substr_count($field, $type)) {
+                        $typesQuestions[explode('_',$field)[1]][] = explode('_',$field)[0];
+                        $formData = true;
+                    }
+                }
+            }
+            if ($formData) {
+                $this->storage()->set('typesQuestions',$typesQuestions);
+                $this->getModel('nmkd')->setAll();
+                $this->redirect('');
+            } else {
+                $this->addError('no_type_selected');
+                $this->errors = $this->outErrors();
+            }
+        }
+        /*$types = $this->params()->types;
+        $resArr = array();
+        foreach ($hierarchy as $module=>$themesQuestions) {
+            foreach ($themesQuestions as $theme => $questionsArr) {
+                foreach ($questionsArr as $question) {
+                    $resArr[$questions[$module]][$questions[$theme]][] = $questions[$question];
+                }
+            }
+        }
+        if ($this->getForm('typesForm')) {
+            foreach ($resArr as $module=>$themesQuestions) {
+                foreach ($themesQuestions as $theme=>$tQuestions) {
+                    foreach ($types as $type) {
+                        foreach ($_POST as $field => $val) {
+                            if (substr_count($field, $type) && $theme==explode('_',$field)[1]) {
+                                $typeArr[$module]
+                                        [explode('_',$field)[1]]
+                                        [$tQuestions[explode('_',$field)[2]]][] = $type;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $this->getModel('nmkd')->setAll($typeArr);
+        }*/
+
+        return $this->render('nmkd/setTypes.html.twig', array(
+            'questions' => $questions,
+            'hierarchy' => $hierarchy,
+            'hints'=>$this->hints,
+        ));
+    }
+
+
+
+
+
     public function setThemesAction()
     {
         $errors = array();
         if (isset($_POST['redirectData']['errors'])) {
             $errors = $_POST['redirectData']['errors'];
         }
-        
-        
+
+
         $questionArr = array();
         if (isset($_POST['questions']) && $_POST['questions']) {
             $questionStr = $_POST['questions'];
@@ -51,7 +201,7 @@ class NmkdController extends Controller
             'errors' => $errors,
         ));
     }
-    
+
     public function setModulesAction()
     {
         $errors = array();
@@ -59,7 +209,7 @@ class NmkdController extends Controller
             $errors = $_POST['redirectData']['errors'];
         }
 
-        
+
         $questions = $this->storage()->get('questions');
         if (isset($_POST['themes']) && $_POST['themes']=='on') {
             $themes = array();
@@ -82,14 +232,14 @@ class NmkdController extends Controller
         foreach (array_diff(array_keys($questions), $themes) as $key) {
             $resQuestions[$key] = $questions[$key];
         }
-        
+
 
         return $this->render('nmkd/setModules.html.twig', array(
             'questions' => $resQuestions,
             'errors' => $errors,
         ));
-        
-        
+
+
     }
 
     public function themesToModulesAction()
@@ -102,7 +252,7 @@ class NmkdController extends Controller
         $questions = $this->storage()->get('questions');
         $themes = $this->storage()->get('themes');
 
-        if (isset($_POST['module']) && $_POST['module']=='on') {        
+        if (isset($_POST['module']) && $_POST['module']=='on') {
             $modules = array();
             foreach($questions as $num=>$question){
                 if(isset($_POST[$num])) {
@@ -117,7 +267,7 @@ class NmkdController extends Controller
             foreach ($themes as $themeNum) {
                 $themeQuestions[$themeNum] = $questions[$themeNum];
             }
-            
+
         } elseif ($this->storage()->get('modules')) {
             $modules = $this->storage()->get('modules');
             foreach ($modules as $moduleNum) {
@@ -140,48 +290,11 @@ class NmkdController extends Controller
         ));
     }
 
-    
-    
-    public function setTypesAction()
-    {
-        $questions = $this->storage()->get('questions');
 
-        $errors = array();
-        if (isset($_POST['redirectData']['errors'])) {
-            $errors = $_POST['redirectData']['errors'];
-        }
 
-        
-        $questions = $this->storage()->get('questions');
-        $themes = $this->storage()->get('themes');
-        $modules = $this->storage()->get('modules');
-        
-        
 
-        $resQuestions=array();
-        $questionsKeys = array_diff(array_keys($questions), $modules);
-        foreach (array_diff($questionsKeys, $themes) as $key) {
-            $resQuestions[$key] = $questions[$key];
-        }
 
-        
-        if (isset($_POST['themes_modules']) && $_POST['themes_modules']) {
-            $this->storage()->set('themes_modules', $this->getTMArray($_POST['themes_modules']));
-        } else {
-            Container::get('errors')->addError('nmkd', 'no_tm_connected');
-            $this->redirect('themes-modules', array(
-                'errors' => Container::get('errors')->outErrors(),
-            ));
-        }
-        
-        
-        return $this->render('nmkd/setTypes.html.twig', array(
-            'questions' => $resQuestions,
-            'errors' => $errors
-        ));
-    }
-    
-    
+
     public function questionsToThemesAction($params)
     {
 
@@ -194,12 +307,12 @@ class NmkdController extends Controller
         }
         $questionList = $this->storage()->get('questions');
         $themesNums = $this->storage()->get('themes');
-        
+
         foreach ($themesNums as $num) {
             $themes[] = $questionList[$num];
         }
         $themes = $this->getValuesByKeys($themesNums, $questionList);
-        
+
         if ($currentType == $types[0]) {
             $this->setTypesToStorage($types);
         }
@@ -224,23 +337,23 @@ class NmkdController extends Controller
                 $prevType = $types[array_search($currentType, $types)-1];
             }
 
-            
-            
+
+
         // if there is no questions at this step -> redirect to next step
             if ($_POST['themes_questions'] == NULL) {
                 return $this->redirect('questions-themes/'.$currentType);
             }
-            
+
             $questionTheme = $this->getQTArray(
                                     $_POST['themes_questions'],
                                     $prevType);
-            
+
             $this->storage()->set($prevType.'_theme',$questionTheme);
         } else {
     // if first iteration
             /*if (!isset($_POST['type']) || $_POST['type'] == NULL) {
                 Container::get('errors')->addError('nmkd','no_q_selected');
-                
+
                 return $this->redirect('set-types',array(
                         'errors' => Container::get('errors')->outErrors()
                 ));
@@ -252,7 +365,7 @@ class NmkdController extends Controller
             $this->redirect('');
             return;
         }
-        
+
         return $this->render('nmkd/questionsThemes.html.twig', array(
             'questions' => $questions,
             'themes' => $themes,
@@ -260,7 +373,7 @@ class NmkdController extends Controller
             'currentType' => Container::get('params')->ukrTypes[$currentType],
         ));
     }
-    
+
     private function setTypesToStorage($types)
     {
         foreach ($types as $type) {
@@ -273,16 +386,16 @@ class NmkdController extends Controller
         }
         $this->storage()->set('types',$storageTypes);
     }
-    
+
     private function getValuesByKeys($keys = array(), $arr = array())
     {
         foreach ($keys as $key) {
             $result[] = $arr[$key];
         }
-        
+
         return $result;
     }
-    
+
     private function getQTArray($data, $type)
     {
         $types = $this->storage()->get('types');
@@ -344,10 +457,10 @@ class NmkdController extends Controller
     {
         $model = $this->getModel('nmkd');
         $step = str_replace('_','-',$requestParams[0]);
-        
+
         $model->saveSession($step, 1);
         Container::get('static_storage')->unsetAll();
-        
+
         return $this->redirect('');
     }
 
@@ -359,7 +472,7 @@ class NmkdController extends Controller
         $sessionData = $model->getSession($idDiscipline);
 
         $this->storage()->setAll($sessionData);
-        
+
         return $this->redirect($sessionData['step']);
     }
 
@@ -419,7 +532,7 @@ class NmkdController extends Controller
                 '/pdfTemplates/doc/dodatok5.html.twig',
             );
         }
-        
+
         $this->render('nmkd/edit.html.twig',array(
                 'nmkd' => $this->getModel('nmkdPdf')->getNmkdPdfData(1),
                 'templates' => $templates,
@@ -430,7 +543,7 @@ class NmkdController extends Controller
     {
         $pdf = Container::get('pdf');                                   //get pdf object
                                                                         //adding templates to out
-        
+
         $pdf->addPdfTemplate('pdfTemplates/test/np1.html.twig');
         $pdf->addPdfTemplate('pdfTemplates/test/np2.html.twig');
         $pdf->addPdfTemplate('pdfTemplates/test/np3.html.twig');
@@ -464,11 +577,11 @@ class NmkdController extends Controller
             $str = file_get_contents($_FILES['file']['tmp_name']);
             echo $str;
         }
-        
+
     }
 
 //--------------------------------------------------------
 
-        
-    
+
+
 }

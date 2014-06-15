@@ -1,17 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-<ul style="list-style-type: none">
-    <li><p><b>Алгоритмізація та програмування</b></p></li>
-    <li>
-        <ul>
-            <li><a href="/input">Сформувати НМКД</a></li>
-            <li><a href="/nmkd/edit">Переглянути НМКД</a></li>
-        </ul>
-    </li>
+
+
+
+<div class="page-header">
+  <h1>Вітаємо в АІАС НМКД! <small>Для початку роботи оберіть дисципліну</small></h1>
+</div>
+
+<ul id="menu" class="list-group" style="list-style-type:none">
+{% for row in disciplines %}
+    <li id="item{{row.id}}" class="list-group-item">{{row.name}}</li>
+    <a class="list-group-item submenu item{{row.id}}" href="/nmkd/input/{{row.id}}">
+        <span class="glyphicon glyphicon-cog"></span> &nbsp;&nbsp;&nbsp;&nbsp;Сформувати НМКД
+    </a>
+    <a class="list-group-item submenu item{{row.id}}" href="/nmkd/edit/{{row.id}}">
+        <span class="glyphicon glyphicon-eye-open"></span> &nbsp;&nbsp;&nbsp;&nbsp;Переглянути НМКД
+    </a>
+{% endfor %}
 </ul>
-<br>
-<br>
+
+<script>
+$(function(){$('#menu .submenu').css('display','none');});
+$('#menu').on('click','li',function(){
+    submenuClass = $(this).attr('id');
+    $('.'+submenuClass).slideToggle(300);
+    $(this).toggleClass('active');
+});
+</script>
+
+
 <!--<a href="/nmkd/download-pdf">Download</a><br>-->
 
 

@@ -1,6 +1,6 @@
-<!doctype html>
-<html>
-    <head>
+{% extends 'base.html.twig' %}
+
+{% block main %}
         <title>Edit Pdf</title>
         <meta charset="utf-8">
         <style>
@@ -20,7 +20,7 @@
 
     .nmkd-edit .autopagination,
     .nmkd-edit .page {
-        width: 210mm;
+        /*width: 210mm;*/
         page-break-before: auto;
     }
     
@@ -48,23 +48,23 @@
             border: 1px solid #000;
         }
     
-    aside {
+    .page-aside {
         display:table-cell;
         padding-left: 20px;
         padding-top: 30px;
         position: fixed;
     }
         
-    main {
+    .page-main {
         display:table-cell;
     }
-        main .page-menu {
+        .page-main .page-menu {
             background-color: #EBF8FF;
             padding: 5px;
             width: 80%;
             margin: 0 auto -30px auto;
         }
-            main .page-menu .page-num {
+            .page-main .page-menu .page-num {
                 float: right;
                 padding: 0 7px;
                 background-color: #fff;
@@ -72,31 +72,22 @@
             }
         
 </style>
-    </head>
-    <body>
-        <header>
-            <nav class="main-menu" style="display:table-cell;">
-                <div style="display:table-row">
-                    <a class="nav-btn" href="/">Головна</a>
-                </div>
-            </nav>
-        </header>
         <div style="display:table-cell;width:100%">
             <div style="display:table-row">
-                <main>
+                <div class="page-main">
                     {% set i=1 %}
                     {% for template in templates %}
                     <div class="page-menu">
                         <input type="checkbox" id="tpl_{{i}}" checked> Відмітити для друку
                         <span class="page-num">{{i}}</span>
                     </div>
-                    <div class="nmkd-edit" id="text_{{i}}" contenteditable="true">
+                    <div class="nmkd-edit" id="text_{{i}}" contenteditable="true"> <!-- reset-this-->
                         {% include template %}
                     </div>
                     {% set i=i+1 %}
                     {% endfor %}
-                </main>
-                <aside>
+                </div>
+                <div class="page-aside">
                     <select id="check-doc" onchange="checkDoc()">
                         <option value="#">Оберіть документ</option>
                         <option value="/nmkd/edit/np">Навчальна програма</option>
@@ -109,7 +100,7 @@
                         <textarea id="content" class="hidden" name="content"></textarea>
                         <button id="download">Скачати Pdf</button>
                     </form>
-                </aside>
+                </div>
             </div>
         </div>
 
@@ -136,5 +127,4 @@
             });
         </script>
         
-    </body>
-</html>
+{% endblock main %}

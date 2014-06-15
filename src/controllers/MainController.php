@@ -5,10 +5,12 @@ class MainController extends Controller
     public function indexAction()
     {
         $model = $this->getModel('nmkd');
-        $sessionList = $model->getSessionList();
+        //$sessionList = $model->getSessionList();
+        $disciplines = $model->getDisciplines();
         
         return $this->render('main/homepage.html.twig', array(
-            'sessionList' => $sessionList
+            //'sessionList' => $sessionList
+            'disciplines' => $disciplines,
         ));
     }
     

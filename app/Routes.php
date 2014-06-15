@@ -11,12 +11,14 @@ class Routes
         'user' => 'user/index',
     
     //nmkdController
+        'nmkd/input' => 'nmkd/input',
         'input' => 'nmkd/index',
+        'nmkd/set-hierarchy' => 'nmkd/setHierarchy',
+        'nmkd/set-types' => 'nmkd/setTypes',
         'questions-themes' => 'nmkd/questionsToThemes',
-        'set-themes' => 'nmkd/setThemes',
-        'set-modules' => 'nmkd/setModules',
+        /*'set-themes' => 'nmkd/setThemes',
+        'set-modules' => 'nmkd/setModules',*/
         'themes-modules' => 'nmkd/themesToModules',
-        'set-types' => 'nmkd/setTypes',
         'save-session' => 'nmkd/saveSession',
         'restore-session' => 'nmkd/restoreSession',
         'nmkd/edit' => 'nmkd/editNmkd',

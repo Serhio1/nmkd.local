@@ -2,6 +2,9 @@
 
 class Controller
 {
+    protected $errors = '';
+    protected $hints = array();
+    
     public function render($view, $data=array())
     {
         $twig = Container::get('twig');
@@ -29,7 +32,9 @@ class Controller
 
     protected function preRenderProcessing()
     {
-        $globalTemplateData = array();
+        $globalTemplateData = array(
+            'errors'=>$this->errors,
+        );
         //dynamic template data, wich uses in all templates (many templates)
         //menu data, sidebar data, etc
 
@@ -40,5 +45,19 @@ class Controller
     {
         return Container::get('form_mngr')->getFormData($form);
     }
-    
+
+    protected function outErrors()
+    {
+        return Container::get('errors')->outErrors();
+    }
+
+    protected function getForm($form)
+    {
+        return Container::get('form_mngr')->getForm($form);
+    }
+
+    protected function params()
+    {
+        return Container::get('params');
+    }
 }

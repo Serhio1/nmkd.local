@@ -40,6 +40,15 @@ class StaticStorage
         unset($_SESSION['storage']);
     }
 
+    public function isSetted($key)
+    {
+        if (isset($_SESSION['storage'][$key])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 /* get param $type - 'lection', or 'practical'...
  * return array ['theme1_name'] => array([0] => 'theme1_question1_name', [1] => 'theme1_question2_name')
  */

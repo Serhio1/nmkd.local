@@ -14,6 +14,18 @@ class Forms
             'password' => array('standardLengthRule','confirmRule'),
             'confirm_password' => array(),
         ),
+
+        'nmkdInputForm' => array(
+            'questions' => array('notEmptyRule'),
+        ),
+
+        'questionsHierarchyForm' => array(
+            'questions_hierarchy' => array('jsonRule'),
+        ),
+
+        'typesForm' => array(
+            'manual' => array('matchTypeRule'),
+        ),
     );
 
 
@@ -37,7 +49,40 @@ class Forms
             }
         }
         
-        
+        return false;
+    }
+
+    public function notEmptyRule($str)
+    {
+        $str = trim($str);
+        if ($str != '') {
+            return true;
+        } else {
+            Container::get('errors')->addError('nmkd','no_q_inputet');
+            return false;
+        }
+    }
+
+    public function jsonRule($str)
+    {
+        if (json_decode($str, true) != null) {
+            return true;
+        }
+        Container::get('errors')->addError('nmkd','not_valid_json');
+        return false;
+    }
+
+    public function matchTypeRule()
+    {
+        $types = Container::get('params')->types;
+        foreach ($types as $type) {
+            foreach ($_POST as $field=>$val) {
+                if (substr_count($field, $type)) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 }

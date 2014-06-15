@@ -10,6 +10,8 @@ class Router
 
         foreach($this->routes as $regExp => $route) {
             if(preg_match("~$regExp~", $uri)) {
+			//echo $uri.'<br>';
+			//if (substr_count($regExp, $uri)) {
                 $internalRoute = preg_replace("~$regExp~", $route, $uri);
                 $segments = explode('/', $internalRoute);
                 if ($segments[0] == Container::get('params')->vendor) {

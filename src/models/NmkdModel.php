@@ -2,8 +2,126 @@
 
 class NmkdModel extends Model
 {
-    private $questions;
+    private $tqForTypes = array();
+    
+    public function setAll()
+    {
+        $questions = Container::get('static_storage')->get('questions');
+        $disciplineId = Container::get('static_storage')->get('discipline');
+        $hierarchy = Container::get('static_storage')->get('hierarchy');
+        $typesQuestions = Container::get('static_storage')->get('typesQuestions');
+        $semester = 1;
+        $idTypes = $this->getTypes();
+        $this->setThemesQuestions($questions, $disciplineId, $typesQuestions, $idTypes);
+        $lastLoadedQuestions = $this->getLastLoadedQuestions($questions);
+        $this->updateThemesQuestions($lastLoadedQuestions, $questions, $hierarchy);
+        $this->setTypes($lastLoadedQuestions, $questions, $hierarchy ,$idTypes, $disciplineId, $semester, $typesQuestions);
+    }
 
+    protected function setThemesQuestions($questions, $disciplineId, $typesQuestions, $idTypes)
+    {
+        $TQQuery = self::$db->prepare(
+                            "INSERT INTO themes_questions(name, id_discipline, types_id)
+                             VALUES (:name, :id_disc, :types_id)");
+        self::$db->beginTransaction();
+            foreach ($questions as $key=>$name) {
+                $typesArr = array();
+                $TQQuery->bindValue(':name',$name);
+                $TQQuery->bindValue(':id_disc',$disciplineId);
+                if (isset($typesQuestions[$key])) {
+                    foreach ($idTypes as $typeId=>$typeName) {
+                        if (in_array($typeName, $typesQuestions[$key])) {
+                            $typesArr[] = $typeId;
+                        }
+                    }
+                }
+                $TQQuery->bindValue(':types_id', '{'.implode(',', $typesArr).'}');
+                $TQQuery->execute();
+            }
+        self::$db->commit();
+    }
+
+    public function getDisciplines()
+    {
+        $discQuery = self::$db->prepare("SELECT id,name FROM discipline");
+        self::$db->beginTransaction();
+            $discQuery->execute();
+        self::$db->commit();
+        $res = $discQuery->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $res;
+    }
+
+    protected function updateThemesQuestions($lastLoadedQuestions, $questions, $hierarchy)
+    {
+        $themesQuestionsQuery = self::$db->prepare("UPDATE themes_questions
+                                                    SET id_parent = :id_parent,
+                                                        num_tq = :num_tq
+                                                    WHERE id_tq=:id");
+        self::$db->beginTransaction();
+            $hierarchyVals = array_values($hierarchy);
+            $hierarchyKeys = array_keys($hierarchy);
+            for ($i=0; $i<count($questions); $i++) {
+                if ($hierarchyVals[$i]=='module') {
+                    $id_parent = -1;
+                    $id = array_search($questions[$hierarchyKeys[$i]], $lastLoadedQuestions);
+                }
+                if ($hierarchyVals[$i]=='theme') {
+                    for ($j=$i; $j>=0; $j--) {
+                        if ($hierarchyVals[$j]=='module') {
+                            $id_parent = array_search($questions[$hierarchyKeys[$j]], $lastLoadedQuestions);
+                            $id = array_search($questions[$hierarchyKeys[$i]], $lastLoadedQuestions);
+                            break;
+                        }
+                    }
+                }
+                if ($hierarchyVals[$i]=='question') {
+                    for ($j=$i; $j>=0; $j--) {
+                        if ($hierarchyVals[$j]=='theme') {
+                            $id_parent = array_search($questions[$hierarchyKeys[$j]], $lastLoadedQuestions);
+                            $id = array_search($questions[$hierarchyKeys[$i]], $lastLoadedQuestions);
+                            $this->tqForTypes[$id_parent][$hierarchyKeys[$i]] = $id;
+                            break;
+                        }
+                    }
+                }
+                $themesQuestionsQuery->bindValue(':id_parent', $id_parent);
+                $themesQuestionsQuery->bindValue(':id', $id);
+                $themesQuestionsQuery->bindValue(':num_tq', $i);
+                $themesQuestionsQuery->execute();
+            }
+        self::$db->commit();
+    }
+
+    protected function setTypes($lastLoadedQuestions, $questions, $hierarchy, $idTypes, $disciplineId, $semester, $typesQuestions)
+    {
+        self::$db->beginTransaction();
+            foreach ($idTypes as $id=>$type) {
+                $questionsForTypeStr = 'questions_for_'.$type;
+                $insertTypeQuery = self::$db->prepare("INSERT INTO $type(theme, id_theme, semester, id_disc, $questionsForTypeStr)
+                                                       VALUES (:theme, :id_theme, :semester, :id_disc, :questions_for_type)");
+                foreach ($this->tqForTypes as $theme_id=>$questionsForTheme) {
+                    $questionsForType = array();
+                    foreach ($questionsForTheme as $questionNum=>$questionId) {
+                        if (isset($typesQuestions[$questionNum])) {
+                            if (in_array($type, $typesQuestions[$questionNum])) {
+                                $questionsForType[] = $questionId;
+                            }
+                        }
+                    }
+                    if (!empty($questionsForType)) {
+                        $insertTypeQuery->bindValue(':theme', $lastLoadedQuestions[$theme_id]);
+                        $insertTypeQuery->bindValue(':id_theme', $theme_id);
+                        $insertTypeQuery->bindValue(':semester', $semester);
+                        $insertTypeQuery->bindValue(':id_disc', $disciplineId);
+                        $insertTypeQuery->bindValue(':questions_for_type', '{'.implode(',',$questionsForType).'}');
+                        $insertTypeQuery->execute();
+                    }
+                }
+            }
+        self::$db->commit();
+    }
+    
 //main function
     public function setAllQuestions($questions)
     {
@@ -251,9 +369,9 @@ class NmkdModel extends Model
 
     
 //return dump of last loaded questions in themes_questions: array([id]=>name)
-    private function getLastLoadedQuestions()
+    private function getLastLoadedQuestions($questions)
     {
-        $questions = $this->questions;
+        //$questions = Container::get('static_storage')->get('questions');
         $storage = Container::get('static_storage');
         $lastTqQuery = self::$db->prepare("SELECT id_tq, name
                                          FROM themes_questions

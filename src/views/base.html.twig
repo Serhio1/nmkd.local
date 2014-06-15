@@ -12,6 +12,7 @@
         {% include '/css/main.css' %}
     </style>
     <script src="/src/views/js/jquery-1.9.1.js"></script>
+    <script src="/src/views/js/disableSelection.js"></script>
     <script src="/src/views/js/bootstrap.min.js"></script>
     <script src="/src/views/js/ajaxupload-v1.2.js"></script>
 </head>
@@ -62,13 +63,15 @@
 </div>
 </div>
 </div>
-<footer class="footer">
-    <div class="container">
-    {% block footer %}
-    
+
+<footer id="footer" class="navbar navbar-static-bottom navbar-default" role="navigation">
+  <div class="container-fluid">
+	{% block footer %}
+    <p class="navbar-text">ЧНУ ім.Богдана Хмельницького, 2014р.</p>
     {% endblock footer %}
-    </div>
+  </div>
 </footer>
+
     
     
 
