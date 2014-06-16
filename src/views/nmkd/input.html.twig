@@ -25,16 +25,11 @@ $('body').on('click','#prevBtn',function(){
 <script>
 function save() {
     str = $('#q_input').val();
-    var success = false;
-    //alert(str);
     $.post( window.location, { ajaxQuestions: str })
     .done(function( data ) {
         //alert( "Data Loaded: " + data );
-        $('body').append(data);
-        success = true;
+       // $('body').append(data);
     });
-
-    return success;
     
 };
 

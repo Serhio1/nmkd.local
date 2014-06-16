@@ -42,11 +42,11 @@ class NmkdController extends Controller
             //$questionArr = array_values($questionArr);
             //$hierarchy = array_values($hierarchy);
 
-            print_r($questionArr);
+            /*print_r($questionArr);
             echo '<hr>';
             print_r($hierarchy);
             echo '<hr>';
-            echo '<hr>';
+            echo '<hr>';*/
 
             $this->storage()->set('questions', $questionArr);
             $this->storage()->set('hierarchy', $hierarchy);
@@ -57,6 +57,8 @@ class NmkdController extends Controller
             if ($this->getFormData('nmkdInputForm')) {
                 //$questionStr = $this->getFormData('nmkdInputForm')['questions'];
                 //$this->saveQuestions($questionStr);
+                $this->storage()->set('questions', $questionArr);
+                $this->storage()->set('hierarchy', $hierarchy);
                 
                 $this->redirect('nmkd/set-hierarchy');
             } else {
