@@ -46,6 +46,8 @@
 		{% endfor %}
     </ul>
     {% endif %}
+
+    <div id="saved"></div>
   </div>
   
 
@@ -420,6 +422,7 @@ function save(){
 	$.post( window.location, { hierarchy: str })
 	.done(function( data ) {
 		//alert( "Data Loaded: " + data );
+		$('#saved').html('збережено');
 	});
 };
 $(function(){

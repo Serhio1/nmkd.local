@@ -7,6 +7,7 @@
         <li><textarea name="questions" class="form-control" id="q_input">{% for question in questions %}{{question}}
 {% endfor %}</textarea></li>
     </ul>
+    <div id="saved"></div>
 </form>
 
 <script>
@@ -28,7 +29,8 @@ function save() {
     $.post( window.location, { ajaxQuestions: str })
     .done(function( data ) {
         //alert( "Data Loaded: " + data );
-       // $('body').append(data);
+        $('#saved').html('збережено');
+        timer = setTimeout(function(){$('#saved').html();}, 1000)
     });
     
 };
