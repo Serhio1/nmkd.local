@@ -21,13 +21,13 @@ class Services
             $loader = new Twig_Loader_Filesystem(Container::get('params')
                 ->getViewDir());
                 
-            return new Twig_Environment($loader);
+            //return new Twig_Environment($loader);
             
 //uncomment to enable cache
-            /*return new Twig_Environment($loader, array(
+            return new Twig_Environment($loader, array(
                 'cache' => Container::get('params')
                 ->getCacheDir(),
-            ));*/
+            ));
         });
 
         Container::register('twigStr',function(){
