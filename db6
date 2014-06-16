@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.11
 -- Dumped by pg_dump version 9.1.11
--- Started on 2014-06-02 03:21:47 GMT-3
+-- Started on 2014-06-16 10:25:30 GMT-3
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -287,7 +287,8 @@ CREATE TABLE individual (
     theme character varying,
     questions_for_individual integer[],
     hours smallint,
-    literature integer[]
+    literature integer[],
+    id_theme integer
 );
 
 
@@ -306,7 +307,8 @@ CREATE TABLE laboratory (
     theme character varying,
     questions_for_laboratory integer[],
     hours smallint,
-    literature integer[]
+    literature integer[],
+    id_theme integer
 );
 
 
@@ -325,7 +327,8 @@ CREATE TABLE lection (
     theme character varying(255),
     hours smallint,
     literature integer[],
-    questions_for_lection integer[]
+    questions_for_lection integer[],
+    id_theme integer
 );
 
 
@@ -391,7 +394,8 @@ CREATE TABLE practical (
     theme character varying,
     questions_for_practical integer[],
     hours smallint,
-    literature integer[]
+    literature integer[],
+    id_theme integer
 );
 
 
@@ -410,7 +414,8 @@ CREATE TABLE self (
     theme character varying,
     questions_for_self integer[],
     hours smallint,
-    literature integer[]
+    literature integer[],
+    id_theme integer
 );
 
 
@@ -429,7 +434,8 @@ CREATE TABLE seminary (
     questions_for_seminary integer[],
     hours smallint,
     literature integer[],
-    id_seminary integer DEFAULT nextval('id_sem'::regclass) NOT NULL
+    id_seminary integer DEFAULT nextval('id_sem'::regclass) NOT NULL,
+    id_theme integer
 );
 
 
@@ -578,7 +584,7 @@ SELECT pg_catalog.setval('id_disc', 1, false);
 -- Name: id_ind; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_ind', 195, true);
+SELECT pg_catalog.setval('id_ind', 211, true);
 
 
 --
@@ -587,7 +593,7 @@ SELECT pg_catalog.setval('id_ind', 195, true);
 -- Name: id_lab; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_lab', 125, true);
+SELECT pg_catalog.setval('id_lab', 148, true);
 
 
 --
@@ -596,7 +602,7 @@ SELECT pg_catalog.setval('id_lab', 125, true);
 -- Name: id_lect; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_lect', 211, true);
+SELECT pg_catalog.setval('id_lect', 257, true);
 
 
 --
@@ -614,7 +620,7 @@ SELECT pg_catalog.setval('id_lit', 1, false);
 -- Name: id_module; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_module', 50, true);
+SELECT pg_catalog.setval('id_module', 76, true);
 
 
 --
@@ -623,7 +629,7 @@ SELECT pg_catalog.setval('id_module', 50, true);
 -- Name: id_pract; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_pract', 185, true);
+SELECT pg_catalog.setval('id_pract', 210, true);
 
 
 --
@@ -632,7 +638,7 @@ SELECT pg_catalog.setval('id_pract', 185, true);
 -- Name: id_self; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_self', 132, true);
+SELECT pg_catalog.setval('id_self', 146, true);
 
 
 --
@@ -641,7 +647,7 @@ SELECT pg_catalog.setval('id_self', 132, true);
 -- Name: id_sem; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_sem', 103, true);
+SELECT pg_catalog.setval('id_sem', 129, true);
 
 
 --
@@ -659,7 +665,7 @@ SELECT pg_catalog.setval('id_session', 2, true);
 -- Name: id_tq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_tq', 2553, true);
+SELECT pg_catalog.setval('id_tq', 3220, true);
 
 
 --
@@ -677,9 +683,7 @@ SELECT pg_catalog.setval('id_type', 1, false);
 -- Data for Name: individual; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY individual (id_individual, id_disc, semester, theme, questions_for_individual, hours, literature) FROM stdin;
-194	1	1	theme1	{2547}	\N	\N
-195	1	1	theme2	{2551}	\N	\N
+COPY individual (id_individual, id_disc, semester, theme, questions_for_individual, hours, literature, id_theme) FROM stdin;
 \.
 
 
@@ -689,9 +693,7 @@ COPY individual (id_individual, id_disc, semester, theme, questions_for_individu
 -- Data for Name: laboratory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY laboratory (id_lab, id_disc, semester, theme, questions_for_laboratory, hours, literature) FROM stdin;
-124	1	1	theme1	{2548}	\N	\N
-125	1	1	theme2	{2552}	\N	\N
+COPY laboratory (id_lab, id_disc, semester, theme, questions_for_laboratory, hours, literature, id_theme) FROM stdin;
 \.
 
 
@@ -701,9 +703,9 @@ COPY laboratory (id_lab, id_disc, semester, theme, questions_for_laboratory, hou
 -- Data for Name: lection; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY lection (id_lect, id_disc, semester, theme, hours, literature, questions_for_lection) FROM stdin;
-210	1	1	theme1	\N	\N	{2545}
-211	1	1	theme2	\N	\N	{2551}
+COPY lection (id_lect, id_disc, semester, theme, hours, literature, questions_for_lection, id_theme) FROM stdin;
+256	1	1	theme1	\N	\N	{3200}	3199
+257	1	1	theme1	\N	\N	{3212}	3211
 \.
 
 
@@ -724,8 +726,6 @@ COPY literature (id) FROM stdin;
 --
 
 COPY modules (id, id_disc, themes, module) FROM stdin;
-49	1	{2544}	module1
-50	1	{2549}	module2
 \.
 
 
@@ -735,9 +735,7 @@ COPY modules (id, id_disc, themes, module) FROM stdin;
 -- Data for Name: practical; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY practical (id_pract, id_disc, semester, theme, questions_for_practical, hours, literature) FROM stdin;
-184	1	1	theme1	{2546}	\N	\N
-185	1	1	theme2	{2552}	\N	\N
+COPY practical (id_pract, id_disc, semester, theme, questions_for_practical, hours, literature, id_theme) FROM stdin;
 \.
 
 
@@ -747,9 +745,7 @@ COPY practical (id_pract, id_disc, semester, theme, questions_for_practical, hou
 -- Data for Name: self; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY self (id_self, id_disc, semester, theme, questions_for_self, hours, literature) FROM stdin;
-131	1	1	theme1	{2546}	\N	\N
-132	1	1	theme2	{2550}	\N	\N
+COPY self (id_self, id_disc, semester, theme, questions_for_self, hours, literature, id_theme) FROM stdin;
 \.
 
 
@@ -759,9 +755,7 @@ COPY self (id_self, id_disc, semester, theme, questions_for_self, hours, literat
 -- Data for Name: seminary; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY seminary (id_disc, semester, theme, questions_for_seminary, hours, literature, id_seminary) FROM stdin;
-1	1	theme1	{2547}	\N	\N	102
-1	1	theme2	{2553}	\N	\N	103
+COPY seminary (id_disc, semester, theme, questions_for_seminary, hours, literature, id_seminary, id_theme) FROM stdin;
 \.
 
 
@@ -783,16 +777,30 @@ COPY sessions (id_disc, session_data, id) FROM stdin;
 --
 
 COPY themes_questions (id_tq, name, id_discipline, id_parent, types_id, num_tq) FROM stdin;
-2544	theme1	1	\N	{}	0
-2549	theme2	1	\N	{}	0
-2545	q1_t1	1	2544	{1}	1
-2553	q4_t2	1	2549	{3}	4
-2548	q4_t1	1	2544	{4}	4
-2552	q3_t2	1	2549	{2,4}	3
-2547	q3_t1	1	2544	{3,5}	3
-2551	q2_t2	1	2549	{1,5}	2
-2546	q2_t1	1	2544	{2,6}	2
-2550	q1_t2	1	2549	{6}	1
+3197	module1	1	-1	{}	0
+3199	theme1	1	3197	{}	1
+3200	q1_t1	1	3199	{1}	2
+3201	q2_t1	1	3199	{}	3
+3202	q3_t1	1	3199	{}	4
+3203	q4_t1	1	3199	{}	5
+3198	module2	1	-1	{}	6
+3204	theme2	1	3198	{}	7
+3205	q1_t2	1	3204	{}	8
+3207	q3_t2	1	3204	{}	9
+3208	q4_t2	1	3204	{}	10
+3206	q2_t2	1	3204	{}	11
+3209	module1	1	-1	{}	0
+3211	theme1	1	3209	{}	1
+3212	q1_t1	1	3211	{1}	2
+3213	q2_t1	1	3211	{}	3
+3214	q3_t1	1	3211	{}	4
+3215	q4_t1	1	3211	{}	5
+3210	module2	1	-1	{}	6
+3216	theme2	1	3210	{}	7
+3217	q1_t2	1	3216	{}	8
+3219	q3_t2	1	3216	{}	9
+3220	q4_t2	1	3216	{}	10
+3218	q2_t2	1	3216	{}	11
 \.
 
 
@@ -976,7 +984,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2014-06-02 03:21:47 GMT-3
+-- Completed on 2014-06-16 10:25:30 GMT-3
 
 --
 -- PostgreSQL database dump complete
