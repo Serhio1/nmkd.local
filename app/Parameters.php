@@ -8,8 +8,8 @@ class Parameters
     public $dbName = 'nmkd';
     public $dbChar = 'utf8';
     
-    //public $vendor = '/ololo.net';  //for windows
-    public $vendor = '';  //for linux
+    public $vendor = '/nmkd.local';
+    //public $vendor = '';  //for linux
     
     public $types = array(
         'lection',

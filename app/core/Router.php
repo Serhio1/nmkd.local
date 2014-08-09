@@ -7,16 +7,15 @@ class Router
     public function init()
     {
         $uri = $this->getURI();
-
         foreach($this->routes as $regExp => $route) {
             if(preg_match("~$regExp~", $uri)) {
 			//echo $uri.'<br>';
 			//if (substr_count($regExp, $uri)) {
                 $internalRoute = preg_replace("~$regExp~", $route, $uri);
                 $segments = explode('/', $internalRoute);
-                if ($segments[0] == Container::get('params')->vendor) {
+                /*if ($segments[0] == Container::get('params')->vendor) {
                     array_shift($segments);
-                }
+                }*/
                 $controller = ucfirst(array_shift($segments)).'Controller';
                 $action = array_shift($segments).'Action';
                 $params = $segments;                
@@ -48,9 +47,18 @@ class Router
         return;
     }
     
-    protected function getURI()
+    public function getURI()
     {
-        if(!empty($_SERVER['REQUEST_URI'])) {
+		$url = $this->getURL;
+		$vendor = Container::get('params')->vendor;
+		$vendorPos = strpos($url, $vendor);
+		if ($vendorPos !== false) {
+			return substr($url, $vendorPos+strlen($vendor)+1);
+		} else {
+			return false;
+		}
+		
+        /*if(!empty($_SERVER['REQUEST_URI'])) {
         
             return trim($_SERVER['REQUEST_URI'], '/');
         }
@@ -61,8 +69,12 @@ class Router
         if(!empty($_SERVER['QUERY_STRING'])) {
         
             return trim($_SERVER['QUERY_STRING'], '/');
-        }
+        }*/
     }
+	
+	public function getURL() {
+		return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	}
     
     public function setRoutes($routes)
     {
