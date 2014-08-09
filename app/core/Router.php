@@ -7,10 +7,31 @@ class Router
     public function init()
     {
         $uri = $this->getURI();
+        
+        
+        
+        
+        
+        
+        /*$url = $this->getURL();
+        $vendor = Container::get('params')->vendor;
+        $vendorPos = strpos($url, $vendor);
+        
+        //echo $vendor;
+        
+        if (substr_count($url, $vendor) > 0) {
+            print_r(substr($url, $vendorPos+strlen($vendor)+1));
+        } else {
+            //echo 'false';
+        }*/
+        
+        
+        
         foreach($this->routes as $regExp => $route) {
+            //echo $uri.'<br>';
             if(preg_match("~$regExp~", $uri)) {
-			//echo $uri.'<br>';
-			//if (substr_count($regExp, $uri)) {
+            
+            //if (substr_count($regExp, $uri)) {
                 $internalRoute = preg_replace("~$regExp~", $route, $uri);
                 $segments = explode('/', $internalRoute);
                 /*if ($segments[0] == Container::get('params')->vendor) {
@@ -49,15 +70,15 @@ class Router
     
     public function getURI()
     {
-		$url = $this->getURL;
-		$vendor = Container::get('params')->vendor;
-		$vendorPos = strpos($url, $vendor);
-		if ($vendorPos !== false) {
-			return substr($url, $vendorPos+strlen($vendor)+1);
-		} else {
-			return false;
-		}
-		
+        $url = $this->getURL();
+        $vendor = Container::get('params')->vendor;
+        $vendorPos = strpos($url, $vendor);
+        if (substr_count($url, $vendor) > 0) {
+            return substr($url, $vendorPos+strlen($vendor)+1);
+        } else {
+            return false;
+        }
+        
         /*if(!empty($_SERVER['REQUEST_URI'])) {
         
             return trim($_SERVER['REQUEST_URI'], '/');
@@ -71,10 +92,10 @@ class Router
             return trim($_SERVER['QUERY_STRING'], '/');
         }*/
     }
-	
-	public function getURL() {
-		return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	}
+    
+    public function getURL() {
+        return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    }
     
     public function setRoutes($routes)
     {
@@ -84,7 +105,7 @@ class Router
     public function redirect($url, $data=array())
     {
         $_SESSION['redirectData'] = $data;
-        header('location: '.Container::get('params')->vendor.'/'.$url);
+        header('location: '.'/'.$url);
     }
 
     private function preControllerProcessing()

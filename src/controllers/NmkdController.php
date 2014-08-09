@@ -20,34 +20,31 @@ class NmkdController extends Controller
         if ($this->storage()->isSetted('hierarchy')) {
             $this->hints[] = $this->params()->getHint('modify_q_input');
         }
+        
         if (isset($_POST['isAjax']) && isset($_POST['ajaxQuestions'])) {
-            if ($this->storage()->isSetted('hierarchy')) {
-                    $hierarchy = $this->storage()->get('hierarchy');
-                    $questionStr = $_POST['ajaxQuestions'];
-                    $questionArr = explode('<br />', nl2br($questionStr));
-                    $questionArr = array_map('trim',$questionArr);
-                    $questionArr = array_filter($questionArr);
+            
+            $questionStr = $_POST['ajaxQuestions'];
+            $questionArr = explode('<br />', nl2br($questionStr));
+            $questionArr = array_map('trim',$questionArr);
+            $questionArr = array_filter($questionArr);
                     
-                    foreach ($questions as $key=>$question) {
-                        if (!isset($questionArr[$key])) {
-                            unset($hierarchy[$key]);
-                        }
-                        if (!isset($hierarchy[$key]) && isset($questionArr[$key])) {
-                            $hierarchy[$key] = 'question';
-                        }
+            if ($this->storage()->isSetted('hierarchy')) {
+                    $hierarchy = $this->storage()->get('hierarchy');           
+// if questions were added
+                foreach ($questionArr as $key => $question) {
+                    if (!isset($questions[$key])) {
+                        $hierarchy[$key] = 'question';
                     }
-                    //ksort($hierarchy);
+                }
+                    
+//if questions were removed
+                foreach ($questions as $key=>$question) {
+                    if (!isset($questionArr[$key])) {
+                        unset($hierarchy[$key]);
+                    }
+                }
             }
             
-            //$questionArr = array_values($questionArr);
-            //$hierarchy = array_values($hierarchy);
-
-            /*print_r($questionArr);
-            echo '<hr>';
-            print_r($hierarchy);
-            echo '<hr>';
-            echo '<hr>';*/
-
             $this->storage()->set('questions', $questionArr);
             $this->storage()->set('hierarchy', $hierarchy);
         
@@ -57,8 +54,8 @@ class NmkdController extends Controller
             if ($this->getFormData('nmkdInputForm')) {
                 //$questionStr = $this->getFormData('nmkdInputForm')['questions'];
                 //$this->saveQuestions($questionStr);
-                $this->storage()->set('questions', $questionArr);
-                $this->storage()->set('hierarchy', $hierarchy);
+                //$this->storage()->set('questions', $questionArr);
+                //$this->storage()->set('hierarchy', $hierarchy);
                 
                 $this->redirect('nmkd/set-hierarchy');
             } else {
@@ -84,6 +81,7 @@ class NmkdController extends Controller
     public function setHierarchyAction()
     {
         $questions = $this->storage()->get('questions');
+        //print_r($_SESSION);
         $hierarchy = array();
         $this->hints[] = $this->params()->getHint('hierarchy');
         

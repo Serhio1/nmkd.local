@@ -8,7 +8,7 @@ class Parameters
     public $dbName = 'nmkd';
     public $dbChar = 'utf8';
     
-    public $vendor = '/nmkd.local';
+    public $vendor = 'nmkd.local';
     //public $vendor = '';  //for linux
     
     public $types = array(
@@ -39,22 +39,22 @@ class Parameters
     
     public function getViewDir()
     {
-        return $_SERVER['DOCUMENT_ROOT'].$this->vendor.'/src/views/';
+        return $_SERVER['DOCUMENT_ROOT'] . '/src/views/';
     }
     
     public function getCacheDir()
     {
-        return $_SERVER['DOCUMENT_ROOT'].$this->vendor.'/cache';
+        return $_SERVER['DOCUMENT_ROOT'] . '/cache';
     }
 //------------------------------------
     public function getPdfDir()
     {
-        return $_SERVER['DOCUMENT_ROOT'].$this->vendor.'/src/views/pdfTemplates';
+        return $_SERVER['DOCUMENT_ROOT'] . '/src/views/pdfTemplates';
     }
 
     public function getMPdfLocation()
     {
-        return $_SERVER['DOCUMENT_ROOT'].$this->vendor.'/lib/MPDF57/mpdf.php';
+        return $_SERVER['DOCUMENT_ROOT'] . '/lib/MPDF57/mpdf.php';
     }
 //------------------------------------
     public function getNmkdPdfData()

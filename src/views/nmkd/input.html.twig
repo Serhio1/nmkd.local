@@ -4,8 +4,11 @@
 <form id="inputForm" method="POST" action="">
     <ul class = "unmarked">
         <li class="input-menu"><span class="glyphicon glyphicon-remove" onclick="$('#q_input').html('');"></span></li>
-        <li><textarea name="questions" class="form-control" id="q_input">{% for question in questions %}{{question}}
-{% endfor %}</textarea></li>
+        <li>
+            <textarea name="questions" class="form-control" id="q_input">{% for question in questions %}
+{{question}}
+{% endfor %}</textarea>
+        </li>
     </ul>
     <div id="saved"></div>
 </form>
@@ -30,6 +33,7 @@ function save() {
     .done(function( data ) {
         //alert( "Data Loaded: " + data );
         $('#saved').html('збережено');
+        console.log(data);
         timer = setTimeout(function(){$('#saved').html();}, 1000)
     });
     
