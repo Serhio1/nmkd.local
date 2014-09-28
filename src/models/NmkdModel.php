@@ -406,6 +406,19 @@ class NmkdModel extends Model
 
         print_r($sessionData);
     }
+    
+    public function sessionExists($idDiscipline) 
+    {
+        $sessionQuery = self::$db->prepare("SELECT id_disc FROM sessions
+                                            WHERE id_disc = :id_disc");
+        $sessionQuery->bindValue(':id_disc', $idDiscipline);
+        $sessionQuery->execute();
+        $res = $sessionQuery->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($res)) {
+            return true;
+        }
+        return false;
+    }
 
     public function getSession($idDiscipline)
     {

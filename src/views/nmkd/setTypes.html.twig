@@ -2,6 +2,7 @@
 
 
 {% block mainForm %}
+
 <div>
 <form id="set-types-form" method="POST" action="">
     <table class="table set-types-table-top" style="table-layout:fixed">
@@ -65,22 +66,22 @@
 								<td style="width:25px;"><input type="checkbox" class="select-row"></td>
 								<td style="width:500px;">{{ question }}</td>
 								<td class="check_type lect{{m}}{{t}}">
-									<input class="hide select" type="checkbox" name="lection_{{ key }}">
+                                                                    <input class="hide select" type="checkbox" {% if types_questions[key]['lection'] == 1 %}checked="true"{% endif %} name="lection_{{ key }}">   
 								</td>
 								<td class="check_type pract{{m}}{{t}}">
-									<input class="hide select" type="checkbox" name="practical_{{ key }}">
+                                                                    <input class="hide select" type="checkbox" {% if types_questions[key]['practical'] == 1 %}checked="true"{% endif %} name="practical_{{ key }}">
 								</td>
 								<td class="check_type sem{{m}}{{t}}">
-									<input class="hide select" type="checkbox" name="seminary_{{ key }}">
+                                                                    <input class="hide select" type="checkbox" {% if types_questions[key]['seminary'] == 1 %}checked="true"{% endif %} name="seminary_{{ key }}">
 								</td>
 								<td class="check_type lab{{m}}{{t}}">
-									<input class="hide select" type="checkbox" name="laboratory_{{ key }}">
+                                                                    <input class="hide select" type="checkbox" {% if types_questions[key]['laboratory'] == 1 %}checked="true"{% endif %} name="laboratory_{{ key }}">
 								</td>
 								<td class="check_type ind{{m}}{{t}}">
-									<input class="hide select" type="checkbox" name="individual_{{ key }}">
+                                                                    <input class="hide select" type="checkbox" {% if types_questions[key]['individual'] == 1 %}checked="true"{% endif %} name="individual_{{ key }}">
 								</td>
 								<td class="check_type self{{m}}{{t}}">
-									<input class="hide select" type="checkbox" name="self_{{ key }}">
+                                                                    <input class="hide select" type="checkbox" {% if types_questions[key]['self'] == 1 %}checked="true"{% endif %} name="self_{{ key }}">
 								</td>
 							</tr>
 						{% endif %}
@@ -95,6 +96,7 @@
     
 </form>
 </div>
+<div id="saved"></div>
 <div class="offset"></div>
 
 
@@ -200,6 +202,18 @@ $('.set-types-table').on('click', '.select-row', function(){
 </script>
 
 <script>
+$(function() {
+      var bgColor = '#DFF0D8';
+      var imageUrl = '/src/views/img/green-tick.png';
+      var checker = $('.set-types-table td.check_type input:checked');
+      
+      //if (checker.is(':checked')) {
+          checker.parent().css('background-color',bgColor);
+          checker.parent().css('background-image', 'url('+imageUrl+')');
+          checker.parent().css('background-repeat', 'no-repeat');
+          checker.parent().css('background-position', 'center center');
+      //}
+});
 //highlighting of clicked elements
 $("#hidechecked").on("click","td.check_type",function(){
       var bgColor = '#DFF0D8';
@@ -246,6 +260,25 @@ $(document).ready(function(){
     $('#hidechecked *').disableSelection(); 
 }); 
 
+</script>
+
+<script>
+function save() {
+    str = $('#set-types-form').serialize();
+    console.log(window.location);
+    $.post( window.location, { ajaxTypes: str })
+    .done(function( data ) {
+        //alert( "Data Loaded: " + data );
+        $('#saved').html('збережено');
+        console.log(data);
+        timer = setTimeout(function(){$('#saved').html();}, 1000)
+    });
+};
+
+
+$(function(){
+    setInterval(function() { save(); }, 10000);
+});
 </script>
 
 <script>

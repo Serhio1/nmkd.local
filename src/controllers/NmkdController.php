@@ -10,13 +10,20 @@ class NmkdController extends Controller
         $model->clearDb();
 //-------------------------------------------------------
         //Container::get('static_storage')->unsetAll();
+        $idDiscipline = $params[0];
         $this->storage()->set('discipline',$params[0]);
         $questions = '';
         $this->hints[] = $this->params()->getHint('q_input');
         
+        
         if ($this->storage()->isSetted('questions')) {
             $questions = $this->storage()->get('questions');
+        } elseif ($model->sessionExists($idDiscipline)) {
+            $this->storage()->setAll($model->getSession($idDiscipline));
+            $questions = $this->storage()->get('questions');
         }
+        
+        
         if ($this->storage()->isSetted('hierarchy')) {
             $this->hints[] = $this->params()->getHint('modify_q_input');
         }
@@ -113,21 +120,40 @@ class NmkdController extends Controller
         $questions = $this->storage()->get('questions');
         $hierarchy = $this->storage()->get('hierarchy');
         $this->hints[] = $this->params()->getHint('types');
-
-        if ($this->getForm('typesForm')) {
-            $types = $this->params()->types;
+        
+        if ($this->storage()->isSetted('typesQuestions')) {
+            $typesQuestions = $this->storage()->get('typesQuestions');
+        } else {
             $typesQuestions = array();
+        }
+        
+        if (isset($_POST['isAjax']) && isset($_POST['ajaxTypes'])) {
+            $ajaxTypes = explode('&', $_POST['ajaxTypes']);
+            //$ajaxTypes = json_decode($_POST['ajaxTypes']);
+            $types = $this->params()->types;
             foreach ($types as $type) {
-                foreach ($_POST as $field=>$val) {
+                foreach ($ajaxTypes as $field=>$val) {
+                    $val = substr($val, 0, -3);
+                    /*
                     if (substr_count($field, $type)) {
                         $typesQuestions[explode('_',$field)[1]][] = explode('_',$field)[0];
-                        $formData = true;
+                        $this->storage()->set('typesQuestions',$typesQuestions);
+                    }*/
+                    if (substr_count($val, $type)) {
+                        $typesQuestions[explode('_',$val)[1]][explode('_',$val)[0]] = 1;
+                        $this->storage()->set('typesQuestions',$typesQuestions);
                     }
                 }
             }
-            if ($formData) {
-                $this->storage()->set('typesQuestions',$typesQuestions);
-                $this->getModel('nmkd')->setAll();
+            print_r($typesQuestions);
+            return;
+        }
+
+        if ($this->getForm('typesForm')) {
+            
+            
+            if ($this->storage()->isSetted('typesQuestions')) {
+                //$this->getModel('nmkd')->setAll();
                 $this->redirect('');
             } else {
                 $this->addError('no_type_selected');
@@ -164,6 +190,7 @@ class NmkdController extends Controller
         return $this->render('nmkd/setTypes.html.twig', array(
             'questions' => $questions,
             'hierarchy' => $hierarchy,
+            'types_questions' => $typesQuestions,
             'hints'=>$this->hints,
         ));
     }

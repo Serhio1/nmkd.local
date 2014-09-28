@@ -1,7 +1,7 @@
 /.directory
 /data.txt
-/db2
-/db3
-/db4
 /nmkd.local.geany
 /cache/*
+/nbproject/private/
+/error.log
+/nbproject

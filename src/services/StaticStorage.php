@@ -42,7 +42,7 @@ class StaticStorage
 
     public function isSetted($key)
     {
-        if (isset($_SESSION['storage'][$key])) {
+        if (isset($_SESSION['storage'][$key]) && sizeof($_SESSION['storage'][$key]) > 0) {
             return true;
         } else {
             return false;
