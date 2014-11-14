@@ -346,6 +346,7 @@ body.dragging, body.dragging * {
 .search-input {
     width: 200px;
     display: inline-block;
+    padding-left: 10px;
 }
 .search-hide {
     display: none;
@@ -540,3 +541,11 @@ body.dragging, body.dragging * {
     z-index : auto;
 }
 
+.submenu-disabled {
+    background: #eee;
+    cursor: not-allowed;
+}
+.submenu-disabled:hover,
+.submenu-disabled:focus {
+    background: #eee !important;
+}

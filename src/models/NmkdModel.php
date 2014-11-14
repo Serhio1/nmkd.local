@@ -52,6 +52,25 @@ class NmkdModel extends Model
         return $res;
     }
 
+    /**
+     * Returns true if nmkd for discipline exists (false if not exists).
+     *
+     * @param $idDiscipline
+     * @return boolean
+     */
+    public function nmkdExist($idDiscipline)
+    {
+        $query = self::$db->prepare("SELECT COUNT(*) FROM themes_questions WHERE id_discipline = :id_discipline");
+        $query->bindValue(':id_discipline', $idDiscipline);
+        $query->execute();
+
+        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($res)) {
+            return true;
+        }
+        return false;
+    }
+
     protected function updateThemesQuestions($lastLoadedQuestions, $questions, $hierarchy)
     {
         $themesQuestionsQuery = self::$db->prepare("UPDATE themes_questions
