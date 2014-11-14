@@ -19,7 +19,7 @@ class Controller
     
     protected function storage()
     {
-        return Container::get('static_storage');
+        return Container::get('session_storage');
     }
     
     public function getModel($model)

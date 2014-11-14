@@ -48,54 +48,57 @@
         4. Структура навчальної дисципліни
     </div>
 
-    
-        
-        <div class="table">
-            <table>
-                <thead>
+    {% set modules_count = 0 %}
+    {% set themes_count = 0 %}
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Тема</th>
+                    <th colspan="5">Кількість годин, відведених на:</th>
+                </tr>
+                <tr>
+                    <th>Лекції</th>
+                    <th>Практично-семінарські заняття</th>
+                    <th>Лабораторні заняття</th>
+                    <th>Самостійну роботу</th>
+                    <th>Індивідуаль-ну роботу</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for module_name, module_data in nmkd.question_hierarchy %}
+                    {% set modules_count = modules_count + 1 %}
                     <tr>
-                        <th rowspan="2">Тема</th>
-                        <th colspan="5">Кількість годин, відведених на:</th>
+                        <td colspan="6">Змістовий модуль {{ modules_count }}. {{ module_name }}</td>
                     </tr>
-                    <tr>
-                        <th>Лекції</th>
-                        <th>Практично-семінарські заняття</th>
-                        <th>Лабораторні заняття</th>
-                        <th>Самостійну роботу</th>
-                        <th>Індивідуаль-ну роботу</th>
-                    </tr>
-                    <tr>
-                        <th colspan="6">Змістовий модуль 1. Синтаксис мови Сі</th>
-                    </tr>
-                </thead>
-                </tbody>
-                    {% set i = 1 %}
-                    {% for id, name in nmkd.themes %}
-                    <tr>
-                        <td >
-                            Тема {{i}}. {{name}}
-                        </td>
-                        <td >
-                            0
-                        </td>
-                        <td >
-                            0
-                        </td>
-                        <td >
-                            0
-                        </td>
-                        <td >
-                            0
-                        </td>
-                        <td >
-                            Індивідуальне навчально-дослідне завдання, РГР
-                        </td>
-                    </tr>
-                    {% set i=i+1 %}
+                    {% for theme_name, theme_data in module_data %}
+                        {% set themes_count = themes_count + 1 %}
+                        <tr>
+                            <td >
+                                Тема {{ themes_count }}. {{ theme_name }}
+                            </td>
+                            <td >
+                                0
+                            </td>
+                            <td >
+                                0
+                            </td>
+                            <td >
+                                0
+                            </td>
+                            <td >
+                                0
+                            </td>
+                            <td >
+                                Індивідуальне навчально-дослідне завдання, РГР
+                            </td>
+                        </tr>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div> <!--class=table-->
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
         <br>
         <br>
         <br>

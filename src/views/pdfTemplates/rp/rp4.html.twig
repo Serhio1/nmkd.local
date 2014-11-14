@@ -3,35 +3,28 @@
 </style>
 <div class="autopagination page4">
     <p class="title">3. Програма навчальної дисципліни</p>
-    {% set j=1 %}
-    {% for module, data in nmkd.moduleData %}
-        <div class="module">
-            <p>ЗМІСТОВИЙ МОДУЛЬ {{j}}</p>
-            <p>{{module}}</p>
-        </div>
-        {% for themeName in data %}
-        <div class="themes-questions">
-        {% set i = 1 %}
-            {% for id, name in nmkd.themes %}
-                {% if themeName == name %}
-                <div class="theme">Тема {{i}}. {{name}}</div>
-                <div class="theme_questions">
+    {% set modules_count = 0 %}
 
-                    {% for theme_key, theme_id in nmkd.questions %}
-                        {% for q_name in theme_id %}
-                            {% if theme_key==id %}
-                                {{q_name}}&nbsp;
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-            
-                </div>
-                {% endif %}
-        
-            {% set i=i+1 %}
-            {% endfor %}
+    {% for module_name, module_data in nmkd.question_hierarchy %}
+        {% set modules_count = modules_count + 1 %}
+        {% set themes_count = 0 %}
+        <div class="module">
+            <p>ЗМІСТОВИЙ МОДУЛЬ {{ modules_count }}</p>
+            <p>{{ module_name }}</p>
         </div>
+        {% for theme_name, theme_data in module_data %}
+            {% set themes_count = themes_count + 1 %}
+            <div class="themes-questions">
+                <div class="theme"><p>Тема {{ themes_count }}. {{ theme_name }}</p></div>
+                <div class="theme_questions">
+                    <p>
+                    {% for question_name, question_data in theme_data %}
+                        {{ question_name }} &nbsp;
+                    {% endfor %}
+                    </p>
+                </div>
+            </div>
         {% endfor %}
-        {% set j=j+1 %}
     {% endfor %}
+
 </div>

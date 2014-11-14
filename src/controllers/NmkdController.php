@@ -4,12 +4,14 @@ class NmkdController extends Controller
 {
     public function inputAction($params)
     {
-//-------------------------------------------------------
-        //unset($_SESSION);
         $model = $this->getModel('nmkd');
+//-------------------TODO: Remove this block
+        //unset($_SESSION);
+
         $model->clearDb();
 //-------------------------------------------------------
-        //Container::get('static_storage')->unsetAll();
+
+        //$this->storage()->unsetAll();
         $idDiscipline = $params[0];
         $this->storage()->set('discipline',$params[0]);
         $questions = '';
@@ -59,11 +61,8 @@ class NmkdController extends Controller
         }
         if ($this->getForm('nmkdInputForm')) {
             if ($this->getFormData('nmkdInputForm')) {
-                //$questionStr = $this->getFormData('nmkdInputForm')['questions'];
-                //$this->saveQuestions($questionStr);
-                //$this->storage()->set('questions', $questionArr);
-                //$this->storage()->set('hierarchy', $hierarchy);
-                
+                $this->saveSessionAction('1');
+
                 $this->redirect('nmkd/set-hierarchy');
             } else {
                 $this->errors = $this->outErrors();
@@ -74,15 +73,6 @@ class NmkdController extends Controller
             'questions' => $questions,
             'hints' => $this->hints,
         ));
-    }
-
-    private function saveQuestions($questionStr)
-    {
-        $questionArr = explode('<br />', nl2br($questionStr));
-        $questionArr = array_map('trim',$questionArr);
-        $questionArr = array_values(array_filter($questionArr));
-
-        $this->storage()->set('questions', $questionArr);
     }
 
     public function setHierarchyAction()
@@ -134,11 +124,6 @@ class NmkdController extends Controller
             foreach ($types as $type) {
                 foreach ($ajaxTypes as $field=>$val) {
                     $val = substr($val, 0, -3);
-                    /*
-                    if (substr_count($field, $type)) {
-                        $typesQuestions[explode('_',$field)[1]][] = explode('_',$field)[0];
-                        $this->storage()->set('typesQuestions',$typesQuestions);
-                    }*/
                     if (substr_count($val, $type)) {
                         $typesQuestions[explode('_',$val)[1]][explode('_',$val)[0]] = 1;
                         $this->storage()->set('typesQuestions',$typesQuestions);
@@ -153,39 +138,13 @@ class NmkdController extends Controller
             
             
             if ($this->storage()->isSetted('typesQuestions')) {
-                //$this->getModel('nmkd')->setAll();
-                $this->redirect('');
+                $this->getModel('nmkd')->setAll();
+                //$this->redirect('');
             } else {
                 $this->addError('no_type_selected');
                 $this->errors = $this->outErrors();
             }
         }
-        /*$types = $this->params()->types;
-        $resArr = array();
-        foreach ($hierarchy as $module=>$themesQuestions) {
-            foreach ($themesQuestions as $theme => $questionsArr) {
-                foreach ($questionsArr as $question) {
-                    $resArr[$questions[$module]][$questions[$theme]][] = $questions[$question];
-                }
-            }
-        }
-        if ($this->getForm('typesForm')) {
-            foreach ($resArr as $module=>$themesQuestions) {
-                foreach ($themesQuestions as $theme=>$tQuestions) {
-                    foreach ($types as $type) {
-                        foreach ($_POST as $field => $val) {
-                            if (substr_count($field, $type) && $theme==explode('_',$field)[1]) {
-                                $typeArr[$module]
-                                        [explode('_',$field)[1]]
-                                        [$tQuestions[explode('_',$field)[2]]][] = $type;
-                            }
-                        }
-                    }
-                }
-            }
-
-            $this->getModel('nmkd')->setAll($typeArr);
-        }*/
 
         return $this->render('nmkd/setTypes.html.twig', array(
             'questions' => $questions,
@@ -194,9 +153,6 @@ class NmkdController extends Controller
             'hints'=>$this->hints,
         ));
     }
-
-
-
 
 
     public function setThemesAction()
@@ -477,7 +433,7 @@ class NmkdController extends Controller
     {
         $model = $this->getModel('nmkd');
         $model->setAllQuestions($questionList);
-        Container::get('static_storage')->unsetAll();
+        $this->storage()->unsetAll();
     }
 
     public function saveSessionAction($requestParams)
@@ -486,9 +442,9 @@ class NmkdController extends Controller
         $step = str_replace('_','-',$requestParams[0]);
 
         $model->saveSession($step, 1);
-        Container::get('static_storage')->unsetAll();
+        //Container::get('session_storage')->unsetAll();
 
-        return $this->redirect('');
+        //return $this->redirect('');
     }
 
     public function restoreSessionAction($requestParams)
@@ -505,12 +461,16 @@ class NmkdController extends Controller
 
     public function editNmkdAction($params)
     {
-        if (!isset($params[0])) {
+        if (!empty($params[0])) {
+            $disciplineId = $params[0];
+        }
+
+        if (!isset($params[1])) {
             $templates = array(
                 '/pdfTemplates/start.html.twig',
             );
         }
-        if (isset($params[0]) && $params[0]=='np') {
+        if (isset($params[1]) && $params[1]=='np') {
             $templates = array(
                 '/pdfTemplates/np/np1.html.twig',
                 '/pdfTemplates/np/np2.html.twig',
@@ -524,7 +484,7 @@ class NmkdController extends Controller
             );
         }
 
-        if (isset($params[0]) && $params[0]=='rp') {
+        if (isset($params[1]) && $params[1]=='rp') {
             $templates = array(
                 '/pdfTemplates/rp/rp1.html.twig',
                 '/pdfTemplates/rp/rp2.html.twig',
@@ -538,7 +498,7 @@ class NmkdController extends Controller
             );
         }
 
-        if (isset($params[0]) && $params[0]=='doc') {
+        if (isset($params[1]) && $params[1]=='doc') {
             $templates = array(
                 '/pdfTemplates/doc/dodatok1.html.twig',
                 '/pdfTemplates/doc/dodatok2.html.twig',
@@ -561,7 +521,8 @@ class NmkdController extends Controller
         }
 
         $this->render('nmkd/edit.html.twig',array(
-                'nmkd' => $this->getModel('nmkdPdf')->getNmkdPdfData(1),
+                'discipline_id' => $disciplineId,
+                'nmkd' => $this->getModel('nmkdPdf')->getNmkdPdfData($disciplineId),
                 'templates' => $templates,
         ));
     }

@@ -68,14 +68,26 @@ class NmkdPdfModel extends NmkdModel
             $questionIdNames[$data['id_tq']] = $data['name'];
         }
         $idDiscipline = 1;
-        $modulesDump = $this->getAllFromModules($idDiscipline);
-        foreach ($modulesDump as $row=>$data) {
-            $themesArr = explode(',',substr($data['themes'],1,-1));
-            
+
+        $questionHierarchy = array();
+        $modulesDump = $this->getChildQuestions($idDiscipline, '-1');
+        // @TODO: getChildQuestions must return array of names
+        foreach ($modulesDump as $moduleRow => $moduleData) {
+            $themes = $this->getChildQuestions($idDiscipline, $moduleData['id_tq']);
+            foreach ($themes as $themeRow => $themeData) {
+                $questions = $this->getChildQuestions($idDiscipline, $themeData['id_tq']);
+                foreach ($questions as $questionRow => $questionData) {
+                    $questionHierarchy[$moduleData['name']][$themeData['name']][$questionData['name']] = 1;
+                }
+            }
+
+
+            /*$themesArr = explode(',',substr($data['themes'],1,-1));
             $modulesData[$data['module']] = array_intersect($themesArr, array_keys($questionIdNames));
             foreach ($modulesData[$data['module']] as $key=>$id) {
                 $modulesData[$data['module']][$key] = $questionIdNames[$id];
-            }
+            }*/
+
             
         }
         
@@ -90,13 +102,10 @@ class NmkdPdfModel extends NmkdModel
         $res['themes'] = $themes;
         $res['questions'] = $questions;
         $res['type_questions'] = $typeQuestions;
-        $res['moduleData'] = $modulesData;
+        //$res['moduleData'] = $modulesData;
+        $res['question_hierarchy'] = $questionHierarchy;
 
         $res = array_merge(Container::get('params')->getNmkdPdfData(), $res);
-        /*echo '<pre>';
-        print_r($typeQuestions);
-        print_r($typesDbData);
-        echo '</pre>';*/
         return $res;
     }
 
@@ -137,16 +146,27 @@ class NmkdPdfModel extends NmkdModel
     }
 
 //return all from modules table, where discipline
-    private function getAllFromModules($idDiscipline)
+    /*public function getModules($idDiscipline)
     {
-        $moduleQuery = self::$db->prepare("SELECT * FROM modules WHERE id_disc=:id_disc");
+        $moduleQuery = self::$db->prepare("SELECT * FROM themes_questions WHERE id_discipline=:id_discipline AND id_parent=:id_parent");
 
         self::$db->beginTransaction();
-            $moduleQuery->bindValue(':id_disc', $idDiscipline);
+            $moduleQuery->bindValue(':id_discipline', $idDiscipline);
+            $moduleQuery->bindValue(':id_parent', '-1');
             $moduleQuery->execute();
         self::$db->commit();
 
         return $moduleQuery->fetchAll(PDO::FETCH_ASSOC);
+    }*/
+
+    public function getChildQuestions($idDiscipline, $parentId) {
+        $questionsQuery = self::$db->prepare("SELECT * FROM themes_questions WHERE id_discipline=:id_discipline AND id_parent=:id_parent");
+
+        $questionsQuery->bindValue(':id_discipline', $idDiscipline);
+        $questionsQuery->bindValue(':id_parent', $parentId);
+        $questionsQuery->execute();
+
+        return $questionsQuery->fetchAll(PDO::FETCH_ASSOC);
     }
 
 

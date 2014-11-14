@@ -6,10 +6,10 @@ class NmkdModel extends Model
     
     public function setAll()
     {
-        $questions = Container::get('static_storage')->get('questions');
-        $disciplineId = Container::get('static_storage')->get('discipline');
-        $hierarchy = Container::get('static_storage')->get('hierarchy');
-        $typesQuestions = Container::get('static_storage')->get('typesQuestions');
+        $questions = Container::get('session_storage')->get('questions');
+        $disciplineId = Container::get('session_storage')->get('discipline');
+        $hierarchy = Container::get('session_storage')->get('hierarchy');
+        $typesQuestions = Container::get('session_storage')->get('typesQuestions');
         $semester = 1;
         $idTypes = $this->getTypes();
         $this->setThemesQuestions($questions, $disciplineId, $typesQuestions, $idTypes);
@@ -104,7 +104,7 @@ class NmkdModel extends Model
                     $questionsForType = array();
                     foreach ($questionsForTheme as $questionNum=>$questionId) {
                         if (isset($typesQuestions[$questionNum])) {
-                            if (in_array($type, $typesQuestions[$questionNum])) {
+                            if (isset($typesQuestions[$questionNum])) {
                                 $questionsForType[] = $questionId;
                             }
                         }
@@ -126,7 +126,7 @@ class NmkdModel extends Model
     public function setAllQuestions($questions)
     {
         $this->questions = $questions;
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $themes = $storage->get('themes');
         $modules = $storage->get('modules');
         $tqQuery = self::$db->prepare("INSERT INTO themes_questions(name, id_discipline, types_id, num_tq)
@@ -163,10 +163,10 @@ class NmkdModel extends Model
         }
     }
   
-//returns array of types id => types name from static_storage
+//returns array of types id => types name from session_storage
     private function getIdTypes()
     {
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $types = $storage->get('types');
         $typesRows = $this->selectIn('types', 'name', array_keys($types));
 
@@ -199,7 +199,7 @@ class NmkdModel extends Model
 //returns array of types id from database for question
     protected function getQuestionTypes($qKey)
     {
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $types = $storage->get('types');
         $dbTypes = $this->getIdTypes();
         $idArr = array();
@@ -257,7 +257,7 @@ class NmkdModel extends Model
     private function getTypeThemes($currentType)
     {
         $res = array();
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $typeTheme = $storage->get($currentType.'_theme');
         
         $themesKeys = array_unique(array_values($typeTheme));
@@ -273,7 +273,7 @@ class NmkdModel extends Model
 //updates lection / practical /...  sets questions_for_lection / questions_for.... 
     private function setQuestionsForType($currentType, $dump)
     {
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $typeTheme = $storage->get($currentType.'_theme');
         $typeTheme = $this->getTypeThemeArray($currentType);
         $q_f_type = 'questions_for_'.$currentType;
@@ -299,7 +299,7 @@ class NmkdModel extends Model
 //updates themes_questions, sets id_parent
     private function setIdParent($currentType, $dump)
     {
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $typeTheme = $storage->get($currentType.'_theme');
         $typeTheme = $this->getTypeThemeArray($currentType);
 
@@ -322,7 +322,7 @@ class NmkdModel extends Model
 //inserts modules data into modules table
     private function setModules($dump, $disciplineId)
     {
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $modulesNums = $storage->get('modules');
         $questions = $storage->get('questions');
         $themesModules = $storage->get('themes_modules');
@@ -355,7 +355,7 @@ class NmkdModel extends Model
 //return array(['question_name'] => theme_name) from storage
     protected function getTypeThemeArray($currentType)
     {
-        $storage = Container::get('static_storage');
+        $storage = Container::get('session_storage');
         $typeTheme = $storage->get($currentType.'_theme');
         $themes = $storage->get('themes');
         $questions = $storage->get('questions');
@@ -371,8 +371,8 @@ class NmkdModel extends Model
 //return dump of last loaded questions in themes_questions: array([id]=>name)
     private function getLastLoadedQuestions($questions)
     {
-        //$questions = Container::get('static_storage')->get('questions');
-        $storage = Container::get('static_storage');
+        //$questions = Container::get('session_storage')->get('questions');
+        $storage = Container::get('session_storage');
         $lastTqQuery = self::$db->prepare("SELECT id_tq, name
                                          FROM themes_questions
                                          ORDER BY id_tq DESC
@@ -393,11 +393,18 @@ class NmkdModel extends Model
 //save current step of nmkd generation in 'session' table
     public function saveSession($step, $idDiscipline)
     {
-        $sessionData = Container::get('static_storage')->getAll();
+        $sessionData = Container::get('session_storage')->getAll();
         $sessionData['step'] = $step;
-        
-        $sessionQuery = self::$db->prepare("INSERT INTO sessions(session_data, id_disc)
+
+        if ($this->sessionExists($idDiscipline)) {
+            $sessionQuery = self::$db->prepare("UPDATE sessions SET
+                                                session_data = :session_data
+                                                WHERE id_disc = :id_disc ");
+        } else {
+            $sessionQuery = self::$db->prepare("INSERT INTO sessions(session_data, id_disc)
                                       VALUES (:session_data, :id_disc) ");
+        }
+
         self::$db->beginTransaction();
             $sessionQuery->bindValue(':session_data', serialize($sessionData));
             $sessionQuery->bindValue(':id_disc', $idDiscipline);

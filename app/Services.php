@@ -36,8 +36,8 @@ class Services
             return new Twig_Environment($loader);
         });
         
-        Container::register('static_storage',function(){
-            return new StaticStorage();
+        Container::register('session_storage',function(){
+            return new SessionStorage();
         });
 
         Container::register('form_mngr',function(){

@@ -1,6 +1,6 @@
 <?php
 
-class StaticStorage
+class SessionStorage
 {
 
     public function __construct()
