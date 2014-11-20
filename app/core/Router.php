@@ -119,5 +119,45 @@ class Router
         }
 
     }
-    
+
+    /**
+     * Returns http or https, depends on used protocol.
+     *
+     * @return string
+     */
+    public static function getProtocol()
+    {
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://';
+        return $protocol;
+    }
+
+    /**
+     * Returns domain name.
+     *
+     * @return string
+     * @throws Exception
+     */
+    public static function getBaseUrl()
+    {
+        $baseUrl = ($_SERVER['HTTP_HOST'] != Container::get('params')->vendor) ? $_SERVER['HTTP_HOST'] . '/' . Container::get('params')->vendor : $_SERVER['HTTP_HOST'];
+        return $baseUrl;
+    }
+
+    /**
+     * Builds absolute url address.
+     *
+     * Example of usage: url('/nmkd/input', array($id));.
+     *
+     * @param string $uri
+     * @param array $params
+     * @return string
+     */
+    public static function buildUrl($uri, $params = array())
+    {
+        $strParams = implode( '/', $params);
+        $protocol = self::getProtocol();
+        $baseUrl = self::getBaseUrl();
+        return $protocol . $baseUrl . $uri . $strParams;
+    }
+
 }

@@ -33,7 +33,8 @@ class Controller
     protected function preRenderProcessing()
     {
         $globalTemplateData = array(
-            'errors'=>$this->errors,
+            'errors' => $this->errors,
+            'base_url' => Router::getProtocol() . Router::getBaseUrl(),
         );
         //dynamic template data, wich uses in all templates (many templates)
         //menu data, sidebar data, etc

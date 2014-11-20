@@ -7,6 +7,8 @@ class Parameters
     public $dbPass = 'postgres';
     public $dbName = 'nmkd';
     public $dbChar = 'utf8';
+
+    public $cache = false;
     
     public $vendor = 'nmkd.local';
     //public $vendor = '';  //for linux
@@ -35,26 +37,35 @@ class Parameters
         'types' => 'Оберіть типи запитань.',
         'modify_q_input' => 'Якщо бажаєте додати запитання, допишіть їх в кінець списку. Якщо хочете видалити запитання, залишіть на його місці пустий рядок.',
     );
-    
-    
+
+    /**
+     * Returns absolute path to project directory.
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return getcwd();
+    }
+
     public function getViewDir()
     {
-        return $_SERVER['DOCUMENT_ROOT'] . '/src/views/';
+        return $this->getBasePath() . '/src/views/';
     }
     
     public function getCacheDir()
     {
-        return $_SERVER['DOCUMENT_ROOT'] . '/cache';
+        return $this->getBasePath() . '/cache';
     }
 //------------------------------------
     public function getPdfDir()
     {
-        return $_SERVER['DOCUMENT_ROOT'] . '/src/views/pdfTemplates';
+        return $this->getBasePath() . '/src/views/pdfTemplates';
     }
 
     public function getMPdfLocation()
     {
-        return $_SERVER['DOCUMENT_ROOT'] . '/lib/MPDF57/mpdf.php';
+        return $this->getBasePath() . '/lib/MPDF57/mpdf.php';
     }
 //------------------------------------
     public function getNmkdPdfData()

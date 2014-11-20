@@ -20,14 +20,14 @@ class Services
         Container::register('twig',function(){
             $loader = new Twig_Loader_Filesystem(Container::get('params')
                 ->getViewDir());
-                
-            return new Twig_Environment($loader);
-            
-//uncomment to enable cache
-            /*return new Twig_Environment($loader, array(
-                'cache' => Container::get('params')
-                ->getCacheDir(),
-            ));*/
+
+            if (Container::get('params')->cache) {
+                return new Twig_Environment($loader, array(
+                    'cache' => Container::get('params')->getCacheDir(),
+                ));
+            } else {
+                return new Twig_Environment($loader);
+            }
         });
 
         Container::register('twigStr',function(){

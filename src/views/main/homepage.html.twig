@@ -11,24 +11,11 @@
 <ul id="menu" class="list-group" style="list-style-type:none">
 {% for row in disciplines %}
     <li id="item{{row.id}}" class="list-group-item">{{row.name}}</li>
-    {% if (row.nmkd_exist) %}
-        <a class="list-group-item submenu item{{row.id}}" href="/nmkd/input/{{row.id}}">
-            <span class="glyphicon glyphicon-cog"></span> &nbsp;&nbsp;&nbsp;&nbsp;Сформувати НМЗД
+    {% for option in discipline_options[row.id] %}
+        <a class="list-group-item submenu item{{row.id}} {{ option.classes }}" href="{{ option.url }}">
+            <span class="glyphicon {{ option.icon }}"></span> &nbsp;&nbsp;&nbsp;&nbsp;{{ option.title }}
         </a>
-        <a class="list-group-item submenu submenu-disabled item{{row.id}}" href="#">
-            <span class="glyphicon glyphicon-wrench"></span> &nbsp;&nbsp;&nbsp;&nbsp;Редагувати НМЗД
-        </a>
-    {% else %}
-        <a class="list-group-item submenu submenu-disabled item{{row.id}}" href="#">
-            <span class="glyphicon glyphicon-cog"></span> &nbsp;&nbsp;&nbsp;&nbsp;Сформувати НМЗД
-        </a>
-        <a class="list-group-item submenu item{{row.id}} disabled" href="/nmkd/input/{{row.id}}">
-            <span class="glyphicon glyphicon-wrench"></span> &nbsp;&nbsp;&nbsp;&nbsp;Редагувати НМЗД
-        </a>
-    {% endif %}
-    <a class="list-group-item submenu item{{row.id}}" href="/nmkd/edit/{{row.id}}">
-        <span class="glyphicon glyphicon-eye-open"></span> &nbsp;&nbsp;&nbsp;&nbsp;Переглянути НМЗД
-    </a>
+    {% endfor %}
 {% endfor %}
 </ul>
 

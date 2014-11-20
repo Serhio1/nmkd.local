@@ -114,11 +114,15 @@ class NmkdModel extends Model
 
     protected function setTypes($lastLoadedQuestions, $questions, $hierarchy, $idTypes, $disciplineId, $semester, $typesQuestions)
     {
-        self::$db->beginTransaction();
+        //self::$db->beginTransaction();
             foreach ($idTypes as $id=>$type) {
                 $questionsForTypeStr = 'questions_for_'.$type;
+                $addTypeToQuestionQuery = self::$db->prepare("UPDATE themes_questions
+                                                         SET types_id = :types_id
+                                                         WHERE id_tq = :id_tq");
                 $insertTypeQuery = self::$db->prepare("INSERT INTO $type(theme, id_theme, semester, id_disc, $questionsForTypeStr)
                                                        VALUES (:theme, :id_theme, :semester, :id_disc, :questions_for_type)");
+                $questionTypes = array();
                 foreach ($this->tqForTypes as $theme_id=>$questionsForTheme) {
                     $questionsForType = array();
                     foreach ($questionsForTheme as $questionNum=>$questionId) {
@@ -126,7 +130,11 @@ class NmkdModel extends Model
                             if (isset($typesQuestions[$questionNum])) {
                                 $questionsForType[] = $questionId;
                             }
+                            if ((!isset($questionTypes[$questionId]) || $questionTypes[$questionId] != array_search($type, $idTypes)) && in_array($type, $idTypes)) {
+                                $questionTypes[$questionId][] = array_search($type, $idTypes);
+                            }
                         }
+
                     }
                     if (!empty($questionsForType)) {
                         $insertTypeQuery->bindValue(':theme', $lastLoadedQuestions[$theme_id]);
@@ -136,9 +144,17 @@ class NmkdModel extends Model
                         $insertTypeQuery->bindValue(':questions_for_type', '{'.implode(',',$questionsForType).'}');
                         $insertTypeQuery->execute();
                     }
+                    if (!empty($questionTypes)) {
+                        foreach ($questionTypes as $idTq => $tId) {
+                            $addTypeToQuestionQuery->bindValue(':types_id', '{'.implode(',',$tId).'}');
+                            $addTypeToQuestionQuery->bindValue(':id_tq', $idTq);
+                            $addTypeToQuestionQuery->execute();
+                        }
+
+                    }
                 }
             }
-        self::$db->commit();
+        //self::$db->commit();
     }
     
 //main function

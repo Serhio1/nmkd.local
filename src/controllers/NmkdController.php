@@ -5,7 +5,7 @@ class NmkdController extends Controller
     public function inputAction($params)
     {
         $model = $this->getModel('nmkd');
-//-------------------TODO: Remove this block
+//@TODO: Remove this block
         //unset($_SESSION);
 
         $model->clearDb();
@@ -130,7 +130,6 @@ class NmkdController extends Controller
                     }
                 }
             }
-            print_r($typesQuestions);
             return;
         }
 
