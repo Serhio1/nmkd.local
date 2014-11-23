@@ -132,17 +132,19 @@ class NmkdModel extends Model
         $tqTypes = array();
         foreach ($idTypes as $id=>$type) {
             $questionsForTypeStr = 'questions_for_'.$type;
-            /*$addTypeToQuestionQuery = self::$db->prepare("UPDATE themes_questions
-                                                     SET types_id = :types_id
-                                                     WHERE id_tq = :id_tq");*/
+
             $insertTypeQuery = self::$db->prepare("INSERT INTO $type(theme, id_theme, semester, id_disc, $questionsForTypeStr)
                                                    VALUES (:theme, :id_theme, :semester, :id_disc, :questions_for_type)");
+
+
+
+
             $questionTypes = array();
             foreach ($this->tqForTypes as $theme_id=>$questionsForTheme) {
                 $questionsForType = array();
                 foreach ($questionsForTheme as $questionNum=>$questionId) {
                     if (isset($typesQuestions[$questionNum])) {
-                        if (isset($typesQuestions[$questionNum])) {
+                        if (isset($typesQuestions[$questionNum][$type])) {
                             $questionsForType[] = $questionId;
                         }
                         if ((!isset($questionTypes[$questionId]) || $questionTypes[$questionId] != array_search($type, $idTypes)) && in_array($type, $idTypes)) {

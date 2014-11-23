@@ -34,6 +34,8 @@ class NmkdPdfModel extends NmkdModel
         }
 
 
+
+
         foreach ($typesData as $id => $name) {
             $typesDbData[$name] = $this->getAllFromTypes($discipline, $name);
 
@@ -42,20 +44,30 @@ class NmkdPdfModel extends NmkdModel
             }
         }
 
-        
+
+
+        foreach ($questionsData as $row=>$data) {
+            $questionIdNames[$data['id_tq']] = $data['name'];
+        }
+
         $typeQuestions = array();
         for ($i=0; $i<key($questionsData)+1; $i++) {                        
             foreach ($typesData as $typeId => $type) {
                 if (!isset($typeQuestionsId[$type])) {
                     break;
                 }
+
                 foreach($typeQuestionsId[$type] as $row=>$idArr) {
-                    if (strlen((string)array_search($questionsData[$i]['id_tq'], $idArr)) > 0) {
+                    //if (strlen((string)array_search($questionsData[$i]['id_tq'], $idArr)) > 0) {
                         $typeQuestions[$type][$row]['theme'] = $typesDbData[$type][$row]['theme'];
                         $typeQuestions[$type][$row]['semester'] = $typesDbData[$type][$row]['semester'];
                         $typeQuestions[$type][$row]['hours'] = $typesDbData[$type][$row]['hours'];
-                        $typeQuestions[$type][$row]['questions'][] = $questionsData[$i]['name'];
-                    }
+                        //$typeQuestions[$type][$row]['questions'][] = $questionsData[$i]['name'];
+                        foreach ($idArr as $questionId) {
+                            $typeQuestions[$type][$row]['questions'][] = $questionIdNames[$questionId];
+                        }
+                        //$typeQuestions[$type][$row]['questions'] = $idArr;
+                    //}
                 }
             }
         }
@@ -64,9 +76,7 @@ class NmkdPdfModel extends NmkdModel
 
         
 
-        foreach ($questionsData as $row=>$data) {
-            $questionIdNames[$data['id_tq']] = $data['name'];
-        }
+
         $idDiscipline = 1;
 
         $questionHierarchy = array();
@@ -90,8 +100,7 @@ class NmkdPdfModel extends NmkdModel
 
             
         }
-        
-        
+
 
         $res = array();
         $res['disc_name'] = $discData['name'];

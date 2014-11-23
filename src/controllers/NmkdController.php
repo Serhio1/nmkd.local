@@ -8,7 +8,7 @@ class NmkdController extends Controller
 //@TODO: Remove this block
         //unset($_SESSION);
 
-        $model->clearDb();
+        //$model->clearDb();
 //-------------------------------------------------------
 
         //$this->storage()->unsetAll();
