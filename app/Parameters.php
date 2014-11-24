@@ -10,7 +10,7 @@ class Parameters
 
     public $cache = false;
     
-    public $vendor = 'nmkd.local';
+    public $vendor = 'nmzd.local';
     //public $vendor = '';  //for linux
     
     public $types = array(
