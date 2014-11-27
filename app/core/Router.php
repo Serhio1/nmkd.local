@@ -105,7 +105,7 @@ class Router
     public function redirect($url, $data=array())
     {
         $_SESSION['redirectData'] = $data;
-        header('location: '.'/'.$url);
+        header('location: ' . $url);
     }
 
     private function preControllerProcessing()

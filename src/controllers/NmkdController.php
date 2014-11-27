@@ -63,7 +63,7 @@ class NmkdController extends Controller
             if ($this->getFormData('nmkdInputForm')) {
                 $this->saveSessionAction('1');
 
-                $this->redirect('nmkd/set-hierarchy');
+                $this->redirect(Router::buildUrl('/nmkd/set-hierarchy'));
             } else {
                 $this->errors = $this->outErrors();
             }
@@ -89,7 +89,7 @@ class NmkdController extends Controller
         }
 // redirect, when nextBtn pressed
         if ($this->getForm('questionsHierarchyForm')) {
-            $this->redirect('nmkd/set-types');
+            $this->redirect(Router::buildUrl('/nmkd/set-types'));
             return;
         }
 
@@ -136,13 +136,14 @@ class NmkdController extends Controller
         if ($this->getForm('typesForm')) {
             
             
-            if ($this->storage()->isSetted('typesQuestions')) {
+            //if ($this->storage()->isSetted('typesQuestions')) {
                 $this->getModel('nmkd')->setAll();
-                $this->redirect('');
-            } else {
+                $this->redirect('/nmzd.local');
+           // }
+           /*else {
                 $this->addError('no_type_selected');
                 $this->errors = $this->outErrors();
-            }
+            }*/
         }
 
         return $this->render('nmkd/setTypes.html.twig', array(
