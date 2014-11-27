@@ -123,14 +123,14 @@ li.unmarked {
         width: 20px;
         height: 20px;
         margin-top: -10px;
-        background: url("/src/views/img/toggle-expand2.png");
+        background: url("/nmzd.local/src/views/img/toggle-expand2.png");
         background-repeat: no-repeat;
     }
     .ui-icon-minusthick {
         width: 20px;
         height: 20px;
         margin-top: -10px;
-        background: url("/src/views/img/toggle-collapse2.png");
+        background: url("/nmzd.local/src/views/img/toggle-collapse2.png");
         background-repeat: no-repeat;
     }
 .portlet-content {
@@ -288,8 +288,8 @@ background-color: #eee
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('/src/views/fonts/glyphicons-halflings-regular.eot');
-  src: url('/src/views/fonts/glyphicons-halflings-regular.eot') format('embedded-opentype'), url('/src/views/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/src/views/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/src/views/fonts/glyphicons-halflings-regular.svg') format('svg');
+  src: url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.eot');
+  src: url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.eot') format('embedded-opentype'), url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.svg') format('svg');
 }
 
 .nmkd-hint {

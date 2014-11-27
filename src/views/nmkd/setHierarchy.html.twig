@@ -13,9 +13,9 @@
   
   <div class="tools">
       <ul class="unmarked">
-        <li class="module marker"><img src="/src/views/img/marker_yellow.png" /></li>
-        <li class="theme marker"><img src="/src/views/img/marker_green_shut.png" /></li>
-        <li class="question marker"><img src="/src/views/img/marker_gray_shut.png" /></li>
+        <li class="module marker"><img src="/nmzd.local/src/views/img/marker_yellow.png" /></li>
+        <li class="theme marker"><img src="/nmzd.local/src/views/img/marker_green_shut.png" /></li>
+        <li class="question marker"><img src="/nmzd.local/src/views/img/marker_gray_shut.png" /></li>
         <li class="search"><span class="glyphicon glyphicon-search"></span></li>
       </ul>
   </div>
@@ -181,17 +181,17 @@ $('.tools').on('click','li.search',function(){
 		var marker = 'module';
         $('.tools').on('click','li.marker',function(){
             marker = $(this).attr('class');
-            $('.tools li.module').html('<img src="/src/views/img/marker_yellow_shut.png" />');
-            $('.tools li.theme').html('<img src="/src/views/img/marker_green_shut.png" />');
-            $('.tools li.question').html('<img src="/src/views/img/marker_gray_shut.png" />');
+            $('.tools li.module').html('<img src="/nmzd.local/src/views/img/marker_yellow_shut.png" />');
+            $('.tools li.theme').html('<img src="/nmzd.local/src/views/img/marker_green_shut.png" />');
+            $('.tools li.question').html('<img src="/nmzd.local/src/views/img/marker_gray_shut.png" />');
             if ($(this).hasClass('module')) {
-				$(this).html('<img src="/src/views/img/marker_yellow.png" />');
+				$(this).html('<img src="/nmzd.local/src/views/img/marker_yellow.png" />');
 			}
             if ($(this).hasClass('theme')) {
-				$(this).html('<img src="/src/views/img/marker_green.png" />');
+				$(this).html('<img src="/nmzd.local/src/views/img/marker_green.png" />');
 			}
 			if ($(this).hasClass('question')) {
-				$(this).html('<img src="/src/views/img/marker_gray.png" />');
+				$(this).html('<img src="/nmzd.local/src/views/img/marker_gray.png" />');
 			}
         });
         $('#hierarchyList').on('click','.portlet-content',function(){
