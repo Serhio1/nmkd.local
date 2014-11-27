@@ -90,13 +90,13 @@
                 <div class="page-aside">
                     <select id="check-doc" onchange="checkDoc()">
                         <option value="#">Оберіть документ</option>
-                        <option value="/nmkd/edit/{{ discipline_id }}/np">Навчальна програма</option>
-                        <option value="/nmkd/edit/{{ discipline_id }}/rp">Робочий план</option>
-                        <option value="/nmkd/edit/{{ discipline_id }}/doc">Методичні рекомендації</option>
+                        <option value="/nmzd.local/nmkd/edit/{{ discipline_id }}/np">Навчальна програма</option>
+                        <option value="/nmzd.local/nmkd/edit/{{ discipline_id }}/rp">Робочий план</option>
+                        <option value="/nmzd.local/nmkd/edit/{{ discipline_id }}/doc">Методичні рекомендації</option>
                     </select>
                     
 
-                    <form method="POST" action="/nmkd/download-pdffromstr">
+                    <form method="POST" action="/nmzd.local/nmkd/download-pdffromstr">
                         <textarea id="content" class="hidden" name="content"></textarea>
                         <button id="download">Скачати Pdf</button>
                     </form>

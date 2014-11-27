@@ -78,9 +78,12 @@ class NmkdController extends Controller
     public function setHierarchyAction()
     {
         $questions = $this->storage()->get('questions');
-        //print_r($_SESSION);
         $hierarchy = array();
         $this->hints[] = $this->params()->getHint('hierarchy');
+
+        if ($this->storage()->isSetted('hierarchy')) {
+            $hierarchy = $this->storage()->get('hierarchy');
+        }
         
 // auto update hierarchy
         if (isset($_POST['isAjax']) && isset($_POST['hierarchy'])) {
@@ -91,10 +94,6 @@ class NmkdController extends Controller
         if ($this->getForm('questionsHierarchyForm')) {
             $this->redirect(Router::buildUrl('/nmkd/set-types'));
             return;
-        }
-
-        if ($this->storage()->isSetted('hierarchy')) {
-            $hierarchy = $this->storage()->get('hierarchy');
         }
 
         return $this->render('nmkd/setHierarchy.html.twig', array(
@@ -134,14 +133,12 @@ class NmkdController extends Controller
         }
 
         if ($this->getForm('typesForm')) {
-            
-            
-            //if ($this->storage()->isSetted('typesQuestions')) {
+            if ($this->storage()->isSetted('typesQuestions')) {
                 $this->getModel('nmkd')->setAll();
                 $this->redirect('/nmzd.local');
-           // }
+            }
            /*else {
-                $this->addError('no_type_selected');
+                //$this->addError('no_type_selected');
                 $this->errors = $this->outErrors();
             }*/
         }
