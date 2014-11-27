@@ -1,8 +1,8 @@
 {% extends 'nmkd/baseNmkd.html.twig' %}
 
 {% block mainForm %}
-  <script src="/src/views/js/jquery-1.9.1.js"></script>
-  <script src="/src/views/js/jquery-ui-1.10.4.js"></script>
+  <script src="/nmzd.local/src/views/js/jquery-1.9.1.js"></script>
+  <script src="/nmzd.local/src/views/js/jquery-ui-1.10.4.js"></script>
   <!--<script src="/src/views/js/jquery-sortable.js"></script>-->
   <!--<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
 
@@ -418,7 +418,7 @@ function save(){
 	str = str.slice(0,-1);
 
 	str+='}';
-	//alert(window.location);
+
 	$.post( window.location, { hierarchy: str })
 	.done(function( data ) {
 		//alert( "Data Loaded: " + data );
