@@ -9,8 +9,19 @@ class Router
         $uri = $this->getURI();
         
         
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+        $baseUrl = $_SERVER['SERVER_NAME'];
+        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        $full_path = $_SERVER['SCRIPT_FILENAME'];
+        $file = basename($_SERVER['SCRIPT_FILENAME']);
+        $urlSlug = str_replace($file, '', str_replace($doc_root, '', $full_path));
+        $urlSlug = ltrim($urlSlug, '/');
+	    $urlSlug = rtrim($urlSlug, '/');
         
-        
+	    $uri = str_replace($urlSlug, '', $uri);
+        $uri = ltrim($uri, '/');
+
+	
         
         
         /*$url = $this->getURL();
@@ -70,16 +81,16 @@ class Router
     
     public function getURI()
     {
-        $url = $this->getURL();
+        /*$url = $this->getURL();
         $vendor = Container::get('params')->vendor;
         $vendorPos = strpos($url, $vendor);
         if (substr_count($url, $vendor) > 0) {
             return substr($url, $vendorPos+strlen($vendor)+1);
         } else {
             return false;
-        }
+        }*/
         
-        /*if(!empty($_SERVER['REQUEST_URI'])) {
+        if(!empty($_SERVER['REQUEST_URI'])) {
         
             return trim($_SERVER['REQUEST_URI'], '/');
         }
@@ -90,7 +101,7 @@ class Router
         if(!empty($_SERVER['QUERY_STRING'])) {
         
             return trim($_SERVER['QUERY_STRING'], '/');
-        }*/
+        }
     }
     
     public function getURL() {
@@ -154,10 +165,24 @@ class Router
      */
     public static function buildUrl($uri, $params = array())
     {
-        $strParams = implode( '/', $params);
-        $protocol = self::getProtocol();
-        $baseUrl = self::getBaseUrl();
-        return $protocol . $baseUrl . $uri . $strParams;
+        $strParams = implode('/', $params);
+        if (!empty($params)) {
+            /*$strParams .= '?';
+            foreach ($params as $param => $val) {
+                $strParams .= $param . '=' . $val . '&';
+            }
+            $strParams = substr($strParams, 0, -1);*/
+        }
+
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+        $baseUrl = $_SERVER['SERVER_NAME'];
+        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        $full_path = $_SERVER['SCRIPT_FILENAME'];
+        $file = basename($_SERVER['SCRIPT_FILENAME']);
+        $urlSlug = str_replace($file, '', str_replace($doc_root, '', $full_path));
+        $uri = ltrim($uri, '/');
+
+        return $protocol . '://' . $baseUrl . $urlSlug . $uri . $strParams;
     }
 
 }

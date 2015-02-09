@@ -4,11 +4,12 @@ class Controller
 {
     protected $errors = '';
     protected $hints = array();
+    protected $links = array();
     
     public function render($view, $data=array())
     {
         $twig = Container::get('twig');
-        $data = array_merge($data, $this->preRenderProcessing());
+        $data = array_merge($data, $this->preRenderProcessing(), $this->links);
         echo $twig->render($view, $data);
     }
     
@@ -34,7 +35,7 @@ class Controller
     {
         $globalTemplateData = array(
             'errors' => $this->errors,
-            'base_url' => Router::getProtocol() . Router::getBaseUrl(),
+            'base_url' => Router::buildUrl('/'),
         );
         //dynamic template data, wich uses in all templates (many templates)
         //menu data, sidebar data, etc

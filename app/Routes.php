@@ -25,7 +25,7 @@ class Routes
         'nmkd/download-pdf' => 'nmkd/downloadPdf',
         'nmkd/download-pdffromstr' => 'nmkd/downloadPdfFromStr',
         'questions-upload' => 'nmkd/uploadQuestions',
-        
+        'lab/create' => 'nmkd/createLab',
         
     //mainController
         '' => 'main/index',     //route with empty regexp must stand at last

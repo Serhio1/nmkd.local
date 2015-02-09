@@ -135,7 +135,7 @@ class NmkdController extends Controller
         if ($this->getForm('typesForm')) {
             if ($this->storage()->isSetted('typesQuestions')) {
                 $this->getModel('nmkd')->setAll();
-                $this->redirect('/nmzd.local');
+                $this->redirect(Router::buildUrl(''));
             }
            /*else {
                 //$this->addError('no_type_selected');
@@ -285,6 +285,11 @@ class NmkdController extends Controller
 
 //--------------------------------------------------------
 
-
+    public function createLabAction()
+    {
+        return $this->render('nmkd/createLab.html.twig', array(
+            'hints' => $this->hints,
+        ));
+    }
 
 }

@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>НМЗД</title>
-    <style>
-        
-        {% include '/css/bootstrap.min.css' %}
-        {% include '/css/bootstrap-responsive.css' %}
-        {% include '/css/bootstrap-theme.min.css' %}
-        {% include '/css/bootstrap-theme.css.map' %}
-        {% include '/css/bootstrap.css.map' %}
-        {% include '/css/main.css' %}
 
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/src/views/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/src/views/css/bootstrap-responsive.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/src/views/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/src/views/css/bootstrap-theme.css.map">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/src/views/css/bootstrap.css.map">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/src/views/css/main.css">
+
+    <style>
+        @font-face {
+            font-family: 'Glyphicons Halflings';
+            src: "{{ base_url }}/src/views/fonts/glyphicons-halflings-regular.eot";
+            src: "{{ base_url }}/src/views/fonts/glyphicons-halflings-regular.eot" format('embedded-opentype'), url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/nmzd.local/src/views/fonts/glyphicons-halflings-regular.svg') format('svg');
+        }
+        .ui-icon-plusthick {
+            background: "{{ base_url }}/src/views/img/toggle-expand2.png";
+        }
+        .ui-icon-minusthick {
+            background: "{{ base_url }}/src/views/img/toggle-collapse2.png";
+        }
     </style>
+
     <script src="{{ base_url }}/src/views/js/jquery-1.9.1.js"></script>
     <script src="{{ base_url }}/src/views/js/disableSelection.js"></script>
     <script src="{{ base_url }}/src/views/js/bootstrap.min.js"></script>
     <script src="{{ base_url }}/src/views/js/ajaxupload-v1.2.js"></script>
 </head>
 <body>
-
 <div id="wrap">
 
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -40,7 +51,9 @@
       <ul class="nav navbar-nav">
         <li><a href="/">Головна</a></li>
       </ul>
-      
+      <ul class="nav navbar-nav">
+        <li><a href="/lab/create">Завантажити лабораторну</a></li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/user/login"><span class="glyphicon glyphicon-lock"></span>&nbsp;Увійти</a></li>
       </ul>
